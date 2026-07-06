@@ -14,6 +14,13 @@ import l13 from './13-any-port/manifest.js';
 import l14 from './14-hook-line-sinker/manifest.js';
 import l15 from './15-final-boss/manifest.js';
 
-export const levels = [
+const official = [
   l01, l02, l03, l04, l05, l06, l07, l08, l09, l10, l11, l12, l13, l14, l15,
-].sort((a, b) => a.number - b.number);
+];
+
+// Agent-generated levels (see AGENTS.md): any src/levels/custom/<nn-slug>/manifest.js
+// is discovered automatically — no registration needed.
+const customManifests = import.meta.glob('./custom/*/manifest.js', { eager: true });
+const custom = Object.values(customManifests).map((mod) => mod.default);
+
+export const levels = [...official, ...custom].sort((a, b) => a.number - b.number);

@@ -36,6 +36,14 @@ npm run dev
 
 Open the printed URL, start Level 01, and keep your editor open next to the browser.
 
+## ♾️ Infinite mode: bring your own agent
+
+When you finish the 15-level campaign (or want practice on a specific topic), **your AI coding agent can generate fresh levels for you** — new buggy components, checks, and encoded hints, in the same style, with the bugs kept secret from you:
+
+> *"Generate two new hard levels about effect cleanup."*
+
+Claude Code picks this up automatically via the bundled `bugbound-levelsmith` skill; any other agent (Cursor, etc.) gets the same instructions from [AGENTS.md](AGENTS.md). Generated levels land in `src/levels/custom/` — auto-discovered by the game, deletable for a factory reset, and validated by `npm run validate-levels`.
+
 ## House rules
 
 - **Don't edit anything in `src/shell/`** — that's the game itself, and it's bug-free. All planted bugs live in `src/levels/`.
@@ -58,10 +66,14 @@ Open the printed URL, start Level 01, and keep your editor open next to the brow
 
 ## Roadmap
 
-- **Season 1** *(this repo)* — Core React + TypeScript, 15 levels
+- **Season 1** *(this repo)* — Core React + TypeScript, 15 levels ✅
 - **Season 2** — Next.js edition: hydration mismatches, server/client boundary bugs, caching traps
-- **Season 3** — Bring-your-own-agent: pull the repo and let your AI coding agent generate fresh, personalized bugs via a bundled skill
+- **Season 3** *(this repo)* — Bring-your-own-agent infinite mode ✅ — see [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Credits
 
-Game shell, levels, lessons, and every planted bug authored by Claude (Anthropic), designed collaboratively as a learning project. The bugs are modeled on real-world React failure modes you'll meet on the job.
+Game shell, levels, lessons, and every planted bug authored by Claude (Anthropic), designed collaboratively as a learning project by [Brantley Wyche](https://github.com/Brantley-Wyche). The bugs are modeled on real-world React failure modes you'll meet on the job.
+
+## License
+
+[MIT](LICENSE)
