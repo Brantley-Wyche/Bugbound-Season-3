@@ -42,7 +42,17 @@ When you finish the 15-level campaign (or want practice on a specific topic), **
 
 > *"Generate two new hard levels about effect cleanup."*
 
-Claude Code picks this up automatically via the bundled `bugbound-levelsmith` skill; any other agent (Cursor, etc.) gets the same instructions from [AGENTS.md](AGENTS.md). Generated levels land in `src/levels/custom/` — auto-discovered by the game, deletable for a factory reset, and validated by `npm run validate-levels`.
+Claude Code picks this up automatically via the bundled `bugbound-levelsmith` skill; any other agent (Cursor, etc.) gets the same instructions from [AGENTS.md](AGENTS.md).
+
+**What your agent does under the hood:**
+
+1. Reads the level contract (manifest shape + check-harness API) and studies an official level for style
+2. Designs a realistic component with a planted bug — hints and solution are drafted privately and land in the repo **base64-encoded only**
+3. Drops the level into `src/levels/custom/` — the game auto-discovers it, numbered after whatever exists; it appears in the aurora **Infinite Mode** section of the map
+4. Proves it both ways: runs the checks against the bug (must fail, readably), against a private fix (must pass) — then deletes the fix
+5. Runs `npm run validate-levels` and `npm run build` as final gates
+
+**Trust but verify:** before playing a generated level, ask your agent to *show you the checks failing* — proof the level works, with zero spoilers. Delete folders in `src/levels/custom/` any time for a factory reset.
 
 ## House rules
 
