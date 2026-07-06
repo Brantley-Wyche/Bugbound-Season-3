@@ -12,7 +12,7 @@ export default function LevelPage({ level, isComplete, onComplete }) {
   const Demo = level.Component;
 
   return (
-    <main>
+    <main className={level.number > 15 ? 's3-level' : ''}>
       <div className="level-header">
         <button className="back-link" onClick={() => navigate('/')}>
           ← Back to the map

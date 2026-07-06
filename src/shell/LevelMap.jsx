@@ -7,7 +7,7 @@ function LevelCard({ level, completed }) {
 
   return (
     <button
-      className={`level-card sev-${level.severity} ${done ? 'complete' : ''} ${unlocked ? '' : 'locked'}`}
+      className={`level-card sev-${level.severity} ${level.number > 15 ? 's3-card' : ''} ${done ? 'complete' : ''} ${unlocked ? '' : 'locked'}`}
       onClick={() => unlocked && navigate(`/level/${level.id}`)}
       disabled={!unlocked}
       title={unlocked ? level.title : 'Fix the previous level to unlock'}
@@ -26,7 +26,8 @@ function LevelCard({ level, completed }) {
 
 export default function LevelMap({ completed }) {
   const coreLevels = levels.filter((l) => l.number <= 12);
-  const tsLevels = levels.filter((l) => l.number > 12);
+  const tsLevels = levels.filter((l) => l.number > 12 && l.number <= 15);
+  const customLevels = levels.filter((l) => l.number > 15);
   const nextLevel = levels.find((l) => !completed.has(l.id) && isUnlocked(l, completed));
   const allDone = completed.size === levels.length;
 
@@ -79,6 +80,29 @@ export default function LevelMap({ completed }) {
             <LevelCard key={level.id} level={level} completed={completed} />
           ))}
         </div>
+      </section>
+
+      <section className="map-section s3-section">
+        <h2>Season 3 — Infinite Mode</h2>
+        {customLevels.length > 0 ? (
+          <div className="level-grid">
+            {customLevels.map((level) => (
+              <LevelCard key={level.id} level={level} completed={completed} />
+            ))}
+          </div>
+        ) : (
+          <div className="s3-empty">
+            <p>
+              <strong>The campaign is only the beginning.</strong> Your AI coding agent can
+              generate brand-new levels for you — fresh bugs, same rules, still a surprise:
+            </p>
+            <code>"Generate two new hard levels about effect cleanup"</code>
+            <p>
+              Generated levels land in <code>src/levels/custom/</code> and appear here
+              automatically. See <code>AGENTS.md</code> for how it works.
+            </p>
+          </div>
+        )}
       </section>
     </main>
   );

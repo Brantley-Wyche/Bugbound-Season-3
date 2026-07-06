@@ -859,3 +859,121 @@ a:hover { text-decoration: underline; }
   transition: opacity 0.15s;
 }
 .lv-bars button:hover { opacity: 1; }
+
+/* ============================================================
+   Season 3 — "Aurora ops" identity
+   Generated (custom) levels always wear it; beating the 15-level
+   campaign unlocks it app-wide via .theme-aurora on the app root.
+   Semantic status colors (PASS/FAIL, severity) stay untouched.
+   ============================================================ */
+
+:root {
+  --aurora-a: #8b5cf6;
+  --aurora-b: #2dd4bf;
+  --aurora-text: #a78bfa;
+}
+
+/* ---------- Infinite Mode surfaces (always aurora) ---------- */
+
+.s3-section h2 {
+  background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.s3-section h2::after {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.5), rgba(45, 212, 191, 0.12));
+}
+
+.s3-empty {
+  border: 1px dashed rgba(139, 92, 246, 0.45);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 640px;
+}
+.s3-empty p { margin: 0 0 10px; }
+.s3-empty p:last-child { margin-bottom: 0; }
+.s3-empty strong { color: var(--aurora-text); }
+.s3-empty code { white-space: normal; color: #c4b5fd; }
+
+.level-card.s3-card {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    linear-gradient(135deg, rgba(139, 92, 246, 0.65), rgba(45, 212, 191, 0.45)) border-box;
+}
+.level-card.s3-card:not(.locked):hover {
+  background:
+    linear-gradient(var(--panel-2), var(--panel-2)) padding-box,
+    linear-gradient(135deg, var(--aurora-a), var(--aurora-b)) border-box;
+  box-shadow: 0 0 26px rgba(139, 92, 246, 0.16);
+}
+.level-card.s3-card .level-num { color: var(--aurora-text); }
+.level-card.s3-card .chip:not([class*='severity']) {
+  color: var(--aurora-text);
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+/* Custom level pages: aurora index bars + concept chip */
+.s3-level .panel { --panel-accent: var(--aurora-a); }
+.s3-level .panel-checks { --panel-accent: var(--aurora-b); }
+.s3-level .bug-report { --panel-accent: var(--err); } /* a bug is still a bug */
+.s3-level .chip:not([class*='severity']) {
+  color: var(--aurora-text);
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+/* Uptime segments for custom levels */
+.uptime-strip .seg.custom.done {
+  background: linear-gradient(180deg, var(--aurora-a), var(--aurora-b));
+  border-color: transparent;
+}
+
+/* ---------- Post-campaign theme unlock (app-wide) ---------- */
+
+.theme-aurora { position: relative; }
+.theme-aurora::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(900px 520px at 85% -5%, rgba(139, 92, 246, 0.10), transparent 60%),
+    radial-gradient(800px 480px at -5% 30%, rgba(45, 212, 191, 0.07), transparent 55%);
+}
+
+.theme-aurora .wordmark .season {
+  color: transparent;
+  background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.theme-aurora .hero .eyebrow {
+  background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.theme-aurora .btn-primary {
+  background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b));
+  border-color: transparent;
+  color: #0a0d12;
+}
+.theme-aurora .btn-primary:hover { filter: brightness(1.12); }
+
+.theme-aurora .uptime-strip .seg.done {
+  background: linear-gradient(180deg, var(--aurora-a), var(--aurora-b));
+  border-color: transparent;
+}
+
+.theme-aurora .level-card.complete { border-color: rgba(139, 92, 246, 0.4); }
+.theme-aurora .level-status.done { color: var(--aurora-text); }
+.theme-aurora ::selection { background: rgba(139, 92, 246, 0.35); }

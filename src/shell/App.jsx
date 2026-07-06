@@ -47,22 +47,30 @@ export default function App() {
     }
   };
 
+  // Beating the 15-level campaign unlocks the Season 3 "aurora" theme app-wide.
+  const campaignDone = levels
+    .filter((l) => l.number <= 15)
+    .every((l) => completed.has(l.id));
+
   const levelId = route.startsWith('#/level/') ? route.slice('#/level/'.length) : null;
   const activeLevel = levelId ? levels.find((l) => l.id === levelId) : null;
   const showLevel = activeLevel && isUnlocked(activeLevel, completed);
 
   return (
-    <div className="app">
+    <div className={`app ${campaignDone ? 'theme-aurora' : ''}`}>
       <header className="app-header">
         <button className="wordmark" onClick={() => navigate('/')}>
           <span className="bug">🐛</span>
           <span>BUGBOUND</span>
-          <span className="season">SEASON 1</span>
+          <span className="season">{campaignDone ? 'SEASON 3 · ∞' : 'SEASON 1'}</span>
         </button>
         <div className="header-progress">
           <div className="uptime-strip" title={`${completed.size} of ${levels.length} incidents resolved`}>
             {levels.map((l) => (
-              <span key={l.id} className={`seg ${completed.has(l.id) ? 'done' : ''}`} />
+              <span
+                key={l.id}
+                className={`seg ${l.number > 15 ? 'custom' : ''} ${completed.has(l.id) ? 'done' : ''}`}
+              />
             ))}
           </div>
           <span className="label">
@@ -83,7 +91,10 @@ export default function App() {
       )}
 
       <footer className="app-footer">
-        <span>BUGBOUND · SEASON 1 · REACT + VITE · LEVELS &amp; BUGS BY CLAUDE</span>
+        <span>
+          BUGBOUND · {campaignDone ? 'SEASON 3' : 'SEASON 1'} · REACT + VITE · LEVELS &amp; BUGS
+          BY CLAUDE
+        </span>
         <button className="link-button" onClick={resetProgress}>
           Reset progress
         </button>
