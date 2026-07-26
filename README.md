@@ -47,7 +47,14 @@ Open the printed URL, start Level 01, and keep your editor open next to the brow
 
 ## ♾️ Infinite mode: bring your own agent
 
-When you finish the 15-level campaign (or want practice on a specific topic), **your AI coding agent can generate fresh levels for you** — new buggy components, checks, and encoded hints, in the same style, with the bugs kept secret from you:
+![Bugbound Season 3 Agent Station and generated incident queue](docs/bugbound-season-3.jpg)
+
+Open the **Season 3 · Infinite Mode** track at any time. Its Agent Station turns a topic,
+difficulty, and level count into a ready-to-send prompt. You can also download a spoiler-free
+learning profile so your agent can target concepts that required more attempts or hints.
+
+Your AI coding agent generates fresh levels — new buggy components, checks, and encoded hints,
+in the same style, with the bugs kept secret from you:
 
 > *"Generate two new hard levels about effect cleanup."*
 
@@ -57,11 +64,20 @@ Claude Code picks this up automatically via the bundled `bugbound-levelsmith` sk
 
 1. Reads the level contract (manifest shape + check-harness API) and studies an official level for style
 2. Designs a realistic component with a planted bug — hints and solution are drafted privately and land in the repo **base64-encoded only**
-3. Drops the level into `src/levels/custom/` — the game auto-discovers it, numbered after whatever exists; it appears in the aurora **Infinite Mode** section of the map
+3. Works on a generation branch and drops the level into `src/levels/custom/` — the game auto-discovers it and makes the first generated challenge playable immediately
 4. Proves it both ways: runs the checks against the bug (must fail, readably), against a private fix (must pass) — then deletes the fix
-5. Runs `npm run validate-levels` and `npm run build` as final gates
+5. Runs `npm run validate-levels`, `npm test`, and `npm run build` as final gates
 
-**Trust but verify:** before playing a generated level, ask your agent to *show you the checks failing* — proof the level works, with zero spoilers. Delete folders in `src/levels/custom/` any time for a factory reset.
+**Trust but verify:** `npm run verify-level -- <id>` opens a verification route whose checks run
+automatically. Ask your agent to show red-before/green-after proof without revealing the fix.
+
+Manage generated content safely:
+
+```bash
+npm run custom-levels -- list
+npm run custom-levels -- remove 16-some-level --confirm
+npm run custom-levels -- reset --confirm
+```
 
 ## House rules
 

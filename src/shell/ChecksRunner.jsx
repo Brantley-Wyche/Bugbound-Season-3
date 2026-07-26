@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { runCheck } from './harness.jsx';
 import { recordCheckRun } from './learning.js';
 
-export default function ChecksRunner({ level, onAllPass }) {
+export default function ChecksRunner({ level, onAllPass, autoRun = false }) {
   const [results, setResults] = useState(null);
   const [running, setRunning] = useState(false);
+  const autoRunStarted = useRef(false);
 
   async function runAll() {
     setRunning(true);
@@ -25,9 +26,21 @@ export default function ChecksRunner({ level, onAllPass }) {
     if (finished.every((r) => r.pass)) onAllPass();
   }
 
+  useEffect(() => {
+    if (autoRun && !autoRunStarted.current) {
+      autoRunStarted.current = true;
+      runAll();
+    }
+  }, [autoRun, level.id]);
+
   return (
     <div className="panel panel-checks" aria-busy={running}>
       <h3>Checks</h3>
+      {autoRun && (
+        <p className="verification-note">
+          Verification mode is active. Checks run automatically after each reload.
+        </p>
+      )}
       <button className="btn btn-primary" onClick={runAll} disabled={running}>
         {running ? 'Running…' : results ? 'Re-run checks' : 'Run checks'}
       </button>

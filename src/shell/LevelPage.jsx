@@ -6,7 +6,7 @@ import ErrorBoundary from './ErrorBoundary.jsx';
 import ChecksRunner from './ChecksRunner.jsx';
 import HintBox from './HintBox.jsx';
 
-export default function LevelPage({ level, isComplete, onComplete }) {
+export default function LevelPage({ level, isComplete, onComplete, autoRunChecks = false }) {
   const [demoKey, setDemoKey] = useState(0);
   const next = levels.find((l) => l.number === level.number + 1);
   const Demo = level.Component;
@@ -121,7 +121,7 @@ export default function LevelPage({ level, isComplete, onComplete }) {
             </div>
           </div>
 
-          <ChecksRunner level={level} onAllPass={onComplete} />
+          <ChecksRunner level={level} onAllPass={onComplete} autoRun={autoRunChecks} />
         </div>
       </div>
     </main>
