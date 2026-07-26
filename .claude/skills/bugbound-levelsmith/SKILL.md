@@ -12,7 +12,7 @@ You are authoring new levels for Bugbound, a debugging game where the player lea
 The game only works if the bugs are a surprise to the player.
 
 - **Never** reveal a planted bug's cause in chat, code comments, commit messages, or file names. Describing the *symptom* (what the player will observe) is fine and necessary; naming the cause is forbidden.
-- Never echo hint or solution plaintext into the conversation. Draft them in a scratch file outside the repo, encode with `npm run encode -- "text"` (base64), and put only the encoded strings in the repo.
+- Never echo hint or solution plaintext into the conversation. Draft them in private agent memory or an OS temporary location outside the repo, encode with `npm run encode -- "text"` (base64), and put only the encoded strings in the repo.
 - If the player asks for help on a level later, coach at the current hint tier. Reveal the fix only if they explicitly ask to be spoiled.
 - After verifying a level (step 7), your private fix must be discarded — never left in the working tree, never shown in chat.
 
@@ -29,7 +29,7 @@ Each level lives in its own folder and consists of:
 
 - Folder: `src/levels/custom/<NN-kebab-slug>/` where `NN` continues numbering after the highest existing level (officials are 01–15; the first custom level is 16).
 - Discovery is automatic: `src/levels/index.js` globs `custom/*/manifest.js`. **Do not edit the registry, the shell (`src/shell/`), or official levels 01–15.**
-- Unlock gating follows numbering: level N unlocks when N−1 is complete. Custom levels are post-game content by default; if the player wants standalone practice instead, they can use the in-app map once your level's predecessors are done — do not change the gating logic.
+- The first custom level is playable immediately. Later custom levels unlock in custom-level order; campaign progress never blocks Infinite Mode.
 
 ## The manifest contract
 
@@ -44,6 +44,9 @@ export default {
   title: 'Display Title',
   concept: 'Concept Chip Text',   // e.g. 'Effect Cleanup'
   severity: 'Low' | 'Medium' | 'High' | 'Critical',
+  difficulty: 'Beginner' | 'Intermediate' | 'Hard',
+  source: 'agent',
+  generatedAt: 'YYYY-MM-DD',
   Component,
   vague: true,                    // optional: point at the folder, not exact files
   files: ['src/levels/custom/NN-slug/YourComponent.jsx'],  // folder path if vague
@@ -80,18 +83,19 @@ Checks run against a fresh, isolated mount of `Component` per check, with real D
 
 ## Authoring procedure
 
-1. **Scope with the player**: topic(s), difficulty, how many levels. Do not discuss candidate bugs — only concepts.
+1. **Protect the cartridge**: confirm the current branch is not `main`; create a focused generation branch if needed. Then scope topic(s), difficulty, and level count without discussing candidate bugs.
 2. **Study one official level** of similar difficulty (component + manifest) to match style and tone.
 3. **Design in private**: realistic scenario, 1–3 bugs drawn from real failure modes of the topic, escalating hiddenness with difficulty (exact file named → `vague: true` folder-only).
 4. **Write the component and manifest.** Lesson paragraphs teach the underlying mechanism, not the bug's location.
 5. **Hints and solution**: three tiers — gentle nudge (mechanism-shaped question), closer look (names the guilty area), basically-the-answer (near-explicit). Encode each (`npm run encode -- "hint text"`), add to `src/levels/hints.json` under the level id, and append the encoded solution to `SOLUTIONS.md` as `## Level NN — Title` with the base64 in a code fence.
-6. **Static validation**: `npm run validate-levels` must pass, and `npm run build` must compile.
-7. **Behavioral verification (mandatory)**: start the dev server, open the level, run its checks in the app — they must FAIL against your planted bug with readable messages. Then apply your fix privately, re-run — all checks must PASS. **Restore the buggy version and discard the fix.** A level that was never verified in both directions is not done.
+6. **Static validation**: `npm run validate-levels`, `npm test`, and `npm run build` must pass.
+7. **Behavioral verification (mandatory)**: run `npm run verify-level -- <id>` and open the printed verification URL. The checks must FAIL against your planted bug with readable messages. Then apply your fix privately, reload, and confirm all checks PASS. **Restore the buggy version and discard the fix.** A level that was never verified in both directions is not done.
 8. **Commit** with a neutral message, e.g. `Add custom level 16: The Vanishing Draft` — title and concept are fine, cause is not.
 
 ## Constraints
 
 - No new npm dependencies.
+- Custom components may not access the network, browser storage, cookies, environment variables, dynamic code execution, or non-relative packages other than React. Keep all data fake and local to the level.
 - Never modify `src/shell/`, `src/levels/01-…` through `15-…`, existing hints, or existing solutions.
 - Never remove or rename `data-testid` attributes anywhere.
 - Keep components small (one screen, ≤ ~120 lines) and self-contained within the level folder (a `fakeApi.js` sibling is the established pattern for async levels — keep fake APIs bug-free and label them so).

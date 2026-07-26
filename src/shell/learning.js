@@ -37,16 +37,16 @@ export function recordCheckRun(levelId, results) {
   const passed = results.length > 0 && results.every((result) => result.pass);
   updateLevel(levelId, (current) => ({
     ...current,
-    checkRuns: current.checkRuns + 1,
-    passedRuns: current.passedRuns + (passed ? 1 : 0),
-    failedRuns: current.failedRuns + (passed ? 0 : 1),
+    checkRuns: (current.checkRuns || 0) + 1,
+    passedRuns: (current.passedRuns || 0) + (passed ? 1 : 0),
+    failedRuns: (current.failedRuns || 0) + (passed ? 0 : 1),
   }));
 }
 
 export function recordHintReveal(levelId, tier) {
   updateLevel(levelId, (current) => ({
     ...current,
-    hintsRevealed: [...new Set([...current.hintsRevealed, tier])].sort(),
+    hintsRevealed: [...new Set([...(current.hintsRevealed || []), tier])].sort(),
   }));
 }
 

@@ -736,6 +736,17 @@ a:hover { text-decoration: underline; }
   margin: 12px 0 0;
 }
 
+.verification-note {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  color: var(--aurora-b, var(--info));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
 /* Success banner */
 
 .success-banner {
@@ -1158,6 +1169,182 @@ a:hover { text-decoration: underline; }
 
 /* ---------- Infinite Mode surfaces (always aurora) ---------- */
 
+.track-switcher {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 210px));
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.track-switcher button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 13px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.track-switcher button span {
+  color: var(--faint);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+.track-switcher button.active {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--panel);
+}
+
+.track-switcher button:last-child.active {
+  border-color: rgba(139, 92, 246, 0.55);
+  box-shadow: inset 3px 0 var(--aurora-a);
+}
+
+.track-switcher button:last-child.active span {
+  color: var(--aurora-text);
+}
+
+.hero-infinite {
+  position: relative;
+}
+
+.hero-infinite::after {
+  content: '∞';
+  position: absolute;
+  top: -24px;
+  right: 4%;
+  z-index: -1;
+  color: rgba(139, 92, 246, 0.06);
+  font-family: var(--font-mono);
+  font-size: 180px;
+  line-height: 1;
+}
+
+.agent-station {
+  position: relative;
+  margin: 4px 0 34px;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(139, 92, 246, 0.12), transparent 42%),
+    linear-gradient(315deg, rgba(45, 212, 191, 0.07), transparent 38%),
+    var(--panel);
+}
+
+.agent-station::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b)) top / 100% 2px no-repeat;
+}
+
+.agent-station-intro {
+  max-width: 700px;
+}
+
+.agent-kicker,
+.agent-brief > span {
+  color: var(--aurora-text);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.agent-station h1 {
+  margin: 5px 0 5px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.agent-station-intro p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.agent-controls {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.6fr) minmax(150px, 0.7fr) minmax(100px, 0.4fr);
+  gap: 12px;
+  margin: 22px 0 14px;
+}
+
+.agent-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.agent-controls input,
+.agent-controls select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font: 14px var(--font-sans);
+}
+
+.agent-brief {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--aurora-b);
+  border-radius: var(--radius-sm);
+  background: rgba(10, 13, 18, 0.72);
+}
+
+.agent-brief p {
+  margin: 6px 0 0;
+  color: #c5d0dc;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.agent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.agent-message {
+  min-height: 20px;
+  margin: 9px 0 0;
+  color: var(--aurora-b);
+  font-size: 12.5px;
+}
+
+.agent-safety {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  color: var(--faint);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+
 .s3-section h2 {
   background: linear-gradient(90deg, var(--aurora-a), var(--aurora-b));
   -webkit-background-clip: text;
@@ -1198,6 +1385,20 @@ a:hover { text-decoration: underline; }
   color: var(--aurora-text);
   background: rgba(139, 92, 246, 0.12);
   border-color: rgba(139, 92, 246, 0.35);
+}
+
+.custom-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 3px;
+  padding-top: 8px;
+  color: var(--faint);
+  border-top: 1px solid rgba(139, 92, 246, 0.16);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* Custom level pages: aurora index bars + concept chip */
@@ -1260,3 +1461,37 @@ a:hover { text-decoration: underline; }
 .theme-aurora .level-card.complete { border-color: rgba(139, 92, 246, 0.4); }
 .theme-aurora .level-status.done { color: var(--aurora-text); }
 .theme-aurora ::selection { background: rgba(139, 92, 246, 0.35); }
+
+@media (max-width: 700px) {
+  .track-switcher {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-infinite::after {
+    top: -8px;
+    right: 0;
+    font-size: 110px;
+  }
+
+  .agent-station {
+    padding: 20px 16px;
+  }
+
+  .agent-station h1 {
+    font-size: 24px;
+  }
+
+  .agent-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .agent-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .agent-actions .btn {
+    justify-content: center;
+    min-height: 44px;
+  }
+}

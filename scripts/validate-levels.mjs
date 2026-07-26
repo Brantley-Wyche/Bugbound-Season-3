@@ -8,7 +8,15 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const LEVELS_DIR = join(ROOT, 'src', 'levels');
 const SEVERITIES = ['Low', 'Medium', 'High', 'Critical'];
+const DIFFICULTIES = ['Beginner', 'Intermediate', 'Hard'];
 const BASE64_RE = /^[A-Za-z0-9+/]+=*$/;
+const FORBIDDEN_CUSTOM_PATTERNS = [
+  ['network requests', /\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\b/],
+  ['browser storage', /\b(localStorage|sessionStorage|indexedDB)\b/],
+  ['cookies', /\bdocument\.cookie\b/],
+  ['environment data', /\bimport\.meta\.env\b/],
+  ['dynamic code execution', /\b(eval|Function)\s*\(/],
+];
 
 const errors = [];
 const warnings = [];
@@ -45,6 +53,7 @@ for (const dir of dirs) {
   const id = src.match(/id:\s*'([^']+)'/)?.[1];
   const number = src.match(/number:\s*(\d+)/)?.[1];
   const severity = src.match(/severity:\s*'([^']+)'/)?.[1];
+  const isCustom = dir.includes('custom');
 
   if (!id) errors.push(`${label}: manifest has no id`);
   else {
@@ -56,6 +65,9 @@ for (const dir of dirs) {
   if (!number) errors.push(`${label}: manifest has no number`);
   else {
     if (seenNumbers.has(number)) errors.push(`${label}: duplicate number ${number}`);
+    if (!folder.startsWith(`${String(number).padStart(2, '0')}-`)) {
+      errors.push(`${label}: folder prefix does not match level number ${number}`);
+    }
     seenNumbers.add(number);
   }
 
@@ -67,12 +79,35 @@ for (const dir of dirs) {
     if (!src.includes(field)) errors.push(`${label}: manifest is missing ${field.replace(':', '')}`);
   }
 
+  if (isCustom && id) {
+    const difficulty = src.match(/difficulty:\s*'([^']+)'/)?.[1];
+    const source = src.match(/source:\s*'([^']+)'/)?.[1];
+    const generatedAt = src.match(/generatedAt:\s*'([^']+)'/)?.[1];
+
+    if (!DIFFICULTIES.includes(difficulty)) {
+      errors.push(`${label}: difficulty must be one of ${DIFFICULTIES.join('/')}`);
+    }
+    if (source !== 'agent' && source !== 'human') {
+      errors.push(`${label}: source must be 'agent' or 'human'`);
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(generatedAt || '')) {
+      errors.push(`${label}: generatedAt must use YYYY-MM-DD`);
+    }
+  }
+
   // hints: exactly 3 base64 entries per level
   if (id) {
     const h = hints[id];
     if (!Array.isArray(h) || h.length !== 3) {
       errors.push(`${label}: hints.json needs exactly 3 hints for '${id}' (found ${Array.isArray(h) ? h.length : 'none'})`);
-    } else if (!h.every((s) => typeof s === 'string' && s.length > 8 && BASE64_RE.test(s))) {
+    } else if (!h.every((s) => {
+      if (typeof s !== 'string' || s.length <= 8 || !BASE64_RE.test(s)) return false;
+      try {
+        return Buffer.from(s, 'base64').toString('base64') === s;
+      } catch {
+        return false;
+      }
+    })) {
       errors.push(`${label}: hints for '${id}' don't look base64-encoded — never store plaintext hints`);
     }
   }
@@ -89,14 +124,45 @@ for (const dir of dirs) {
   } else if (!sources.some((f) => readFileSync(join(dir, f), 'utf8').includes('data-testid'))) {
     warnings.push(`${label}: no data-testid found in any component — how will checks reach the DOM?`);
   }
+
+  if (isCustom) {
+    for (const sourceFile of sources) {
+      const componentSource = readFileSync(join(dir, sourceFile), 'utf8');
+      for (const [description, pattern] of FORBIDDEN_CUSTOM_PATTERNS) {
+        if (pattern.test(componentSource)) {
+          errors.push(`${label}/${sourceFile}: custom levels may not use ${description}`);
+        }
+      }
+
+      const imports = [...componentSource.matchAll(/from\s+['"]([^'"]+)['"]/g)].map((match) => match[1]);
+      for (const specifier of imports) {
+        if (specifier !== 'react' && !specifier.startsWith('.')) {
+          errors.push(`${label}/${sourceFile}: external import '${specifier}' is not allowed`);
+        }
+      }
+    }
+  }
 }
 
 // numbering should be contiguous from 1
 const nums = [...seenNumbers].map(Number).sort((a, b) => a - b);
 for (let i = 0; i < nums.length; i++) {
   if (nums[i] !== i + 1) {
-    warnings.push(`level numbering has a gap or offset at ${nums[i]} (expected ${i + 1}) — unlock gating may strand players`);
+    errors.push(`level numbering has a gap or offset at ${nums[i]} (expected ${i + 1}) — unlock gating would strand players`);
     break;
+  }
+}
+
+for (const hintId of Object.keys(hints)) {
+  if (!seenIds.has(hintId)) {
+    errors.push(`hints.json contains orphaned entry '${hintId}'`);
+  }
+}
+
+const solutionNumbers = [...solutions.matchAll(/^## Level (\d{2,})/gm)].map((match) => Number(match[1]));
+for (const solutionNumber of solutionNumbers) {
+  if (!seenNumbers.has(String(solutionNumber))) {
+    errors.push(`SOLUTIONS.md contains orphaned Level ${String(solutionNumber).padStart(2, '0')}`);
   }
 }
 

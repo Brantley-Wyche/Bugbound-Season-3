@@ -22,6 +22,11 @@ export function navigate(path) {
 }
 
 export function isUnlocked(level, completed) {
+  if (level.number > 15) {
+    const customLevels = levels.filter((item) => item.number > 15);
+    const index = customLevels.findIndex((item) => item.id === level.id);
+    return index === 0 || (index > 0 && completed.has(customLevels[index - 1].id));
+  }
   if (level.number === 1) return true;
   const previous = levels.find((l) => l.number === level.number - 1);
   return previous ? completed.has(previous.id) : false;
@@ -30,7 +35,6 @@ export function isUnlocked(level, completed) {
 export default function App() {
   const route = useHashRoute();
   const [completed, setCompleted] = useState(() => loadCompleted(levelIds));
-  const completedCount = levels.filter((level) => completed.has(level.id)).length;
 
   const markComplete = (id) => {
     setCompleted((prev) => {
@@ -55,29 +59,36 @@ export default function App() {
     .filter((l) => l.number <= 15)
     .every((l) => completed.has(l.id));
 
-  const levelId = route.startsWith('#/level/') ? route.slice('#/level/'.length) : null;
+  const verifyId = route.startsWith('#/verify/') ? route.slice('#/verify/'.length) : null;
+  const levelId = verifyId || (route.startsWith('#/level/') ? route.slice('#/level/'.length) : null);
   const activeLevel = levelId ? levels.find((l) => l.id === levelId) : null;
-  const showLevel = activeLevel && isUnlocked(activeLevel, completed);
+  const showLevel = activeLevel && (Boolean(verifyId) || isUnlocked(activeLevel, completed));
+  const infiniteRoute = route === '#/infinite' || activeLevel?.number > 15;
+  const seasonThreeActive = campaignDone || infiniteRoute;
+  const progressLevels = infiniteRoute
+    ? levels.filter((level) => level.number > 15)
+    : levels.filter((level) => level.number <= 15);
+  const trackCompletedCount = progressLevels.filter((level) => completed.has(level.id)).length;
 
   return (
-    <div className={`app ${campaignDone ? 'theme-aurora' : ''}`}>
+    <div className={`app ${seasonThreeActive ? 'theme-aurora' : ''}`}>
       <header className="app-header">
-        <button className="wordmark" onClick={() => navigate('/')}>
+        <button className="wordmark" onClick={() => navigate(infiniteRoute ? '/infinite' : '/')}>
           <span className="bug">🐛</span>
           <span>BUGBOUND</span>
-          <span className="season">{campaignDone ? 'SEASON 3 · ∞' : 'SEASON 1'}</span>
+          <span className="season">{seasonThreeActive ? 'SEASON 3 · ∞' : 'SEASON 1'}</span>
         </button>
         <div className="header-progress">
           <div
             className="uptime-strip"
-            title={`${completedCount} of ${levels.length} incidents resolved`}
+            title={`${trackCompletedCount} of ${progressLevels.length} ${infiniteRoute ? 'generated' : 'campaign'} incidents resolved`}
             role="progressbar"
-            aria-label="Season progress"
+            aria-label={infiniteRoute ? 'Infinite Mode progress' : 'Campaign progress'}
             aria-valuemin="0"
-            aria-valuemax={levels.length}
-            aria-valuenow={completedCount}
+            aria-valuemax={progressLevels.length}
+            aria-valuenow={trackCompletedCount}
           >
-            {levels.map((l) => (
+            {progressLevels.map((l) => (
               <span
                 key={l.id}
                 className={`seg ${l.number > 15 ? 'custom' : ''} ${completed.has(l.id) ? 'done' : ''}`}
@@ -86,7 +97,7 @@ export default function App() {
             ))}
           </div>
           <span className="label">
-            {completedCount}/{levels.length} RESOLVED
+            {trackCompletedCount}/{progressLevels.length} {infiniteRoute ? 'GENERATED' : 'RESOLVED'}
           </span>
         </div>
       </header>
@@ -105,15 +116,15 @@ export default function App() {
           level={activeLevel}
           isComplete={completed.has(activeLevel.id)}
           onComplete={() => markComplete(activeLevel.id)}
+          autoRunChecks={Boolean(verifyId)}
         />
       ) : (
-        <LevelMap completed={completed} />
+        <LevelMap completed={completed} track={infiniteRoute ? 'infinite' : 'campaign'} />
       )}
 
       <footer className="app-footer">
         <span>
-          BUGBOUND · {campaignDone ? 'SEASON 3' : 'SEASON 1'} · REACT + VITE · LEVELS &amp; BUGS
-          BY CLAUDE
+          BUGBOUND · {seasonThreeActive ? 'SEASON 3 · CORE BY CLAUDE · CUSTOM BY YOUR AGENT' : 'SEASON 1 · REACT + VITE · LEVELS & BUGS BY CLAUDE'}
         </span>
         <button className="link-button" onClick={resetProgress}>
           Reset progress

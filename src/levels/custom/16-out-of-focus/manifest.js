@@ -6,6 +6,9 @@ export default {
   title: 'Out of Focus',
   concept: 'Refs & Timing',
   severity: 'Medium',
+  difficulty: 'Intermediate',
+  source: 'agent',
+  generatedAt: '2026-07-04',
   Component,
   files: ['src/levels/custom/16-out-of-focus/InlineRename.jsx'],
   symptom:

@@ -10,15 +10,17 @@ The bugs are the game. **Do not find and fix them for the player, and do not exp
 
 Follow the full authoring guide in [.claude/skills/bugbound-levelsmith/SKILL.md](.claude/skills/bugbound-levelsmith/SKILL.md) — it is written for any agent, not just Claude. The short version of the contract:
 
+- Before writing, make sure you are not on `main`. Create a focused generation branch unless the player already provided one.
 - New levels go in `src/levels/custom/<NN-slug>/` (numbering continues from the highest existing level). They're auto-discovered — don't edit the registry or shell.
-- Each level = buggy component(s) + `manifest.js` (id, number, title, concept, severity, symptom, 3-paragraph lesson, behavioral checks) + three base64 hints in `src/levels/hints.json` + a base64 solution appended to `SOLUTIONS.md`.
+- Each level = buggy component(s) + `manifest.js` (including difficulty, source, generated date, lesson, and behavioral checks) + three base64 hints in `src/levels/hints.json` + a base64 solution appended to `SOLUTIONS.md`.
 - **Blind mode**: never reveal a planted bug's cause in chat, comments, or commit messages. Hint/solution plaintext never appears in the repo or the conversation — encode with `npm run encode -- "text"`.
 - Verify both directions before you're done: checks must fail against the planted bug and pass against a privately-applied fix — then restore the bug and discard the fix.
-- Validate: `npm run validate-levels` and `npm run build` must both pass.
+- Validate: `npm run validate-levels`, `npm test`, and `npm run build` must all pass. Use `npm run verify-level -- <id>` for the browser verification loop.
 
 ## Hard rules regardless of task
 
 - Never modify `src/shell/` (the game engine), official levels `01`–`15`, existing hints, or existing solutions, unless the player explicitly asks for a shell fix.
 - Never remove or rename `data-testid` attributes.
 - No new npm dependencies.
+- Custom level code may not use network requests, browser storage, cookies, environment data, dynamic code execution, or external package imports.
 - `main` is the pristine "cartridge" branch: level fixes belong on the player's own branch, never on `main`.
