@@ -1,71 +1,88 @@
-import {
-  existsSync,
-  readFileSync,
-  readdirSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
-import { join } from 'node:path';
+import { cpSync, existsSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { discoverLevelFolders } from './curriculum/inspect.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const CUSTOM_DIR = join(ROOT, 'src', 'levels', 'custom');
-const HINTS_PATH = join(ROOT, 'src', 'levels', 'hints.json');
-const SOLUTIONS_PATH = join(ROOT, 'SOLUTIONS.md');
-const [command = 'list', target, ...flags] = process.argv.slice(2);
-const confirmed = flags.includes('--confirm') || target === '--confirm';
 
-function folders() {
-  if (!existsSync(CUSTOM_DIR)) return [];
-  return readdirSync(CUSTOM_DIR)
-    .filter((name) => /^\d{2,}-[a-z0-9-]+$/.test(name))
-    .sort((a, b) => Number(a.split('-')[0]) - Number(b.split('-')[0]));
+function solutionRanges(source) {
+  const headings = [...source.matchAll(/^## Level (\d{2,})\b[^\r\n]*(?:\r?\n|$)/gm)];
+  return headings.map((match, index) => ({ number: Number(match[1]), start: match.index, end: headings[index + 1]?.index ?? source.length }));
 }
 
-function removeSolutionSections(source, numbers) {
-  return source.replace(/^## Level (\d{2,}).*?(?=^## Level |\s*$)/gms, (section, number) => (
-    numbers.has(Number(number)) ? '' : section
-  )).replace(/\n{3,}/g, '\n\n');
-}
-
-function removeLevels(names) {
-  const hints = JSON.parse(readFileSync(HINTS_PATH, 'utf8'));
-  const numbers = new Set();
-
-  for (const name of names) {
-    const exactPath = join(CUSTOM_DIR, name);
-    if (!existsSync(exactPath) || !/^\d{2,}-[a-z0-9-]+$/.test(name)) {
-      throw new Error(`Refusing to remove unknown custom level '${name}'.`);
+export function removeLevels(root, names, options = {}) {
+  const levels = discoverLevelFolders(root).filter((entry) => entry.custom);
+  const targets = names.map((name) => {
+    const level = levels.find((entry) => entry.id === name);
+    if (!level) throw new Error(`Refusing to remove unknown custom level '${name}'.`);
+    return level;
+  });
+  if (new Set(names).size !== names.length) throw new Error('Duplicate level id in removal request.');
+  if (!targets.length) return { removed: [], backupPath: null };
+  const hintsPath = join(root, 'src', 'levels', 'hints.json');
+  const solutionsPath = join(root, 'SOLUTIONS.md');
+  const backupRoot = join(root, '.bugbound-backups');
+  const canonicalRoot = realpathSync(root);
+  for (const path of [hintsPath, solutionsPath, backupRoot]) {
+    if (existsSync(path) && relative(join(canonicalRoot, relative(root, path)), realpathSync(path)) !== '') {
+      throw new Error(`Refusing to modify linked path outside its canonical location: ${path}`);
     }
-    numbers.add(Number(name.split('-')[0]));
-    delete hints[name];
-    rmSync(exactPath, { recursive: true, force: false });
   }
-
-  writeFileSync(HINTS_PATH, `${JSON.stringify(hints, null, 2)}\n`);
-  const solutions = readFileSync(SOLUTIONS_PATH, 'utf8');
-  writeFileSync(SOLUTIONS_PATH, removeSolutionSections(solutions, numbers));
+  const hints = JSON.parse(readFileSync(hintsPath, 'utf8'));
+  const solutions = readFileSync(solutionsPath, 'utf8');
+  const ranges = solutionRanges(solutions);
+  for (const target of targets) {
+    if (!Object.hasOwn(hints, target.id)) throw new Error(`Missing hint entry for '${target.id}'.`);
+    if (ranges.filter((range) => range.number === target.number).length !== 1) throw new Error(`Expected one complete solution section for '${target.id}'.`);
+  }
+  const removeNumbers = new Set(targets.map((entry) => entry.number));
+  const updatedSolutions = ranges.filter((range) => removeNumbers.has(range.number))
+    .reduceRight((text, range) => text.slice(0, range.start) + text.slice(range.end), solutions)
+    .replace(/\n{3,}/g, '\n\n');
+  const updatedHints = { ...hints };
+  for (const target of targets) delete updatedHints[target.id];
+  const backupPath = join(backupRoot, `remove-${Date.now()}-${process.pid}`);
+  mkdirSync(backupPath, { recursive: true });
+  writeFileSync(join(backupPath, 'hints.json'), readFileSync(hintsPath));
+  writeFileSync(join(backupPath, 'SOLUTIONS.md'), readFileSync(solutionsPath));
+  for (const target of targets) cpSync(target.path, join(backupPath, target.id), { recursive: true, errorOnExist: true });
+  const stagedHints = join(backupPath, 'staged-hints.json');
+  const stagedSolutions = join(backupPath, 'staged-SOLUTIONS.md');
+  writeFileSync(stagedHints, `${JSON.stringify(updatedHints, null, 2)}\n`);
+  writeFileSync(stagedSolutions, updatedSolutions);
+  try {
+    writeFileSync(hintsPath, readFileSync(stagedHints));
+    options.afterWrite?.('hints');
+    writeFileSync(solutionsPath, readFileSync(stagedSolutions));
+    options.afterWrite?.('solutions');
+    for (const target of targets) {
+      rmSync(target.path, { recursive: true });
+      options.afterWrite?.(target.id);
+    }
+  } catch (error) {
+    try {
+      writeFileSync(hintsPath, readFileSync(join(backupPath, 'hints.json')));
+      writeFileSync(solutionsPath, readFileSync(join(backupPath, 'SOLUTIONS.md')));
+      for (const target of targets) {
+        if (existsSync(target.path)) rmSync(target.path, { recursive: true });
+        cpSync(join(backupPath, target.id), target.path, { recursive: true });
+      }
+    } catch (restoreError) {
+      throw new Error(`Removal failed and automatic restore failed: ${restoreError.message}. Restore from ${backupPath}`, { cause: error });
+    }
+    throw new Error(`Removal failed; original files restored. Backup: ${backupPath}. Cause: ${error.message}`, { cause: error });
+  }
+  return { removed: names, backupPath };
 }
 
-if (command === 'list') {
-  const available = folders();
-  console.log(available.length ? available.join('\n') : 'No custom levels.');
-} else if (command === 'remove') {
-  if (!target || target === '--confirm') {
-    throw new Error('Usage: npm run custom-levels -- remove <level-id> --confirm');
-  }
-  if (!confirmed) {
-    throw new Error(`Refusing to remove '${target}' without --confirm.`);
-  }
-  removeLevels([target]);
-  console.log(`Removed ${target}. Reset browser progress from the Bugbound footer if needed.`);
-} else if (command === 'reset') {
-  const available = folders();
-  if (!confirmed) {
-    throw new Error(`Refusing to remove ${available.length} custom level(s) without --confirm.`);
-  }
-  if (available.length) removeLevels(available);
-  console.log(`Removed ${available.length} custom level(s). Reset browser progress from the Bugbound footer.`);
-} else {
-  throw new Error(`Unknown command '${command}'. Use list, remove, or reset.`);
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  const [command = 'list', target] = process.argv.slice(2);
+  const folders = discoverLevelFolders(ROOT).filter((entry) => entry.custom).map((entry) => entry.id);
+  if (command === 'list') console.log(folders.length ? folders.join('\n') : 'No custom levels.');
+  else if (command === 'remove' || command === 'reset') {
+    if (!process.argv.includes('--confirm')) throw new Error('Removal requires --confirm.');
+    const outcome = removeLevels(ROOT, command === 'reset' ? folders : [target]);
+    console.log(`Removed ${outcome.removed.length} custom level(s). Backup: ${outcome.backupPath || 'none'}`);
+    console.log('Reset browser progress from the Bugbound footer if needed.');
+  } else throw new Error(`Unknown command '${command}'. Use list, remove, or reset.`);
 }

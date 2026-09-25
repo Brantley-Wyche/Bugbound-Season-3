@@ -20,16 +20,16 @@ The game only works if the bugs are a surprise to the player.
 
 Each level lives in its own folder and consists of:
 
-1. **Buggy component(s)** — a small, realistic mini-app (a form, a dashboard widget, a cart…) written in clean, idiomatic React with 1–3 planted bugs modeled on real-world failure modes. No comments that point at the bug. Use the shared `lv-*` CSS classes from `src/styles/global.css` so it matches the game's look, and put `data-testid` attributes on everything your checks will reach.
+1. **Buggy component(s)** — a small, realistic mini-app (a form, a dashboard widget, a cart…) written in clean, idiomatic React with 1–3 planted bugs modeled on real-world failure modes. No comments that point at the bug. Use the shared `lv-*` CSS classes from `src/styles/exercises.css` so it matches the game's look, and put `data-testid` attributes on everything your checks will reach.
 2. **A manifest** — the level's contract with the game shell (see below).
 3. **Three encoded hints** — added to `src/levels/hints.json` under the level's id.
 4. **An encoded solution** — appended to `SOLUTIONS.md`.
 
 ## Where new levels go
 
-- Folder: `src/levels/custom/<NN-kebab-slug>/` where `NN` continues numbering after the highest existing level (officials are 01–15; the first custom level is 16).
-- Discovery is automatic: `src/levels/index.js` globs `custom/*/manifest.js`. **Do not edit the registry, the shell (`src/shell/`), or official levels 01–15.**
-- The first custom level is playable immediately. Later custom levels unlock in custom-level order; campaign progress never blocks Infinite Mode.
+- Folder: `src/levels/custom/<NN-kebab-slug>/` where `NN` continues numbering after the highest existing level (officials are 01–15; the first custom level is 16). IDs can use three or more digits, and removed levels may leave gaps. Do not renumber survivors.
+- Discovery is automatic: the Vite curriculum plugin validates discovered manifests and supplies the catalog through `src/levels/index.js`. **Do not edit the registry, the shell (`src/shell/`), or official levels 01–15.**
+- Every level is selectable immediately. The app may suggest a next challenge, but progress does not gate selection.
 
 ## The manifest contract
 
@@ -40,7 +40,7 @@ import Component from './YourComponent.jsx';   // .tsx also supported
 
 export default {
   id: 'NN-kebab-slug',            // MUST equal the folder name
-  number: NN,                     // unique, sequential
+  number: NN,                     // unique; gaps after removal are allowed
   title: 'Display Title',
   concept: 'Concept Chip Text',   // e.g. 'Effect Cleanup'
   severity: 'Low' | 'Medium' | 'High' | 'Critical',
@@ -71,6 +71,7 @@ Checks run against a fresh, isolated mount of `Component` per check, with real D
 | `await h.type(t, 'text')` | per-character native-setter typing (fires React onChange) |
 | `await h.selectOption(t, value)` | set a `<select>` + change event |
 | `await h.pause(ms)` | wait (for effects, timers, fake fetches) |
+| `await h.waitFor(assertion, { timeout: 3000, interval: 25 })` | retry an assertion until it succeeds or its deadline expires; prefer this for asynchronous readiness |
 | `h.ok(cond, msg)` | assert with a player-facing failure message |
 | `h.ensureNoCrash()` | fail if the component crashed while rendering |
 
@@ -79,6 +80,7 @@ Checks run against a fresh, isolated mount of `Component` per check, with real D
 - Assert **behavior the player can observe**, never implementation. Failure messages should read like a good QA report ("Expected the total to be $59.75, got \"$05910.5…\"").
 - Checks must **fail** with the planted bug present and **pass** after *any reasonable fix* — don't assume one specific fix.
 - Timing-sensitive checks (timers, races) need generous margins; look at official levels 09 and 10 for calibrated examples.
+- Every check runs in a fresh same-origin frame, separate from the preview. Module state does not persist across checks. Rendering/effect/cleanup errors fail the run even without `ensureNoCrash`. The runner allows up to 15 seconds after loading and 20 seconds overall; navigation/reset disposes abandoned frames. These are asynchronous limits, not a security sandbox or protection from synchronous infinite loops.
 - The app deliberately runs without `<StrictMode>` (double-invocation would break render-counting checks). Do not add it.
 
 ## Authoring procedure
@@ -90,11 +92,13 @@ Checks run against a fresh, isolated mount of `Component` per check, with real D
 5. **Hints and solution**: three tiers — gentle nudge (mechanism-shaped question), closer look (names the guilty area), basically-the-answer (near-explicit). Encode each (`npm run encode -- "hint text"`), add to `src/levels/hints.json` under the level id, and append the encoded solution to `SOLUTIONS.md` as `## Level NN — Title` with the base64 in a code fence.
 6. **Static validation**: `npm run validate-levels`, `npm test`, and `npm run build` must pass.
 7. **Behavioral verification (mandatory)**: run `npm run verify-level -- <id>` and open the printed verification URL. The checks must FAIL against your planted bug with readable messages. Then apply your fix privately, reload, and confirm all checks PASS. **Restore the buggy version and discard the fix.** A level that was never verified in both directions is not done.
-8. **Commit** with a neutral message, e.g. `Add custom level 16: The Vanishing Draft` — title and concept are fine, cause is not.
+8. **Review and commit when requested** with a neutral message, e.g. `Add custom level 16: The Vanishing Draft` — title and concept are fine, cause is not.
+
+Exercise-specific styling belongs in `src/styles/exercises.css`. To remove generated levels, use `npm run custom-levels -- remove <id> --confirm` or `npm run custom-levels -- reset --confirm`. The command prints a backup path under `.bugbound-backups/`; inspect the result and preserve that backup until recovery is no longer needed. A write failure triggers an automatic restore attempt. Run `npm run validate-levels` afterward. `verify-level` fails if port 4173 is occupied; verify the printed project path and level ID before testing. Static validation cannot replace the browser red/green check.
 
 ## Constraints
 
-- No new npm dependencies.
+- Generated exercises may not add npm dependencies. Shell development may add maintained dependencies when separately authorized.
 - Custom components may not access the network, browser storage, cookies, environment variables, dynamic code execution, or non-relative packages other than React. Keep all data fake and local to the level.
 - Never modify `src/shell/`, `src/levels/01-…` through `15-…`, existing hints, or existing solutions.
 - Never remove or rename `data-testid` attributes anywhere.

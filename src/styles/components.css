@@ -1,0 +1,23 @@
+/* beUI uses Tailwind utilities. Preflight is intentionally omitted to preserve exercises. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+@source '../components';
+
+@theme inline {
+  --color-background: var(--lab-ground);
+  --color-card: var(--lab-surface);
+  --color-foreground: var(--lab-ink);
+  --color-primary: var(--lab-amber);
+  --color-primary-foreground: var(--lab-ground);
+  --color-secondary: var(--lab-surface);
+  --color-secondary-foreground: var(--lab-ink);
+  --color-muted: var(--lab-raised);
+  --color-muted-foreground: var(--lab-muted);
+  --color-accent: var(--lab-surface);
+  --color-accent-foreground: var(--lab-ink);
+  --color-border: var(--lab-line);
+  --color-ring: var(--lab-focus);
+  --color-destructive: var(--lab-error);
+  --radius-md: 6px;
+}

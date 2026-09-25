@@ -1,10 +1,12 @@
 # 🐛 Bugbound
 
+> **Season 3 branch:** the Engineering Lab supports freely chosen, agent-generated challenges with suggested next practice. Season 3 shell components may use npm libraries. beUI's Stateful Button, Action Swap Roll, and Tabs are installed through its official shadcn registry; see [third-party notices](THIRD_PARTY_NOTICES.md), [the design system](DESIGN.md), and `components.json`. Generated exercises retain their separate import restrictions. The original Season 1 overview below is historical context pending the Season 3 documentation audit.
+
 > **Learn React by fixing it.** A level-based debugging game where every lesson ships with a real, intentionally planted bug — and you're the engineer on call.
 
 ![Bugbound Season 1 incident map](docs/bugbound-season-1.jpg)
 
-Bugbound is a self-contained React practice app. Instead of watching tutorials, you work **15 escalating levels**: each one teaches a core React concept, then hands you a bug report for a live component that genuinely misbehaves. You open the file in your own editor, fix the code, watch it hot-reload, and run the in-app checks. All green → the next level unlocks.
+Bugbound Season 3 is a React Engineering Lab for practice with your own AI coding agent. Choose from generated challenges or revisit **15 foundation levels**. Each investigation gives you a bug report and a live component. Edit the actual source, observe the change, and run the in-app checks. Every challenge is available; the app suggests what to investigate next.
 
 No embedded code editor, no sandbox — you use your real editor, real Vite HMR, and real debugging workflow, because that *is* the skill being practiced.
 
@@ -38,18 +40,31 @@ Difficulty ramps two ways: the concepts get more advanced, *and* the bugs get be
 
 ## Getting started
 
+See the [repository map](docs/ARCHITECTURE.md) for shell ownership, runtime entry
+points, protected curriculum paths, tests, and maintenance tools.
+
+Use Node.js `^20.19.0 || >=22.12.0` and npm `^11.16.0` (the lockfile was produced with npm 11.16.0). From a clean checkout, install the locked dependencies and start the app:
+
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Open the printed URL, start Level 01, and keep your editor open next to the browser.
+Open the printed URL to use the Engineering Lab. Before submitting shell or curriculum-tooling changes, run the repository gates:
+
+```bash
+npm test
+npm run lint
+npm run typecheck:components
+npm run validate-levels
+npm run build
+```
 
 ## ♾️ Infinite mode: bring your own agent
 
 ![Bugbound Season 3 Agent Station and generated incident queue](docs/bugbound-season-3.jpg)
 
-Open the **Season 3 · Infinite Mode** track at any time. Its Agent Station turns a topic,
+Open **Create challenge** at any time. Its brief builder turns a topic,
 difficulty, and level count into a ready-to-send prompt. You can also download a spoiler-free
 learning profile so your agent can target concepts that required more attempts or hints.
 
@@ -81,7 +96,7 @@ npm run custom-levels -- reset --confirm
 
 ## House rules
 
-- **Don't edit anything in `src/shell/`** — that's the game itself, and it's bug-free. All planted bugs live in `src/levels/`.
+- **Keep exercise repairs out of `src/shell/`** — that's the game engine. All planted bugs live in `src/levels/`. Shell maintenance requires an explicit, separate request.
 - **Don't remove `data-testid` attributes or edit the `checks` in a level's `manifest.js`** — they're the executable spec. *Reading* them when stuck is fair game; that's what reading a failing test at work is.
 - If a fix doesn't seem to register after hot-reload, refresh the browser tab and re-run the checks.
 - **Keep `main` pristine — it's the game cartridge.** Play on your own branch and commit your fixes there:
@@ -95,7 +110,9 @@ npm run custom-levels -- reset --confirm
 
 ## Tech notes
 
-- **Vite + React 19 + plain CSS.** No test framework: the check harness (`src/shell/harness.jsx`) mounts each level component into an offscreen root with `createRoot`, drives it with native-setter events (so React's synthetic `onChange` fires exactly like real input), and asserts on the DOM.
+- **Vite + React 19**, project CSS, and installed beUI motion components. A static validated catalog drives navigation. Executable exercise manifests load lazily inside disposable frames: one preview frame and a fresh frame for every behavioral check.
+- **Behavioral verification** uses native-setter input events and DOM assertions. Rendering, assertions, and cleanup must succeed; checks have an asynchronous deadline and navigation/reset cancels abandoned frames. Use `h.waitFor` for state-specific readiness. Same-origin frames isolate lifecycle and module state; they are not a security sandbox and cannot interrupt a synchronous infinite loop.
+- **Saved completion** uses additive, reset-generation-scoped browser records and cross-tab updates. Read, save, and reset failures have separate retries. A run made before progress can first be read must be verified again after recovery. Learning history is non-blocking and reports read/save failures separately.
 - **No `<StrictMode>`, deliberately** — the harness counts renders and effect firings, and StrictMode's double-invocation would make honest checks report false failures.
 - Levels 13–15 are TypeScript. Vite compiles `.tsx` without type-checking, which is the point: those levels are about bugs that *runtime* tolerates but a well-typed program can't express.
 

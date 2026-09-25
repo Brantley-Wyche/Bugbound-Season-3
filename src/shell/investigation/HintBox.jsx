@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import hints from '../levels/hints.json';
-import { recordHintReveal } from './learning.js';
+import hints from '../../levels/hints.json';
+import { recordHintReveal } from '../progress/learning.js';
 
 const TIER_LABELS = ['Gentle nudge', 'Closer look', 'Basically the answer'];
 
@@ -10,22 +10,24 @@ function decode(b64) {
 
 export default function HintBox({ levelId }) {
   const [revealed, setRevealed] = useState([false, false, false]);
+  const [historyFailure, setHistoryFailure] = useState(null);
   const encoded = hints[levelId] || [];
 
   const toggleHint = (index) => {
-    setRevealed((prev) => {
-      if (!prev[index]) recordHintReveal(levelId, index + 1);
-      return prev.map((value, itemIndex) => (itemIndex === index ? !value : value));
-    });
+    if (!revealed[index]) {
+      const history = recordHintReveal(levelId, index + 1);
+      if (!history.ok) setHistoryFailure(history.message);
+    }
+    setRevealed((prev) => prev.map((value, itemIndex) => (itemIndex === index ? !value : value)));
   };
 
   return (
-    <div className="panel panel-hints">
-      <h3>Hints</h3>
+    <section className="hints-section" aria-labelledby="hints-title">
+      <h2 id="hints-title">Optional guidance</h2>
       <p className="hints-note">
-        Hints are stored encoded so you can't spoil yourself by accident. Reveal them one at a
-        time — a real debugging attempt first is worth more than all three combined.
+        Choose the amount of help you need. Each tier reveals more; all hints stay hidden until you open them.
       </p>
+      {historyFailure && <p className="hints-note" role="status">This hint use could not be added to learning history. {historyFailure}</p>}
       <div className="hint-list">
         {encoded.map((b64, i) => (
           <div className="hint-item" key={i}>
@@ -46,6 +48,6 @@ export default function HintBox({ levelId }) {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
