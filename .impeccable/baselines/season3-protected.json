@@ -1,0 +1,222 @@
+[
+  {
+    "path": "scripts/verify-level.mjs",
+    "sha256": "B1A6E02ACEE05B3264EDCFC82E0E01DF21FCCB936DB9FFA8DEFD3509EE43DE71"
+  },
+  {
+    "path": "scripts/validate-levels.mjs",
+    "sha256": "8D0E39D7CF5C1EA6A5922BE6E18335DB5BD43BF510D9EF65C815458FAD39D1E0"
+  },
+  {
+    "path": "scripts/progress.test.mjs",
+    "sha256": "20370600E78AD17309BE1D9FB87C72557271DE3E595DD367F7EE32B5DBF1C6FB"
+  },
+  {
+    "path": "scripts/encode.mjs",
+    "sha256": "7CC99EFEF911073FD46E55EA64310832AFD53CFFB8F79CD9EF5E1CFC91CD5522"
+  },
+  {
+    "path": "scripts/custom-levels.mjs",
+    "sha256": "90FAA71247027CA58296F2264840AB7A61A206F1FAA3C8A3DB187AF35B16621D"
+  },
+  {
+    "path": "src/levels/index.js",
+    "sha256": "8ED7372171784929E61026FC7749E6E7103A3C12DCC6BDB8C5239004275F577B"
+  },
+  {
+    "path": "src/levels/hints.json",
+    "sha256": "4D60DB82AAD1FDA374261F1BB1C3F6D87DFA518E430CF811BB5B9F500DD7E85C"
+  },
+  {
+    "path": "src/levels/custom/README.md",
+    "sha256": "4CF4C5CCAF823CB9CE756EB27F514AC38FE5808231B32D055DB9B5622262EB2D"
+  },
+  {
+    "path": "src/levels/custom/17-deja-vu/useRecentItems.js",
+    "sha256": "D31409C0CDB0120099FC995C6FA679757A3303B33521C529530099A218E72BAE"
+  },
+  {
+    "path": "src/levels/custom/17-deja-vu/RecentlyViewedProducts.jsx",
+    "sha256": "7B222A3F83E77927FAF5FE8BE368644C5654CB4618D7CF00DD4ED9801AA73F71"
+  },
+  {
+    "path": "src/levels/custom/17-deja-vu/manifest.js",
+    "sha256": "2124D7F016A23B9F5C5EB01BEB2CD4755A8FEB8B902BC85D77E47340DCE9C507"
+  },
+  {
+    "path": "src/levels/custom/16-out-of-focus/manifest.js",
+    "sha256": "B093448DC6EF45967DDFED4D39C50996EB22B5D1E1A3B7A6437915608F5673E6"
+  },
+  {
+    "path": "src/levels/custom/16-out-of-focus/InlineRename.jsx",
+    "sha256": "8B33F18AEE7F0ACBC1180EAFA97BBEC15938A07AA1EDF45102276303F0FCED8D"
+  },
+  {
+    "path": "src/levels/04-frozen-scoreboard/ScoreBoard.jsx",
+    "sha256": "CCB1D82886A94A56CC34201F17DE86BD472A92107A69B060CF1937F47C2079BA"
+  },
+  {
+    "path": "src/levels/04-frozen-scoreboard/manifest.js",
+    "sha256": "68DA193837441B5D54A977DE5ADE46A0223D93E42C27FF8E3B06E79B71C18488"
+  },
+  {
+    "path": "src/levels/08-stuck-in-the-past/TeamDirectory.jsx",
+    "sha256": "F9940B92253CAF6DBA5D225221D6B8DF9DB5D717B66F7B79B4A202363CC77C5B"
+  },
+  {
+    "path": "src/levels/08-stuck-in-the-past/manifest.js",
+    "sha256": "D2A42F702FA722D33B868F976520CA8F414431D4E5379233C0E8C347EFA9B4DB"
+  },
+  {
+    "path": "src/levels/08-stuck-in-the-past/fakeApi.js",
+    "sha256": "BE64A452518F9D449B6E30686FE2E93030BB96652A2535962BE37325D1D4DEAB"
+  },
+  {
+    "path": "src/levels/03-lost-in-transit/ProductShelf.jsx",
+    "sha256": "E77EF45EE3E855259DB81D50E44ECC0B9ACB6440EE9A7D24438858530BC89FA2"
+  },
+  {
+    "path": "src/levels/03-lost-in-transit/ProductCard.jsx",
+    "sha256": "8D388E9737E9E3321828477709BA9B4DA05DFBDAD2DF8CF53A87A8D25E2525AD"
+  },
+  {
+    "path": "src/levels/03-lost-in-transit/manifest.js",
+    "sha256": "BD5B991A2BC2A06643EDBE4259E6DD374675002F0CD1C8E4C48AFE337ACFB1C2"
+  },
+  {
+    "path": "src/levels/07-unresponsive-form/RsvpForm.jsx",
+    "sha256": "C55AD7B5188F32E320118F6B7E2141F0CEA8369B947B958822FF31CF5D1C749B"
+  },
+  {
+    "path": "src/levels/07-unresponsive-form/manifest.js",
+    "sha256": "ACE82F18644E29A57C731E17ACD6E97783CCD1C5A697F23E4A351DE3C9F713E6"
+  },
+  {
+    "path": "src/levels/11-out-of-the-loop/ThemeWidgets.jsx",
+    "sha256": "68AFF8F39C661AB4A2217DF5E84EB4DC46A6BF989BF43637A827F112D562A9B4"
+  },
+  {
+    "path": "src/levels/11-out-of-the-loop/ThemedDashboard.jsx",
+    "sha256": "F8FB6F17473B8FB8FAEC3292AC27EB8D1D5A71AE240FEF68633D61A719DF34EF"
+  },
+  {
+    "path": "src/levels/11-out-of-the-loop/ThemeContext.jsx",
+    "sha256": "E980E13A4F0EF733EB619FE5243730354F4ABB825858AD2015CF9D2842D6E249"
+  },
+  {
+    "path": "src/levels/11-out-of-the-loop/manifest.js",
+    "sha256": "C6915902A89F40BA8561A633AF3EC0BD59554FB608DE86BD467D5045AB7D7D2F"
+  },
+  {
+    "path": "src/levels/06-musical-chairs/SeatingChart.jsx",
+    "sha256": "713346F55125D5D5EC0FD3ADE2F90248AED33D93B0808048E7F46C734722C5DD"
+  },
+  {
+    "path": "src/levels/06-musical-chairs/manifest.js",
+    "sha256": "843CEF3F4BFA4B1878C5A564FAC3B6A5F8E86F04B64EE000BA6EB0FA41EA20A9"
+  },
+  {
+    "path": "src/levels/02-now-you-see-me/NotificationBell.jsx",
+    "sha256": "6FDDB0AF2ED03D106B9C6DAF88033531A2E761B3D5BA8DC7B24B9673592DB444"
+  },
+  {
+    "path": "src/levels/02-now-you-see-me/manifest.js",
+    "sha256": "949B808E3C8B70175909E85D9D5A9CEB762252E4C6579B77B6619AF855EBCC59"
+  },
+  {
+    "path": "src/levels/13-any-port/OrderSummary.tsx",
+    "sha256": "EBEDE0F13EE10051AF01F3858F374EACA6690111DD36BDE7ED568F256C0CF870"
+  },
+  {
+    "path": "src/levels/13-any-port/manifest.js",
+    "sha256": "9DE0D021EA989E6DB241BF5F7C52FFA5EC5B6EC01705B0B2BD8553B5B4482F74"
+  },
+  {
+    "path": "src/levels/01-broken-badge/ProfileBadge.jsx",
+    "sha256": "1C13085EA6A33B6998ABF748336808E09F5F6A4A693258A362A38BC21BAF78FF"
+  },
+  {
+    "path": "src/levels/01-broken-badge/manifest.js",
+    "sha256": "02D44CB15645CA12236FA0BD53D968AE9BD06A27DC5A6AD418E0719AC4002AA2"
+  },
+  {
+    "path": "src/levels/09-haunted-stopwatch/Stopwatch.jsx",
+    "sha256": "41018FDBA63846BB2D17896EBDE25C4AF1DE5582F816CC98E5DFF4C66A11B899"
+  },
+  {
+    "path": "src/levels/09-haunted-stopwatch/manifest.js",
+    "sha256": "28171EAD6BF2C833AE82CE6045569B6297843A087847200557E26EF832E90030"
+  },
+  {
+    "path": "src/levels/05-triple-trouble/ClickTrainer.jsx",
+    "sha256": "17D05869380D97315E1D584AF97F99EE50D5B1D4FBC177350C27A8CF7A1F7D50"
+  },
+  {
+    "path": "src/levels/05-triple-trouble/manifest.js",
+    "sha256": "79E4F9E3A939875E3B8E0BB9AD515648C5EED2C1895DA5DD31B602715C337DA6"
+  },
+  {
+    "path": "src/levels/12-render-storm/AnalyticsBoard.jsx",
+    "sha256": "EF31A874397DF8C0F4E668C406E4089E841810FD66B053B3C83310C3320385AF"
+  },
+  {
+    "path": "src/levels/12-render-storm/manifest.js",
+    "sha256": "26EAE69F1D9CF34394AF717800F8B2C6D22528ABCF0C6A9A2188E8B6D81DAE85"
+  },
+  {
+    "path": "src/levels/12-render-storm/HeavyChart.jsx",
+    "sha256": "94D8F6A9424341CD411B68E479D3BD3D04499C9E559C60109EAD5041869B1208"
+  },
+  {
+    "path": "src/levels/15-final-boss/manifest.js",
+    "sha256": "9CD6D3A62429EF7F48D7A4CCA49979BEB929AD480C2BE28FE4B4A3FB9F46B80A"
+  },
+  {
+    "path": "src/levels/15-final-boss/cartReducer.ts",
+    "sha256": "FC92A172C92F717E86C1666047075C2BB8DEBB9DC009A23C933001F0F1FA30D9"
+  },
+  {
+    "path": "src/levels/15-final-boss/CartCapstone.tsx",
+    "sha256": "A9008688434EB6CA24D2F3C4E97A63FAE3130FAD95E6029FDA2F8B2ABEEB4E87"
+  },
+  {
+    "path": "src/levels/14-hook-line-sinker/useToggle.ts",
+    "sha256": "FBCAC18F840E507DDDFD4BBED511DADFD9C1F3F9AD33828554E4619C3F7AE205"
+  },
+  {
+    "path": "src/levels/14-hook-line-sinker/manifest.js",
+    "sha256": "C46414E9860C33C533BA4FED0592F40FA9C9C1137A51E95F07B3A4866528FA2F"
+  },
+  {
+    "path": "src/levels/14-hook-line-sinker/NotificationSettings.tsx",
+    "sha256": "D0B7492F8A513191C6B9B211E35B46A5C0CADC7EDF055D335D12306E86357178"
+  },
+  {
+    "path": "src/levels/10-photo-finish/PlanetExplorer.jsx",
+    "sha256": "936B811133783BCF7F82787F27851AE4C98330116E5FCD59767FC6BEAFFC99C5"
+  },
+  {
+    "path": "src/levels/10-photo-finish/manifest.js",
+    "sha256": "58EB85B9C0CB7C3D4256DEBCCF26DF0B79A2AD77551EF19EE39191A7AA9181CC"
+  },
+  {
+    "path": "src/levels/10-photo-finish/fakeApi.js",
+    "sha256": "F1299FF5234B629F60A5627CC9CF56BCDE05FE57785BD4DD09DA966737AEB566"
+  },
+  {
+    "path": "SOLUTIONS.md",
+    "sha256": "C9AB48A44C772F26DBC999F41A8C237994BBCBBAA2D364C3EEE3B5354BBAC7D4"
+  },
+  {
+    "path": "src/shell/harness.jsx",
+    "sha256": "F14E5423A4A9F1F699D5839E366E14BA691D4C420C810849C72C9206E58E6AEF"
+  },
+  {
+    "path": "src/main.jsx",
+    "sha256": "FAD27C8834D3D588DA01B2FDBC18E0947FC4E363420D52445B9990076A009FE9"
+  },
+  {
+    "path": "package-lock.json",
+    "sha256": "188CD64CC5A0CE88E8790F31C02076F6F54253A96447581346AF012A62BABDEF"
+  }
+]

@@ -1,0 +1,83 @@
+- button "Allow completion saves"
+- status: Isolated audit origin; synthetic challenges only
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Bugbound Season 3, Practice":
+    - /url: "#/"
+    - text: Bugbound
+    - generic: Season 3
+  - navigation "Main navigation":
+    - link "Practice":
+      - /url: "#/"
+    - link "Create challenge":
+      - /url: "#/brief"
+  - generic: Engineering Lab
+  - generic "0 of 3 generated challenges have saved completion":
+    - text: "0"
+    - generic: / 3 saved
+- alert:
+  - paragraph: Could not save saved completion in this browser. Synthetic save failure
+  - button "Retry saving"
+- main:
+  - link "Back to practice":
+    - /url: "#/"
+    - text: Back to practice
+  - heading "Create a challenge." [level=1]
+  - paragraph: Define the practice. Your coding agent authors the bug.
+  - region "What will you investigate?":
+    - heading "What will you investigate?" [level=2]
+    - generic: Practice topic
+    - textbox "Practice topic": effect cleanup
+    - paragraph: A concept, a behavior, or an area you want to understand more deeply.
+    - generic "Practice topic suggestions":
+      - button "effect cleanup" [pressed]
+      - button "custom hooks"
+      - button "state architecture"
+      - button "accessibility in React"
+      - button "async UI state"
+      - button "component composition"
+    - text: Difficulty
+    - combobox "Difficulty":
+      - option "Beginner"
+      - option "Intermediate"
+      - option "Hard" [selected]
+    - text: Challenges
+    - combobox "Challenges":
+      - option "1 challenge" [selected]
+      - option "2 challenges"
+      - option "3 challenges"
+    - generic "Add engineering context Optional":
+      - text: Add engineering context
+      - generic: Optional
+    - heading "Bring your practice history." [level=3]
+    - paragraph: Your profile contains completion, check activity, and hint usage. You choose whether to share it with your agent.
+    - button "Download learning profile" [active]:
+      - text: Download learning profile
+    - status: Resolve the saved completion error above, then download your profile again. No profile was exported.
+  - region "Your agent brief":
+    - heading "Your agent brief" [level=2]
+    - button "Copy agent brief":
+      - generic: Copy agent brief
+    - generic: Prepared agent brief
+    - textbox "Prepared agent brief": "For my external AI coding agent working in this Bugbound repository: Generate 1 hard Bugbound level about effect cleanup. Read and follow AGENTS.md and .claude/skills/bugbound-levelsmith/SKILL.md. Work on a new generation branch unless I have already provided one. Keep blind mode: never reveal a planted bug's cause in chat, comments, or commit messages. Keep hints and solutions base64-encoded only. Prove the checks fail against the planted version and pass after a privately applied fix, then restore the planted version and discard the fix. Use npm run verify-level -- <id> for browser verification. Run npm run validate-levels, npm test, and npm run build. Report the verification evidence without revealing the fix; do not claim validation that you have not performed."
+    - status
+    - heading "Take it to your coding agent." [level=3]
+    - list:
+      - strong: Send the brief.
+      - text: Open this repository in your agent and paste the instructions.
+      - strong: Let the agent author and verify.
+      - text: It should prove the checks fail against the planted bug and pass with its private fix, then restore the buggy version.
+      - strong: Return to investigate.
+      - text: New challenges appear here when their manifests are added. Confirm the agent finished validation before you begin.
+    - paragraph: The app prepares this handoff. It does not run your agent.
+    - link "Return to practice":
+      - /url: "#/"
+      - text: Return to practice
+  - paragraph: This draft is kept while you navigate the app. Reloading or closing the tab clears it.
+- contentinfo:
+  - text: Bugbound
+  - generic: /
+  - text: Engineering Lab
+  - generic: Your editor. Your agent. Your investigation.
+  - button "Reset saved completion"

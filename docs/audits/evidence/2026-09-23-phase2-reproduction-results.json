@@ -1,0 +1,123 @@
+{
+  "date": "2026-09-23",
+  "branch": "season-3",
+  "scope": "Audit only; synthetic fixtures against actual modules or copied maintenance scripts. Existing exercises and learner progress were not changed.",
+  "browser": {
+    "origin": "http://127.0.0.1:5187",
+    "harness": [
+      {
+        "case": "Render crash with a resolving no-op check",
+        "observed": { "name": "No-op check against crashing render", "pass": true },
+        "hiddenHostsBefore": 0,
+        "hiddenHostsAfter": 0,
+        "finding": "F01"
+      },
+      {
+        "case": "Check awaits a controllable pending promise",
+        "hiddenHostsWhilePending": 1,
+        "hiddenHostsAfterAbandon": 1,
+        "outcomeAfterRelease": null,
+        "hiddenHostsAfterRelease": 0,
+        "finding": "F02",
+        "limit": "Observed retained mount and no disposal on abandonment. Absence of a deadline confirmed from source; no infinite wait was performed."
+      },
+      {
+        "case": "Effect cleanup throws",
+        "observed": { "name": "Cleanup exception", "pass": true },
+        "windowError": "Synthetic cleanup crash",
+        "hiddenHostsBefore": 0,
+        "hiddenHostsAfter": 0,
+        "finding": "F01",
+        "limit": "False success reproduced; host leak not reproduced."
+      },
+      {
+        "case": "Hidden mount and visible preview use a shared module counter",
+        "visiblePreviewBefore": 1,
+        "visiblePreviewAfter": 2,
+        "finding": "F09"
+      }
+    ],
+    "saveRetry": {
+      "steps": [
+        "Use actual App with three synthetic challenges through an audit-only Vite alias.",
+        "Deny completion writes using the fixture control.",
+        "Run challenge A checks: 1 of 1 passed; saving failed.",
+        "Navigate through Next suggestion to B; run checks: 1 of 1 passed; saving failed.",
+        "Allow writes, click Retry saving, return to the register."
+      ],
+      "observed": { "savedCount": 1, "availableCount": 3, "A": "Open", "B": "Saved complete", "C": "Open", "saveErrorDismissed": true },
+      "finding": "F04"
+    }
+  },
+  "persistence": [
+    {
+      "case": "Two stale snapshots complete different challenges",
+      "expected": ["900-audit-a", "901-audit-b"],
+      "observed": ["901-audit-b"],
+      "finding": "F03"
+    },
+    {
+      "case": "Reset followed by a completion from a stale snapshot",
+      "expected": ["901-audit-b"],
+      "observed": ["900-audit-a", "901-audit-b"],
+      "finding": "F03"
+    },
+    {
+      "case": "Initial read fails, later write succeeds",
+      "expected": ["900-audit-a", "901-audit-b"],
+      "observed": ["901-audit-b"],
+      "finding": "F03"
+    },
+    {
+      "case": "Learning-store read fails but writing is available",
+      "priorA_checkRuns": 4,
+      "observedA_checkRuns": 0,
+      "observedB_checkRuns": 1,
+      "finding": "F03"
+    }
+  ],
+  "authoring": [
+    {
+      "case": "Invalid manifest values in a synthetic curriculum",
+      "values": { "Component": null, "checks": [], "files": [], "generatedAt": "2026-99-99" },
+      "validatorExit": 0,
+      "finding": "F05"
+    },
+    {
+      "case": "Non-React external import in manifest and side-effect external import in component",
+      "validatorExit": 0,
+      "finding": "F07"
+    },
+    {
+      "case": "Synthetic custom/100-demo/manifest.js",
+      "maintenanceListIncludes100": true,
+      "validatorCheckedCount": 2,
+      "validatorIncludes100": false,
+      "validatorExit": 0,
+      "finding": "F07"
+    },
+    {
+      "case": "Remove a synthetic custom level with a fenced encoded solution",
+      "removalExit": 0,
+      "removedHeading": true,
+      "encodedBodyLeftBehind": true,
+      "subsequentValidatorExit": 0,
+      "finding": "F08"
+    }
+  ],
+  "validation": {
+    "fullTests": { "initialExit": 1, "initialClassification": "sandbox directory access", "approvedRetryExit": 0, "passed": 30, "failed": 0 },
+    "componentTypecheckExit": 0,
+    "curriculumValidation": { "exit": 0, "levels": 17 },
+    "productionBuild": { "exit": 0, "vite": "7.3.6", "transformedModules": 2351, "jsKB": 465.80, "jsGzipKB": 151.61, "cssKB": 34.56, "cssGzipKB": 7.87 },
+    "dependencyAudit": { "fullExit": 1, "affectedNodes": 13, "high": 10, "moderate": 3, "underlyingAdvisories": 7, "productionExit": 0, "productionFindings": 0 },
+    "workingTreeBaseline": { "exit": 0, "capturedFiles": 102, "changedFiles": [] },
+    "gitDiffCheckExit": 0
+  },
+  "sourceOnlyFindings": [
+    "F06: generated import evaluation shares the app startup path; build size measured, startup-crash case not executed.",
+    "F08: removal is not transactional and deleting an interior number conflicts with contiguous validation.",
+    "F10: CLI prints port 4173 despite Vite fallback; installed Vite behavior inspected, collision browser case not executed.",
+    "F12: no shell-wide lint/typecheck or CI; documentation conflicts inspected."
+  ]
+}

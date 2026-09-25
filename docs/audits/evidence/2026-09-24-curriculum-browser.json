@@ -1,0 +1,104 @@
+[
+  {
+    "id": "01-broken-badge",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "02-now-you-see-me",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "03-lost-in-transit",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "04-frozen-scoreboard",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "05-triple-trouble",
+    "checks": 3,
+    "passed": 1,
+    "failed": 2
+  },
+  {
+    "id": "06-musical-chairs",
+    "checks": 2,
+    "passed": 1,
+    "failed": 1
+  },
+  {
+    "id": "07-unresponsive-form",
+    "checks": 2,
+    "passed": 0,
+    "failed": 2
+  },
+  {
+    "id": "08-stuck-in-the-past",
+    "checks": 3,
+    "passed": 1,
+    "failed": 2
+  },
+  {
+    "id": "09-haunted-stopwatch",
+    "checks": 3,
+    "passed": 1,
+    "failed": 2
+  },
+  {
+    "id": "10-photo-finish",
+    "checks": 2,
+    "passed": 1,
+    "failed": 1
+  },
+  {
+    "id": "11-out-of-the-loop",
+    "checks": 3,
+    "passed": 2,
+    "failed": 1
+  },
+  {
+    "id": "12-render-storm",
+    "checks": 3,
+    "passed": 2,
+    "failed": 1
+  },
+  {
+    "id": "13-any-port",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "14-hook-line-sinker",
+    "checks": 3,
+    "passed": 0,
+    "failed": 3
+  },
+  {
+    "id": "15-final-boss",
+    "checks": 4,
+    "passed": 0,
+    "failed": 4
+  },
+  {
+    "id": "16-out-of-focus",
+    "checks": 4,
+    "passed": 1,
+    "failed": 3
+  },
+  {
+    "id": "17-deja-vu",
+    "checks": 4,
+    "passed": 2,
+    "failed": 2
+  }
+]

@@ -1,4 +1,8 @@
 node_modules/
 dist/
+.bugbound-backups/
 *.local
 .DS_Store
+docs/superpowers/
+.claude/settings.local.json
+.impeccable/hook.cache.json

@@ -1,0 +1,114 @@
+{
+  "url": "http://127.0.0.1:5190/",
+  "results": [
+    {
+      "id": "good",
+      "expected": true,
+      "name": "good",
+      "pass": true,
+      "matched": true
+    },
+    {
+      "id": "controls",
+      "expected": true,
+      "name": "controls",
+      "pass": true,
+      "matched": true
+    },
+    {
+      "id": "crash",
+      "expected": false,
+      "name": "crash",
+      "pass": false,
+      "message": "Synthetic render failure",
+      "matched": true
+    },
+    {
+      "id": "cleanup",
+      "expected": false,
+      "name": "cleanup",
+      "pass": false,
+      "message": "Synthetic cleanup failure",
+      "matched": true
+    },
+    {
+      "id": "async",
+      "expected": false,
+      "name": "async",
+      "pass": false,
+      "message": "Synthetic async failure",
+      "matched": true
+    },
+    {
+      "id": "pending",
+      "expected": false,
+      "name": "pending",
+      "pass": false,
+      "message": "Check timed out while loading or running the exercise.",
+      "matched": true
+    },
+    {
+      "id": "fresh",
+      "expected": true,
+      "name": "fresh",
+      "pass": true,
+      "matched": true
+    },
+    {
+      "id": "fresh",
+      "expected": true,
+      "name": "fresh",
+      "pass": true,
+      "matched": true
+    },
+    {
+      "id": "missing",
+      "expected": false,
+      "name": "missing",
+      "pass": false,
+      "message": "Exercise could not load: Synthetic module load failure",
+      "matched": true
+    },
+    {
+      "id": "invalid",
+      "expected": false,
+      "name": "invalid",
+      "pass": false,
+      "message": "Exercise could not load: The exercise manifest is incomplete. Ask your agent to validate it before continuing.",
+      "matched": true
+    },
+    {
+      "id": "missing readiness",
+      "name": "Check",
+      "pass": false,
+      "message": "Check timed out while loading or running the exercise.",
+      "matched": true
+    },
+    {
+      "id": "cancel",
+      "name": "Check",
+      "pass": false,
+      "message": "Check cancelled.",
+      "matched": true
+    }
+  ],
+  "desktop": {
+    "focused": "page-title",
+    "height": 900,
+    "scrollWidth": 1265,
+    "width": 1280
+  },
+  "mobile": {
+    "focused": "page-title",
+    "height": 844,
+    "scrollWidth": 375,
+    "width": 390
+  },
+  "smoke": {
+    "investigationPreviewLoaded": true,
+    "checkRun": "Completed with expected planted failures; no completion saved",
+    "authoringRoute": true,
+    "foundationsRoute": true,
+    "hintsOpened": false
+  }
+}

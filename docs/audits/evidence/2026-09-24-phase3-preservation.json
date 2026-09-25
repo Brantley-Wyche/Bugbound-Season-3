@@ -1,0 +1,10 @@
+{
+  "baseline": "Working tree immediately before Phase 3 moves, including restored Phase 1 and Phase 2 work",
+  "command": "node docs/superpowers/phase3/restructure.mjs verify",
+  "exitCode": 0,
+  "moved": 22,
+  "sourceFilesChecked": 50,
+  "protectedFilesChecked": 64,
+  "errors": [],
+  "distChanged": []
+}

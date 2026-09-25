@@ -1,0 +1,3 @@
+/* A frame inherits the cartridge tokens without changing the protected exercise stylesheet. */
+html, body { background: transparent; min-height: 0; }
+#exercise-root { display: flow-root; padding: 4px; }

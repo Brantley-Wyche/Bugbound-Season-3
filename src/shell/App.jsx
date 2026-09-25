@@ -1,134 +1,120 @@
 import { useEffect, useState } from 'react';
-import { levels } from '../levels/index.js';
-import { loadCompleted, saveCompleted, clearProgress } from './progress.js';
-import LevelMap from './LevelMap.jsx';
-import LevelPage from './LevelPage.jsx';
+import { levels, catalogErrors } from '../levels/index.js';
+import { useProgress } from './progress/useProgress.js';
+import { parseRoute } from './workspace/navigation.js';
+import LevelMap from './workspace/LevelMap.jsx';
+import LevelPage from './investigation/LevelPage.jsx';
+import AgentStation from './authoring/AgentStation.jsx';
+import Icon from './Icon.jsx';
 
 const levelIds = levels.map((level) => level.id);
+const generatedCount = levels.filter((level) => level.number > 15).length;
 
 function useHashRoute() {
-  const [hash, setHash] = useState(window.location.hash);
+  const [navigation, setNavigation] = useState(() => ({ hash: window.location.hash, lastId: parseRoute(window.location.hash).id || null }));
   useEffect(() => {
-    const onChange = () => setHash(window.location.hash);
+    const onChange = () => {
+      const hash = window.location.hash;
+      const route = parseRoute(hash);
+      setNavigation((previous) => ({ hash, lastId: route.page === 'level' && levelIds.includes(route.id) ? route.id : previous.lastId }));
+    };
     window.addEventListener('hashchange', onChange);
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
-  return hash;
-}
-
-export function navigate(path) {
-  window.location.hash = path;
-  window.scrollTo(0, 0);
-}
-
-export function isUnlocked(level, completed) {
-  if (level.number > 15) {
-    const customLevels = levels.filter((item) => item.number > 15);
-    const index = customLevels.findIndex((item) => item.id === level.id);
-    return index === 0 || (index > 0 && completed.has(customLevels[index - 1].id));
-  }
-  if (level.number === 1) return true;
-  const previous = levels.find((l) => l.number === level.number - 1);
-  return previous ? completed.has(previous.id) : false;
+  return navigation;
 }
 
 export default function App() {
-  const route = useHashRoute();
-  const [completed, setCompleted] = useState(() => loadCompleted(levelIds));
+  const { hash, lastId } = useHashRoute();
+  const route = parseRoute(hash);
+  const activeLevel = route.page === 'level' ? levels.find((level) => level.id === route.id) : null;
+  const { completed, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
+  const [draft, setDraft] = useState({ topic: 'effect cleanup', difficulty: 'Hard', count: 1, context: '' });
+  const [filters, setFilters] = useState({ query: '', status: 'all' });
+  const [reflections, setReflections] = useState({});
+  const [sourceRevision, setSourceRevision] = useState(0);
+  const savedCount = levels.filter((level) => level.number > 15 && completed.has(level.id)).length;
 
-  const markComplete = (id) => {
-    setCompleted((prev) => {
-      if (prev.has(id)) return prev;
-      const next = new Set(prev);
-      next.add(id);
-      saveCompleted(next);
-      return next;
-    });
-  };
+  useEffect(() => {
+    const title = activeLevel?.title || (route.page === 'brief' ? 'Create a challenge' : route.page === 'practice' ? 'Practice' : 'Challenge not found');
+    document.title = `${title} · Bugbound Season 3`;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.getElementById('page-title')?.focus({ preventScroll: true });
+  }, [hash, activeLevel, route.page]);
 
-  const resetProgress = () => {
-    if (window.confirm('Reset all progress? Every level will lock again.')) {
-      clearProgress();
-      setCompleted(new Set());
-      navigate('/');
-    }
-  };
+  useEffect(() => {
+    const onSourceChange = () => setSourceRevision((value) => value + 1);
+    import.meta.hot?.on('bugbound:exercise-change', onSourceChange);
+    return () => import.meta.hot?.off('bugbound:exercise-change', onSourceChange);
+  }, []);
 
-  // Beating the 15-level campaign unlocks the Season 3 "aurora" theme app-wide.
-  const campaignDone = levels
-    .filter((l) => l.number <= 15)
-    .every((l) => completed.has(l.id));
-
-  const verifyId = route.startsWith('#/verify/') ? route.slice('#/verify/'.length) : null;
-  const levelId = verifyId || (route.startsWith('#/level/') ? route.slice('#/level/'.length) : null);
-  const activeLevel = levelId ? levels.find((l) => l.id === levelId) : null;
-  const showLevel = activeLevel && (Boolean(verifyId) || isUnlocked(activeLevel, completed));
-  const infiniteRoute = route === '#/infinite' || activeLevel?.number > 15;
-  const seasonThreeActive = campaignDone || infiniteRoute;
-  const progressLevels = infiniteRoute
-    ? levels.filter((level) => level.number > 15)
-    : levels.filter((level) => level.number <= 15);
-  const trackCompletedCount = progressLevels.filter((level) => completed.has(level.id)).length;
+  function confirmReset() {
+    if (window.confirm('Reset saved completion for all challenges in this browser? Exercise files, learning-profile activity, and this session’s notes will stay unchanged.')) resetProgress();
+  }
 
   return (
-    <div className={`app ${seasonThreeActive ? 'theme-aurora' : ''}`}>
-      <header className="app-header">
-        <button className="wordmark" onClick={() => navigate(infiniteRoute ? '/infinite' : '/')}>
-          <span className="bug">🐛</span>
-          <span>BUGBOUND</span>
-          <span className="season">{seasonThreeActive ? 'SEASON 3 · ∞' : 'SEASON 1'}</span>
-        </button>
-        <div className="header-progress">
-          <div
-            className="uptime-strip"
-            title={`${trackCompletedCount} of ${progressLevels.length} ${infiniteRoute ? 'generated' : 'campaign'} incidents resolved`}
-            role="progressbar"
-            aria-label={infiniteRoute ? 'Infinite Mode progress' : 'Campaign progress'}
-            aria-valuemin="0"
-            aria-valuemax={progressLevels.length}
-            aria-valuenow={trackCompletedCount}
-          >
-            {progressLevels.map((l) => (
-              <span
-                key={l.id}
-                className={`seg ${l.number > 15 ? 'custom' : ''} ${completed.has(l.id) ? 'done' : ''}`}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
-          <span className="label">
-            {trackCompletedCount}/{progressLevels.length} {infiniteRoute ? 'GENERATED' : 'RESOLVED'}
-          </span>
-        </div>
+    <div className="lab-shell">
+      <a className="skip-link" href="#main-content" onClick={(event) => {
+        event.preventDefault();
+        document.getElementById('main-content')?.focus();
+      }}>Skip to content</a>
+      <header className="lab-header">
+        <a className="lab-wordmark" href="#/" aria-label="Bugbound Season 3, Practice">
+          <img src="/bugbound-icon.svg" width="36" height="36" alt="" />
+          <span>Bugbound <small>Season 3</small></span>
+        </a>
+        <nav className="primary-nav" aria-label="Main navigation">
+          <a href="#/" aria-current={route.page === 'practice' || route.page === 'level' ? 'page' : undefined}>Practice</a>
+          <a href="#/brief" aria-current={route.page === 'brief' ? 'page' : undefined}>Create challenge</a>
+        </nav>
+        <span className="lab-identity">Engineering Lab</span>
+        <span className="header-saved" aria-label={`${savedCount} of ${generatedCount} generated challenges have saved completion`}>
+          <Icon name="check" size={15} /> {savedCount}<span> / {generatedCount} saved</span>
+        </span>
       </header>
 
       <aside className="desktop-notice" role="note">
-        <span className="desktop-notice-icon" aria-hidden="true">▣</span>
-        <span>
-          <strong>Best experienced on a computer.</strong> Bugbound works on smaller screens, but
-          the intended setup is your editor and this app side by side.
-        </span>
+        <Icon name="monitor" size={22} />
+        <p><strong>Use a desktop to work on the exercises.</strong> Edit actual source files in your local editor, let Vite reload the app, then run the checks. You can still browse the challenges and references here.</p>
       </aside>
 
-      {showLevel ? (
-        <LevelPage
-          key={activeLevel.id}
-          level={activeLevel}
-          isComplete={completed.has(activeLevel.id)}
-          onComplete={() => markComplete(activeLevel.id)}
-          autoRunChecks={Boolean(verifyId)}
-        />
-      ) : (
-        <LevelMap completed={completed} track={infiniteRoute ? 'infinite' : 'campaign'} />
+      {storageFailure && (
+        <div className="storage-notice" role="alert">
+          <p>{storageFailure.message}</p>
+          <button className="btn" onClick={retry}>
+            {storageFailure.operation === 'save' ? 'Retry saving' : storageFailure.operation === 'reset' ? 'Retry reset' : 'Retry reading progress'}
+          </button>
+        </div>
       )}
 
-      <footer className="app-footer">
-        <span>
-          BUGBOUND · {seasonThreeActive ? 'SEASON 3 · CORE BY CLAUDE · CUSTOM BY YOUR AGENT' : 'SEASON 1 · REACT + VITE · LEVELS & BUGS BY CLAUDE'}
-        </span>
-        <button className="link-button" onClick={resetProgress}>
-          Reset progress
-        </button>
+      {catalogErrors.length > 0 && <div className="storage-notice" role="alert">
+        <p>Some challenge files need attention. Run <code>npm run validate-levels</code> in your editor terminal, then reload. Available challenges remain browsable.</p>
+        <button className="btn" onClick={() => window.location.reload()}>Reload challenges</button>
+      </div>}
+
+      {route.page === 'practice' ? (
+        <LevelMap levels={levels} completed={completed} collection={route.collection} lastId={lastId}
+          filters={filters} onFiltersChange={setFilters} />
+      ) : route.page === 'brief' ? (
+        <AgentStation levels={levels} completed={completed} draft={draft} onDraftChange={setDraft} progressFailure={storageFailure} />
+      ) : activeLevel ? (
+        <LevelPage key={`${activeLevel.id}:${revision}:${sourceRevision}`} level={activeLevel} levels={levels} completed={completed}
+          onComplete={() => markComplete(activeLevel.id)} autoRunChecks={route.verify && revision === 0}
+          reflection={reflections[activeLevel.id] || ''}
+          onReflectionChange={(value) => setReflections((current) => ({ ...current, [activeLevel.id]: value }))} />
+      ) : (
+        <main className="practice-page missing-page" id="main-content" tabIndex={-1}>
+          <Icon name="file" size={38} />
+          <h1 id="page-title" tabIndex={-1}>Challenge not found.</h1>
+          <p>This link does not match a challenge in the current repository. If your agent is adding one, finish the generation and reload.</p>
+          <a className="btn btn-primary" href="#/">Return to practice <Icon name="arrow" /></a>
+        </main>
+      )}
+
+      <footer className="lab-footer">
+        <span>Bugbound <span aria-hidden="true">/</span> Engineering Lab</span>
+        <span className="footer-context">Your editor. Your agent. Your investigation.</span>
+        <button className="text-button" onClick={confirmReset}>Reset saved completion</button>
       </footer>
     </div>
   );

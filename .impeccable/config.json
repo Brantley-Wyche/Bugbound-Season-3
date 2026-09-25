@@ -1,0 +1,18 @@
+{
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "#9ecbff",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-09-13T01:18:15.648Z",
+        "reason": "Agent review: global.css preserves the original cartridge inline-code color outside the Engineering Lab shell; the user explicitly required preserving exercise appearance."
+      }
+    ]
+  }
+}

@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-13T01:19:46.898Z",
+  "title": "Design System: Bugbound Season 3 — Engineering Lab",
+  "extensions": {
+    "colorMeta": {
+      "lab-ground": {
+        "role": "neutral",
+        "displayName": "Graphite ground",
+        "canonical": "#191c1d",
+        "tonalRamp": [
+          "oklch(15% 0.00495 219.69)",
+          "oklch(26.43% 0.00495 219.69)",
+          "oklch(37.86% 0.00495 219.69)",
+          "oklch(49.29% 0.00495 219.69)",
+          "oklch(60.71% 0.00495 219.69)",
+          "oklch(72.14% 0.00495 219.69)",
+          "oklch(83.57% 0.00495 219.69)",
+          "oklch(95% 0.00495 219.69)"
+        ]
+      },
+      "lab-surface": {
+        "role": "neutral",
+        "displayName": "Graphite surface",
+        "canonical": "#222627",
+        "tonalRamp": [
+          "oklch(15% 0.00609 214.40)",
+          "oklch(26.43% 0.00609 214.40)",
+          "oklch(37.86% 0.00609 214.40)",
+          "oklch(49.29% 0.00609 214.40)",
+          "oklch(60.71% 0.00609 214.40)",
+          "oklch(72.14% 0.00609 214.40)",
+          "oklch(83.57% 0.00609 214.40)",
+          "oklch(95% 0.00609 214.40)"
+        ]
+      },
+      "lab-raised": {
+        "role": "neutral",
+        "displayName": "Raised graphite",
+        "canonical": "#2a2f30",
+        "tonalRamp": [
+          "oklch(15% 0.00724 211.05)",
+          "oklch(26.43% 0.00724 211.05)",
+          "oklch(37.86% 0.00724 211.05)",
+          "oklch(49.29% 0.00724 211.05)",
+          "oklch(60.71% 0.00724 211.05)",
+          "oklch(72.14% 0.00724 211.05)",
+          "oklch(83.57% 0.00724 211.05)",
+          "oklch(95% 0.00724 211.05)"
+        ]
+      },
+      "lab-line": {
+        "role": "neutral",
+        "displayName": "Graphite rule",
+        "canonical": "#3b4242",
+        "tonalRamp": [
+          "oklch(15% 0.00928 196.76)",
+          "oklch(26.43% 0.00928 196.76)",
+          "oklch(37.86% 0.00928 196.76)",
+          "oklch(49.29% 0.00928 196.76)",
+          "oklch(60.71% 0.00928 196.76)",
+          "oklch(72.14% 0.00928 196.76)",
+          "oklch(83.57% 0.00928 196.76)",
+          "oklch(95% 0.00928 196.76)"
+        ]
+      },
+      "lab-ink": {
+        "role": "neutral",
+        "displayName": "Warm white",
+        "canonical": "#edece6",
+        "tonalRamp": [
+          "oklch(15% 0.00807 98.88)",
+          "oklch(26.43% 0.00807 98.88)",
+          "oklch(37.86% 0.00807 98.88)",
+          "oklch(49.29% 0.00807 98.88)",
+          "oklch(60.71% 0.00807 98.88)",
+          "oklch(72.14% 0.00807 98.88)",
+          "oklch(83.57% 0.00807 98.88)",
+          "oklch(95% 0.00807 98.88)"
+        ]
+      },
+      "lab-muted": {
+        "role": "neutral",
+        "displayName": "Soft sage gray",
+        "canonical": "#afb6b2",
+        "tonalRamp": [
+          "oklch(15% 0.00961 161.28)",
+          "oklch(26.43% 0.00961 161.28)",
+          "oklch(37.86% 0.00961 161.28)",
+          "oklch(49.29% 0.00961 161.28)",
+          "oklch(60.71% 0.00961 161.28)",
+          "oklch(72.14% 0.00961 161.28)",
+          "oklch(83.57% 0.00961 161.28)",
+          "oklch(95% 0.00961 161.28)"
+        ]
+      },
+      "lab-amber": {
+        "role": "primary",
+        "displayName": "Instrument amber",
+        "canonical": "#ddbd79",
+        "tonalRamp": [
+          "oklch(15% 0.09396 85.20)",
+          "oklch(26.43% 0.09396 85.20)",
+          "oklch(37.86% 0.09396 85.20)",
+          "oklch(49.29% 0.09396 85.20)",
+          "oklch(60.71% 0.09396 85.20)",
+          "oklch(72.14% 0.09396 85.20)",
+          "oklch(83.57% 0.09396 85.20)",
+          "oklch(95% 0.09396 85.20)"
+        ]
+      },
+      "lab-teal": {
+        "role": "secondary",
+        "displayName": "Evidence teal",
+        "canonical": "#a4cbc0",
+        "tonalRamp": [
+          "oklch(15% 0.04418 176.11)",
+          "oklch(26.43% 0.04418 176.11)",
+          "oklch(37.86% 0.04418 176.11)",
+          "oklch(49.29% 0.04418 176.11)",
+          "oklch(60.71% 0.04418 176.11)",
+          "oklch(72.14% 0.04418 176.11)",
+          "oklch(83.57% 0.04418 176.11)",
+          "oklch(95% 0.04418 176.11)"
+        ]
+      },
+      "lab-error": {
+        "role": "tertiary",
+        "displayName": "Attention coral",
+        "canonical": "#f0b1a2",
+        "tonalRamp": [
+          "oklch(15% 0.07719 33.80)",
+          "oklch(26.43% 0.07719 33.80)",
+          "oklch(37.86% 0.07719 33.80)",
+          "oklch(49.29% 0.07719 33.80)",
+          "oklch(60.71% 0.07719 33.80)",
+          "oklch(72.14% 0.07719 33.80)",
+          "oklch(83.57% 0.07719 33.80)",
+          "oklch(95% 0.07719 33.80)"
+        ]
+      },
+      "lab-focus": {
+        "role": "primary",
+        "displayName": "Focus amber",
+        "canonical": "#e6ce9d",
+        "tonalRamp": [
+          "oklch(15% 0.06940 84.82)",
+          "oklch(26.43% 0.06940 84.82)",
+          "oklch(37.86% 0.06940 84.82)",
+          "oklch(49.29% 0.06940 84.82)",
+          "oklch(60.71% 0.06940 84.82)",
+          "oklch(72.14% 0.06940 84.82)",
+          "oklch(83.57% 0.06940 84.82)",
+          "oklch(95% 0.06940 84.82)"
+        ]
+      },
+      "action-ink": {
+        "role": "neutral",
+        "displayName": "Action ink",
+        "canonical": "#25271f",
+        "tonalRamp": [
+          "oklch(15% 0.01467 118.80)",
+          "oklch(26.43% 0.01467 118.80)",
+          "oklch(37.86% 0.01467 118.80)",
+          "oklch(49.29% 0.01467 118.80)",
+          "oklch(60.71% 0.01467 118.80)",
+          "oklch(72.14% 0.01467 118.80)",
+          "oklch(83.57% 0.01467 118.80)",
+          "oklch(95% 0.01467 118.80)"
+        ]
+      },
+      "amber-hover": {
+        "role": "primary",
+        "displayName": "Amber hover",
+        "canonical": "#ebce93",
+        "tonalRamp": [
+          "oklch(15% 0.08253 84.59)",
+          "oklch(26.43% 0.08253 84.59)",
+          "oklch(37.86% 0.08253 84.59)",
+          "oklch(49.29% 0.08253 84.59)",
+          "oklch(60.71% 0.08253 84.59)",
+          "oklch(72.14% 0.08253 84.59)",
+          "oklch(83.57% 0.08253 84.59)",
+          "oklch(95% 0.08253 84.59)"
+        ]
+      },
+      "selection-ground": {
+        "role": "neutral",
+        "displayName": "Text selection ground",
+        "canonical": "#665736",
+        "tonalRamp": [
+          "oklch(15% 0.05235 85.98)",
+          "oklch(26.43% 0.05235 85.98)",
+          "oklch(37.86% 0.05235 85.98)",
+          "oklch(49.29% 0.05235 85.98)",
+          "oklch(60.71% 0.05235 85.98)",
+          "oklch(72.14% 0.05235 85.98)",
+          "oklch(83.57% 0.05235 85.98)",
+          "oklch(95% 0.05235 85.98)"
+        ]
+      },
+      "selection-ink": {
+        "role": "neutral",
+        "displayName": "Text selection ink",
+        "canonical": "#fff6e2",
+        "tonalRamp": [
+          "oklch(15% 0.02796 86.64)",
+          "oklch(26.43% 0.02796 86.64)",
+          "oklch(37.86% 0.02796 86.64)",
+          "oklch(49.29% 0.02796 86.64)",
+          "oklch(60.71% 0.02796 86.64)",
+          "oklch(72.14% 0.02796 86.64)",
+          "oklch(83.57% 0.02796 86.64)",
+          "oklch(95% 0.02796 86.64)"
+        ]
+      },
+      "storage-notice-ground": {
+        "role": "neutral",
+        "displayName": "Storage recovery ground",
+        "canonical": "#392f24",
+        "tonalRamp": [
+          "oklch(15% 0.02372 69.46)",
+          "oklch(26.43% 0.02372 69.46)",
+          "oklch(37.86% 0.02372 69.46)",
+          "oklch(49.29% 0.02372 69.46)",
+          "oklch(60.71% 0.02372 69.46)",
+          "oklch(72.14% 0.02372 69.46)",
+          "oklch(83.57% 0.02372 69.46)",
+          "oklch(95% 0.02372 69.46)"
+        ]
+      },
+      "storage-notice-ink": {
+        "role": "primary",
+        "displayName": "Storage recovery ink",
+        "canonical": "#f0d6a6",
+        "tonalRamp": [
+          "oklch(15% 0.06879 82.67)",
+          "oklch(26.43% 0.06879 82.67)",
+          "oklch(37.86% 0.06879 82.67)",
+          "oklch(49.29% 0.06879 82.67)",
+          "oklch(60.71% 0.06879 82.67)",
+          "oklch(72.14% 0.06879 82.67)",
+          "oklch(83.57% 0.06879 82.67)",
+          "oklch(95% 0.06879 82.67)"
+        ]
+      },
+      "topic-selected-ground": {
+        "role": "neutral",
+        "displayName": "Selected topic ground",
+        "canonical": "#303d37",
+        "tonalRamp": [
+          "oklch(15% 0.02003 165.50)",
+          "oklch(26.43% 0.02003 165.50)",
+          "oklch(37.86% 0.02003 165.50)",
+          "oklch(49.29% 0.02003 165.50)",
+          "oklch(60.71% 0.02003 165.50)",
+          "oklch(72.14% 0.02003 165.50)",
+          "oklch(83.57% 0.02003 165.50)",
+          "oklch(95% 0.02003 165.50)"
+        ]
+      },
+      "topic-selected-line": {
+        "role": "secondary",
+        "displayName": "Selected topic rule",
+        "canonical": "#657f74",
+        "tonalRamp": [
+          "oklch(15% 0.03447 167.49)",
+          "oklch(26.43% 0.03447 167.49)",
+          "oklch(37.86% 0.03447 167.49)",
+          "oklch(49.29% 0.03447 167.49)",
+          "oklch(60.71% 0.03447 167.49)",
+          "oklch(72.14% 0.03447 167.49)",
+          "oklch(83.57% 0.03447 167.49)",
+          "oklch(95% 0.03447 167.49)"
+        ]
+      },
+      "topic-selected-ink": {
+        "role": "secondary",
+        "displayName": "Selected topic ink",
+        "canonical": "#cae1d7",
+        "tonalRamp": [
+          "oklch(15% 0.02796 167.75)",
+          "oklch(26.43% 0.02796 167.75)",
+          "oklch(37.86% 0.02796 167.75)",
+          "oklch(49.29% 0.02796 167.75)",
+          "oklch(60.71% 0.02796 167.75)",
+          "oklch(72.14% 0.02796 167.75)",
+          "oklch(83.57% 0.02796 167.75)",
+          "oklch(95% 0.02796 167.75)"
+        ]
+      },
+      "brief-ink": {
+        "role": "neutral",
+        "displayName": "Prepared brief ink",
+        "canonical": "#d4ddd5",
+        "tonalRamp": [
+          "oklch(15% 0.01450 148.76)",
+          "oklch(26.43% 0.01450 148.76)",
+          "oklch(37.86% 0.01450 148.76)",
+          "oklch(49.29% 0.01450 148.76)",
+          "oklch(60.71% 0.01450 148.76)",
+          "oklch(72.14% 0.01450 148.76)",
+          "oklch(83.57% 0.01450 148.76)",
+          "oklch(95% 0.01450 148.76)"
+        ]
+      },
+      "experiment-ground": {
+        "role": "neutral",
+        "displayName": "Experiment host ground",
+        "canonical": "#11171b",
+        "tonalRamp": [
+          "oklch(15% 0.01215 237.41)",
+          "oklch(26.43% 0.01215 237.41)",
+          "oklch(37.86% 0.01215 237.41)",
+          "oklch(49.29% 0.01215 237.41)",
+          "oklch(60.71% 0.01215 237.41)",
+          "oklch(72.14% 0.01215 237.41)",
+          "oklch(83.57% 0.01215 237.41)",
+          "oklch(95% 0.01215 237.41)"
+        ]
+      },
+      "reference-code-ink": {
+        "role": "neutral",
+        "displayName": "Reference code ink",
+        "canonical": "#d1dcd6",
+        "tonalRamp": [
+          "oklch(15% 0.01435 162.43)",
+          "oklch(26.43% 0.01435 162.43)",
+          "oklch(37.86% 0.01435 162.43)",
+          "oklch(49.29% 0.01435 162.43)",
+          "oklch(60.71% 0.01435 162.43)",
+          "oklch(72.14% 0.01435 162.43)",
+          "oklch(83.57% 0.01435 162.43)",
+          "oklch(95% 0.01435 162.43)"
+        ]
+      },
+      "desktop-notice-line": {
+        "role": "neutral",
+        "displayName": "Desktop notice rule",
+        "canonical": "#454133",
+        "tonalRamp": [
+          "oklch(15% 0.02348 93.98)",
+          "oklch(26.43% 0.02348 93.98)",
+          "oklch(37.86% 0.02348 93.98)",
+          "oklch(49.29% 0.02348 93.98)",
+          "oklch(60.71% 0.02348 93.98)",
+          "oklch(72.14% 0.02348 93.98)",
+          "oklch(83.57% 0.02348 93.98)",
+          "oklch(95% 0.02348 93.98)"
+        ]
+      },
+      "desktop-notice-ink": {
+        "role": "neutral",
+        "displayName": "Desktop notice ink",
+        "canonical": "#ded2b6",
+        "tonalRamp": [
+          "oklch(15% 0.03976 87.57)",
+          "oklch(26.43% 0.03976 87.57)",
+          "oklch(37.86% 0.03976 87.57)",
+          "oklch(49.29% 0.03976 87.57)",
+          "oklch(60.71% 0.03976 87.57)",
+          "oklch(72.14% 0.03976 87.57)",
+          "oklch(83.57% 0.03976 87.57)",
+          "oklch(95% 0.03976 87.57)"
+        ]
+      },
+      "desktop-notice-strong": {
+        "role": "primary",
+        "displayName": "Desktop notice heading",
+        "canonical": "#f0dfba",
+        "tonalRamp": [
+          "oklch(15% 0.05203 86.24)",
+          "oklch(26.43% 0.05203 86.24)",
+          "oklch(37.86% 0.05203 86.24)",
+          "oklch(49.29% 0.05203 86.24)",
+          "oklch(60.71% 0.05203 86.24)",
+          "oklch(72.14% 0.05203 86.24)",
+          "oklch(83.57% 0.05203 86.24)",
+          "oklch(95% 0.05203 86.24)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "title": {
+        "displayName": "Task title",
+        "purpose": "Current task headings with compact responsive sizes."
+      },
+      "headline": {
+        "displayName": "Section headline",
+        "purpose": "Working sections and local section hierarchy."
+      },
+      "body": {
+        "displayName": "Reading and controls",
+        "purpose": "Familiar sans text across the shell."
+      },
+      "label": {
+        "displayName": "Field label",
+        "purpose": "Persistent labels for editable controls."
+      },
+      "mono": {
+        "displayName": "Technical text",
+        "purpose": "Prepared instructions; related smaller variants serve paths and diagnostics."
+      },
+      "caption": {
+        "displayName": "Compact metadata",
+        "purpose": "Compact metadata, source references, and check labels."
+      },
+      "small": {
+        "displayName": "Supporting text",
+        "purpose": "Supporting copy, hint tiers, and compact metadata."
+      },
+      "heading-compact": {
+        "displayName": "Compact section heading",
+        "purpose": "Mobile section headings and preview error headings."
+      },
+      "heading-register": {
+        "displayName": "Register heading",
+        "purpose": "Register heading and narrow suggestion title."
+      },
+      "suggestion-compact": {
+        "displayName": "Compact suggestion",
+        "purpose": "Suggestion title at the compact-desktop breakpoint."
+      },
+      "heading-medium": {
+        "displayName": "Medium heading",
+        "purpose": "Empty suggestion heading; local narrow investigation declaration is overridden by the shared narrow heading rule."
+      },
+      "suggestion": {
+        "displayName": "Suggestion heading",
+        "purpose": "Desktop suggested challenge title."
+      },
+      "title-narrow": {
+        "displayName": "Narrow title",
+        "purpose": "Shared heading size at the narrow breakpoint."
+      },
+      "title-investigation": {
+        "displayName": "Investigation title",
+        "purpose": "Desktop investigation heading."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background-color 160ms, border-color 160ms",
+        "purpose": "Background and border feedback on standard buttons."
+      },
+      {
+        "name": "register-hover",
+        "value": "background-color 150ms",
+        "purpose": "Local row hover feedback without movement."
+      },
+      {
+        "name": "workspace-focus",
+        "value": "grid-template-columns 200ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Give the mounted experiment more space."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transition: none; scroll-behavior: auto",
+        "purpose": "Applied across the shell when prefers-reduced-motion is reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-desktop-min",
+        "value": "1500px"
+      },
+      {
+        "name": "compact-desktop-max",
+        "value": "1100px"
+      },
+      {
+        "name": "stacked-workspace-max",
+        "value": "860px"
+      },
+      {
+        "name": "narrow-screen-max",
+        "value": "700px"
+      }
+    ],
+    "libraryMotion": {
+      "provider": "beUI",
+      "installation": "shadcn official registry",
+      "components": [
+        "button-stateful",
+        "action-swap-roll",
+        "tabs"
+      ],
+      "adaptations": [
+        "Tabs native anchor destinations and navigation landmark"
+      ],
+      "styling": "Engineering Lab tokens; Tailwind utilities without Preflight",
+      "motion": "Action feedback and collection continuity; reduced-motion alternatives; verification press scale 0.98"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Amber action for opening an investigation, copying a brief, or running checks.",
+      "html": "<button class=\"ds-primary\" type=\"button\">Open investigation <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" /></svg></button>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-primary { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 9px 15px; border: 1px solid transparent; border-radius: 6px; background: var(--lab-amber, #ddbd79); color: var(--action-ink, #25271f); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-weight: 600; font-size: .875rem; line-height: 1.45; text-decoration: none; cursor: pointer; transition: background-color 160ms, border-color 160ms; } .ds-primary:hover:not(:disabled) { background: var(--amber-hover, #ebce93); border-color: transparent; } .ds-primary:disabled { opacity: .65; cursor: wait; } .ds-primary:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined supporting action with the same geometry as the primary button.",
+      "html": "<button class=\"ds-secondary\" type=\"button\" aria-pressed=\"false\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5\" /></svg> Focus experiment</button>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-secondary { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 9px 15px; border: 1px solid var(--lab-line, #3b4242); border-radius: 6px; background: transparent; color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-weight: 600; font-size: .875rem; line-height: 1.45; text-decoration: none; cursor: pointer; transition: background-color 160ms, border-color 160ms; } .ds-secondary:hover:not(:disabled) { background: var(--lab-raised, #2a2f30); border-color: var(--lab-muted, #afb6b2); } .ds-secondary:disabled { opacity: .65; cursor: wait; } .ds-secondary:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Text button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Quiet supporting command with an underlined hover state.",
+      "html": "<button class=\"ds-text\" type=\"button\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 7v5h-5M4 17v-5h5M6 6a8 8 0 0 1 13 3M18 18A8 8 0 0 1 5 15\" /></svg> Remount</button>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-text { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 4px; padding: 8px 4px; min-height: 40px; background: transparent; color: var(--lab-muted, #afb6b2); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .8125rem; cursor: pointer; } .ds-text:hover { color: var(--lab-ink, #edece6); text-decoration: underline; text-underline-offset: 4px; } .ds-text:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Icon button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Accessible source-path copy control with a larger narrow-screen target.",
+      "html": "<button class=\"ds-icon\" type=\"button\" aria-label=\"Copy source path\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 5V3h12v14h-3M3 7h12v14H3z\" /></svg></button>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-icon { display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--lab-muted, #afb6b2); border: 0; border-radius: 4px; min-width: 36px; min-height: 36px; cursor: pointer; } .ds-icon:hover { color: var(--lab-ink, #edece6); background: var(--lab-raised, #2a2f30); } .ds-icon:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-icon { min-width: 44px; min-height: 44px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Visible label, graphite ground, and a clear offset focus outline.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-practice-topic\">Practice topic</label><input class=\"ds-field\" id=\"ds-practice-topic\" value=\"effect cleanup\" />",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-field-label { display: block; font-size: .875rem; font-weight: 550; margin-bottom: 9px; } .ds-field { color: var(--lab-ink, #edece6); background: var(--lab-ground, #191c1d); border: 1px solid var(--lab-line, #3b4242); border-radius: 6px; padding: 10px 12px; min-width: 0; min-height: 46px; max-width: 100%; font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; caret-color: var(--lab-amber, #ddbd79); } .ds-field::placeholder { color: var(--lab-muted, #afb6b2); opacity: 1; } .ds-field:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Main navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Plain links with an amber rule identifying the current page.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#/\" aria-current=\"page\">Practice</a><a href=\"#/brief\">Create challenge</a></nav>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-nav { display: flex; gap: 24px; min-height: 78px; background: #151819; border-bottom: 1px solid var(--lab-line, #3b4242); } .ds-nav a { display: inline-flex; align-items: center; position: relative; font-size: .875rem; color: var(--lab-muted, #afb6b2); text-decoration: none; } .ds-nav a:hover, .ds-nav a[aria-current] { color: var(--lab-ink, #edece6); } .ds-nav a[aria-current]::after { content: ''; height: 2px; background: var(--lab-amber, #ddbd79); position: absolute; bottom: 0; left: 0; right: 0; } .ds-nav a:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-nav { min-height: 44px; gap: 28px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Topic options",
+      "kind": "chip",
+      "refersTo": "topic-option",
+      "description": "Outlined topic choices and the implemented selected state.",
+      "html": "<div class=\"ds-topics\" aria-label=\"Practice topic suggestions\"><button type=\"button\" aria-pressed=\"true\">effect cleanup</button><button type=\"button\" aria-pressed=\"false\">custom hooks</button></div>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-topics { display: flex; flex-wrap: wrap; gap: 7px; } .ds-topics button { background: transparent; color: var(--lab-muted, #afb6b2); border: 1px solid var(--lab-line, #3b4242); border-radius: 5px; padding: 7px 10px; font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .75rem; min-height: 36px; cursor: pointer; } .ds-topics button:hover { background: var(--lab-raised, #2a2f30); color: var(--lab-ink, #edece6); } .ds-topics button[aria-pressed=\"true\"] { background: #303d37; border-color: #657f74; color: #cae1d7; } .ds-topics button:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-topics button { min-height: 42px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Flat launch surface",
+      "kind": "card",
+      "refersTo": "launch-surface",
+      "description": "Square tonal surface used for the current suggestion or the starting state.",
+      "html": "<section class=\"ds-launch\"><h2>Your lab starts with a brief.</h2><p>Tell your coding agent what you want to practice. Its generated challenges will appear in this register.</p><a class=\"ds-launch-action\" href=\"#/brief\">Prepare an agent brief <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" /></svg></a></section>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-launch { background: var(--lab-surface, #222627); padding: 22px 28px; border-radius: 0; } .ds-launch h2 { margin: 0; font-size: 1.5rem; font-weight: 620; line-height: 1.4; letter-spacing: -.015em; } .ds-launch p { color: var(--lab-muted, #afb6b2); margin: 12px 0 18px; max-width: 75ch; } .ds-launch-action { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 9px 15px; border: 1px solid transparent; border-radius: 6px; background: var(--lab-amber, #ddbd79); color: var(--action-ink, #25271f); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-weight: 600; font-size: .875rem; line-height: 1.45; text-decoration: none; cursor: pointer; transition: background-color 160ms, border-color 160ms; } .ds-launch-action:hover:not(:disabled) { background: var(--amber-hover, #ebce93); border-color: transparent; } .ds-launch-action:disabled { opacity: .65; cursor: wait; } .ds-launch-action:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-launch { padding: 24px 20px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Challenge register row",
+      "kind": "custom",
+      "refersTo": "register-row",
+      "description": "Ruled full-row link with a technical identifier and explicit completion scope. The sample title is illustrative.",
+      "html": "<a class=\"ds-row\" href=\"#/\"><span class=\"ds-row-id\">16</span><span class=\"ds-row-subject\"><strong>Example investigation</strong><span>Custom hooks</span></span><span class=\"ds-row-difficulty\">Hard</span><span class=\"ds-row-status\"><span class=\"ds-row-dot\"></span>Saved complete</span><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" /></svg></a>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-row { display: grid; grid-template-columns: 78px minmax(0, 1fr) 115px 140px 24px; align-items: center; gap: 18px; padding: 17px 18px; min-height: 82px; border-block: 1px solid var(--lab-line, #3b4242); color: var(--lab-ink, #edece6); text-decoration: none; transition: background-color 150ms; } .ds-row:hover { background: var(--lab-surface, #222627); } .ds-row-id { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-size: .9375rem; color: var(--lab-amber, #ddbd79); font-variant-numeric: tabular-nums; } .ds-row-subject { display: flex; flex-direction: column; gap: 4px; min-width: 0; } .ds-row-subject strong { font-weight: 550; font-size: .9375rem; overflow-wrap: anywhere; } .ds-row-subject > span { color: var(--lab-muted, #afb6b2); font-size: .8125rem; overflow-wrap: anywhere; } .ds-row-difficulty, .ds-row-status { font-size: .75rem; color: var(--lab-muted, #afb6b2); } .ds-row-status { display: flex; align-items: center; gap: 8px; color: var(--lab-teal, #a4cbc0); } .ds-row-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; border: 1px solid currentColor; background: currentColor; flex-shrink: 0; } .ds-row > svg { color: var(--lab-muted, #afb6b2); } .ds-row:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-row { grid-template-columns: 32px minmax(0, 1fr) 18px; gap: 8px 13px; padding: 19px 5px; } .ds-row-id { grid-column: 1; grid-row: 1; align-self: start; padding-top: 1px; } .ds-row-subject { grid-column: 2; grid-row: 1; } .ds-row > svg { grid-column: 3; grid-row: 1; } .ds-row-difficulty { grid-column: 2; grid-row: 2; } .ds-row-status { grid-column: 2; grid-row: 3; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Verification rows",
+      "kind": "custom",
+      "refersTo": "verification-row",
+      "description": "Stable text status column beside a readable check description. Sample check names are illustrative and reveal no exercise content.",
+      "html": "<ul class=\"ds-checks\"><li class=\"ds-check\"><span class=\"ds-check-state\">Not run</span><div class=\"ds-check-body\">Example behavioral check</div></li><li class=\"ds-check ds-check-pass\"><span class=\"ds-check-state\">Pass</span><div class=\"ds-check-body\">Example completed check</div></li><li class=\"ds-check ds-check-fail\"><span class=\"ds-check-state\">Fail</span><div class=\"ds-check-body\">Example check needing attention<div class=\"ds-check-error\">Readable diagnostic output appears here.</div></div></li></ul>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-checks { list-style: none; margin: 0; padding: 0; } .ds-check { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; border-top: 1px solid var(--lab-line, #3b4242); } .ds-check-state { flex: 0 0 58px; font-size: .6875rem; color: var(--lab-amber, #ddbd79); padding-top: 3px; } .ds-check-pass .ds-check-state { color: var(--lab-teal, #a4cbc0); } .ds-check-fail .ds-check-state { color: var(--lab-error, #f0b1a2); } .ds-check-body { flex: 1; min-width: 0; font-size: .8125rem; } .ds-check-error { color: var(--lab-error, #f0b1a2); font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-size: .75rem; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 5px; } @media (max-width: 700px) { .ds-check { gap: 10px; } .ds-check-state { flex-basis: 52px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Engineering Lab",
+    "overview": "Engineering Lab is precise, readable, and approachable. Graphite work surfaces, warm text, fine divisions, and deliberate accents support the judgment of an experienced developer. The interface feels like a working instrument: controls are familiar, information aligns, and the live experiment has room to be observed.\n\nThe existing Bugbound icon carries the family identity. Flat ruled surfaces and clear typographic steps provide structure; evidence and actions provide the color. This record describes the finished shell in `src/styles/lab.css` and `src/shell/`, with shared font stacks from `src/styles/global.css`. The preserved exercise surface retains its own appearance and is outside this shell system.",
+    "keyCharacteristics": [
+      "Warm graphite surfaces with restrained amber and muted teal.",
+      "Readable sans text paired with monospace technical content.",
+      "Flat panels and ruled registers with precise alignment.",
+      "Explicit state labels and visible keyboard focus.",
+      "Responsive context that gives the experiment room without discarding it."
+    ],
+    "rules": [
+      {
+        "name": "The Labeled Evidence Rule",
+        "body": "Pair state color with text that names its scope; saved completion and verification this visit remain distinct signals.",
+        "section": "colors"
+      },
+      {
+        "name": "The Technical Text Rule",
+        "body": "Reserve monospace for identifiers, source paths, prepared instructions, and diagnostic output; keep reading and control labels in the sans family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mounted Experiment Rule",
+        "body": "Focus mode changes available space while retaining the experiment and reference state; remount remains a separate, explicitly labeled action.",
+        "section": "layout"
+      },
+      {
+        "name": "The Ruled Surface Rule",
+        "body": "Use flat fills and fine divisions to organize related work; preserve the continuous register and evidence-list structure.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the existing Bugbound icon and the Engineering Lab palette for shell surfaces.",
+      "**Do** keep reading and controls in the sans family, with monospace for technical material.",
+      "**Do** align related information with rules, shared columns, and restrained tonal changes.",
+      "**Do** preserve visible keyboard focus, semantic navigation, wrapping, and reduced-motion behavior.",
+      "**Do** label evidence by its actual scope and retain a readable state before the first run.",
+      "**Do** preserve the mounted experiment and disclosure state when focus mode changes its space."
+    ],
+    "donts": [
+      "**Don't** apply shell colors, typography overrides, or new component rules inside the preserved exercise surface.",
+      "**Don't** make color the only distinction between verification states or saved completion.",
+      "**Don't** replace the flat ruled register with independently floating cards or decorative shadows.",
+      "**Don't** imply that preparing a brief ran an agent or validated a discovered challenge.",
+      "**Don't** expose guidance before the learner deliberately reveals it."
+    ]
+  }
+}

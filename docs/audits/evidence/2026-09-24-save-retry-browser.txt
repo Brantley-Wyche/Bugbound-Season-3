@@ -1,0 +1,101 @@
+- button "Deny completion saves"
+- status: Isolated audit origin; synthetic challenges only
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Bugbound Season 3, Practice":
+    - /url: "#/"
+    - text: Bugbound
+    - generic: Season 3
+  - navigation "Main navigation":
+    - link "Practice":
+      - /url: "#/"
+    - link "Create challenge":
+      - /url: "#/brief"
+  - generic: Engineering Lab
+  - generic "2 of 3 generated challenges have saved completion":
+    - text: "2"
+    - generic: / 3 saved
+- main:
+  - link "Back to practice":
+    - /url: "#/"
+    - text: Back to practice
+  - generic: "901"
+  - heading "Audit B" [level=1]
+  - generic: Synthetic persistence case
+  - generic: Synthetic difficulty
+  - generic: Agent-generated
+  - generic: Verified this visit
+  - text: Completion saved
+  - navigation "Investigation sections":
+    - button "Experiment"
+    - button "Verification"
+    - button "Brief & reference"
+  - region "Live experiment":
+    - heading "Live experiment" [level=2]
+    - button "Remount":
+      - text: Remount
+    - button "Focus experiment":
+      - text: Focus experiment
+    - generic: Running your local source
+    - generic: Edits hot-reload here
+    - iframe:
+      - generic: Synthetic working exercise
+    - paragraph: Reproduce the reported behavior, then make your repair in your editor. Remount resets this preview’s component state.
+  - region "Verification":
+    - heading "Verification" [level=2]
+    - button "Re-run checks":
+      - generic: Re-run checks
+      - generic: R
+      - generic: e
+      - generic: "-"
+      - generic: r
+      - generic: u
+      - generic: "n"
+      - generic: c
+      - generic: h
+      - generic: e
+      - generic: c
+      - generic: k
+      - generic: s
+    - status: 1 of 1 checks passed this run.
+    - list:
+      - generic: Pass
+      - generic: Synthetic content exists
+    - paragraph: Edit the source in your editor, then run the checks to verify its behavior.
+  - region "What made the repair hold?":
+    - heading "What made the repair hold?" [level=2]
+    - generic: Optional reflection
+    - paragraph: Capture the observation that mattered, why your change works, and any remaining tradeoffs.
+    - generic: Investigation reflection
+    - textbox "Investigation reflection":
+      - /placeholder: The evidence that changed my understanding was…
+    - paragraph: Kept for this app session. Copy your notes before reloading or closing the tab.
+    - link "Next suggestion":
+      - /url: "#/level/902-audit-c"
+      - text: Next suggestion
+    - link "Choose from the register":
+      - /url: "#/"
+  - complementary "Incident context":
+    - region "Incident brief":
+      - heading "Incident brief" [level=2]
+      - generic: BUG-901
+      - paragraph: A synthetic working exercise used to test the shell without changing real challenges.
+      - heading "Source files" [level=3]
+      - paragraph: Open these files in your editor.
+      - list:
+        - code: tests/fixtures/shell-levels.jsx
+        - button "Copy source path tests/fixtures/shell-levels.jsx":
+    - generic "Concept reference":
+      - text: Concept reference
+    - heading "Synthetic persistence case" [level=3]
+    - paragraph: Synthetic metadata only.
+    - region "Optional guidance":
+      - heading "Optional guidance" [level=2]
+      - paragraph: Choose the amount of help you need. Each tier reveals more; all hints stay hidden until you open them.
+- contentinfo:
+  - text: Bugbound
+  - generic: /
+  - text: Engineering Lab
+  - generic: Your editor. Your agent. Your investigation.
+  - button "Reset saved completion"
