@@ -1,10 +1,10 @@
-# 🐛 Bugbound
+# Bugbound Season 3 — Engineering Lab
 
-> **Season 3 branch:** the Engineering Lab supports freely chosen, agent-generated challenges with suggested next practice. Season 3 shell components may use npm libraries. beUI's Stateful Button, Action Swap Roll, and Tabs are installed through its official shadcn registry; see [third-party notices](THIRD_PARTY_NOTICES.md), [the design system](DESIGN.md), and `components.json`. Generated exercises retain their separate import restrictions. The original Season 1 overview below is historical context pending the Season 3 documentation audit.
+> **The final season of Bugbound:** an Engineering Lab for experienced React developers, with freely chosen, agent-generated challenges and suggested next practice. Shell components use real beUI components installed through its official shadcn registry; see [third-party notices](THIRD_PARTY_NOTICES.md), [the design system](DESIGN.md), and `components.json`. Generated exercises retain their separate import restrictions.
 
 > **Learn React by fixing it.** A level-based debugging game where every lesson ships with a real, intentionally planted bug — and you're the engineer on call.
 
-![Bugbound Season 1 incident map](docs/bugbound-season-1.jpg)
+![Bugbound Season 3 Engineering Lab](docs/audits/evidence/2026-09-24-phase3-desktop.png)
 
 Bugbound Season 3 is a React Engineering Lab for practice with your own AI coding agent. Choose from generated challenges or revisit **15 foundation levels**. Each investigation gives you a bug report and a live component. Edit the actual source, observe the change, and run the in-app checks. Every challenge is available; the app suggests what to investigate next.
 
@@ -43,9 +43,12 @@ Difficulty ramps two ways: the concepts get more advanced, *and* the bugs get be
 See the [repository map](docs/ARCHITECTURE.md) for shell ownership, runtime entry
 points, protected curriculum paths, tests, and maintenance tools.
 
-Use Node.js `^20.19.0 || >=22.12.0` and npm `^11.16.0` (the lockfile was produced with npm 11.16.0). From a clean checkout, install the locked dependencies and start the app:
+Use Node.js `^20.19.0 || >=22.12.0` and npm `^11.16.0` (the lockfile was produced with npm 11.16.0). Clone this repository, create a playthrough branch to keep the main cartridge pristine, then install the locked dependencies and start the app:
 
 ```bash
+git clone https://github.com/Brantley-Wyche/Bugbound-Season-3.git bugbound-season-3
+cd bugbound-season-3
+git switch -c playthrough
 npm ci
 npm run dev
 ```
@@ -62,7 +65,7 @@ npm run build
 
 ## ♾️ Infinite mode: bring your own agent
 
-![Bugbound Season 3 Agent Station and generated incident queue](docs/bugbound-season-3.jpg)
+![Bugbound Season 3 challenge brief builder](.impeccable/review/brief-desktop-1280.png)
 
 Open **Create challenge** at any time. Its brief builder turns a topic,
 difficulty, and level count into a ready-to-send prompt. You can also download a spoiler-free
@@ -118,9 +121,9 @@ npm run custom-levels -- reset --confirm
 
 ## Roadmap
 
-- **Season 1** *(this repo)* — Core React + TypeScript, 15 levels ✅
-- **Season 2** — Next.js edition: hydration mismatches, server/client boundary bugs, caching traps
-- **Season 3** *(this repo)* — Bring-your-own-agent infinite mode ✅ — see [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md)
+- [Season 1 — Field Notebook](https://github.com/Brantley-Wyche/React-Practice-Site) — Core React + TypeScript foundations
+- [Season 2 — Investigation Desk](https://github.com/Brantley-Wyche/Bugbound-Season-2) — Next.js investigations
+- **Season 3 — Engineering Lab** *(this repository)* — Bring-your-own-agent React practice; see [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Credits
 

@@ -26,7 +26,7 @@ The existing app uses React 19 and Vite with npm. It runs locally beside a sourc
 - Season 3 may use npm dependencies and actual library components installed through their documented workflow (user confirmed 2026-09-12). Preserve the existing React/Vite architecture and assess compatibility; generated exercises retain their separate package-import restriction.
 - Generation, investigation, and optional help have distinct purposes. Never reveal planted causes in shell content or generation feedback.
 - Browser preview and check execution are not a security sandbox.
-- Main and the sibling Season 2 project are reference sources only. Work stays on the current Season 3 branch until the separate transfer stage.
+- Season 3 lives in its own Bugbound-Season-3 repository. Its main branch is the pristine cartridge; generation and learner repairs use separate branches. The original Season 1 repository and the sibling Season 2 project are reference sources only.
 - Rich run history, evidence comparison, and generation recovery are candidates for the later reliability/architecture stage, not existing capabilities.
 
 ## Brand Commitments

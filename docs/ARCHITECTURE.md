@@ -107,5 +107,7 @@ hint keys, solution headings, and test IDs stable. Do not edit shell/runtime or
 validation code while generating a challenge to make its checks pass. Follow the
 existing private fail-before/pass-after/restoration contract.
 
-This organization belongs to the Season 3 branch. Moving it to its dedicated
-folder/repository is the separate transfer phase.
+This is the standalone [Bugbound Season 3 repository](https://github.com/Brantley-Wyche/Bugbound-Season-3).
+Its main branch is the pristine cartridge; use separate branches for generation and
+learner repairs. It was transferred from the original repository's season-3 checkpoint
+2a562fd with Git history retained. The local folder name is bugbound-season-3.

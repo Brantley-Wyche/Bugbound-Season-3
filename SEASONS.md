@@ -1,5 +1,9 @@
 # Bugbound — Season Handoff Document
 
+> Historical cross-season planning document. Season 3 now lives in its own repository.
+> For current behavior, setup, and agent contracts, use README.md, PRODUCT.md,
+> AGENTS.md, and docs/ARCHITECTURE.md; they supersede the original plan below.
+
 **Audience:** this file is written for an AI coding agent (Claude Opus 4.8 or later) starting a fresh session with no prior context. If you are that agent: read this whole file before doing anything else. If you are a human: give this file (or its URL) to your agent when kicking off Season 2 or 3.
 
 **Owner:** Brantley Wyche (GitHub: [Brantley-Wyche](https://github.com/Brantley-Wyche)). He is using Bugbound to refamiliarize himself with React after time away, and the repos double as portfolio pieces — design quality matters.
