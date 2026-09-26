@@ -121,7 +121,7 @@ npm run custom-levels -- reset --confirm
 
 ## Roadmap
 
-- [Season 1 — Field Notebook](https://github.com/Brantley-Wyche/React-Practice-Site) — Core React + TypeScript foundations
+- [Season 1 — Field Notebook](https://github.com/Brantley-Wyche/Bugbound-Season-1) — Core React + TypeScript foundations
 - [Season 2 — Investigation Desk](https://github.com/Brantley-Wyche/Bugbound-Season-2) — Next.js investigations
 - **Season 3 — Engineering Lab** *(this repository)* — Bring-your-own-agent React practice; see [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md)
 
