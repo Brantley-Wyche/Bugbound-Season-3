@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { sanitizeCompleted, createProgressController } from '../src/shell/progress/progress.js';
 import {
   recordCheckRun, recordHintReveal, recordVisit, recordReset, createLearningProfile,
-  getLearningSnapshot, readingsFor, lastWorkedId, MAX_EVENTS,
+  getLearningSnapshot, readingsFor, lastWorkedId, readingsByConcept, MAX_EVENTS,
 } from '../src/shell/progress/learning.js';
 
 class MemoryStorage {
@@ -418,4 +418,18 @@ test('malformed readings surface as an error snapshot without throwing', () => {
     assert.deepEqual(snapshot.store.levels, {});
     assert.equal(getLearningSnapshot(), snapshot);
   });
+});
+
+test('readings by concept summarize worked concepts and count the rest', () => {
+  const levels = [
+    { id: 'a', concept: 'Refs' }, { id: 'b', concept: 'Refs' },
+    { id: 'c', concept: 'Effects' }, { id: 'd', concept: 'Context' },
+  ];
+  const store = { version: 1, levels: { a: { checkRuns: 3, hintsRevealed: [1] }, c: { checkRuns: 5 } } };
+  const { rows, untouched } = readingsByConcept(levels, new Set(['b']), store);
+  assert.deepEqual(rows, [
+    { concept: 'Effects', incidents: 1, repaired: 0, runs: 5, hints: 0 },
+    { concept: 'Refs', incidents: 2, repaired: 1, runs: 3, hints: 1 },
+  ]);
+  assert.equal(untouched, 1);
 });

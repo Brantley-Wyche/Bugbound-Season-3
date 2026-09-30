@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { createLearningProfile } from '../progress/learning.js';
+import { createLearningProfile, readingsByConcept } from '../progress/learning.js';
+import { useLearning } from '../progress/useLearning.js';
 import { createAgentBrief } from './brief.js';
 import Icon from '../Icon.jsx';
 import { ActionSwapRollButton } from '../../components/motion/action-swap-roll';
@@ -15,6 +16,8 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
   const [error, setError] = useState('');
   const [profileMessage, setProfileMessage] = useState('');
   const [contextOpen, setContextOpen] = useState(Boolean(draft.context));
+  const { store, error: readingsError } = useLearning();
+  const conceptReadings = readingsByConcept(levels, completed, store);
   const prompt = createAgentBrief(draft);
   const copied = copiedPrompt === prompt;
 
@@ -53,7 +56,7 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
 
   return (
     <main className="brief-page" id="main-content" tabIndex={-1}>
-      <a className="back-link" href="#/"><Icon name="back" size={16} /> Back to practice</a>
+      <a className="back-link" href="#/"><Icon name="back" size={16} /> Practice</a>
       <div className="page-heading">
         <h1 id="page-title" tabIndex={-1}>Brief an incident</h1>
         <p>Set the practice. Your coding agent authors the incident; this page prepares the brief and never runs the agent.</p>
@@ -81,12 +84,40 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
             <textarea id="brief-context" rows={5} value={draft.context} onChange={(event) => update('context', event.target.value)} placeholder="For example: a search interface with changing inputs, clear loading states, and cleanup requirements." />
             <p className="field-help">Describe the environment you want to practice in. The agent must still follow the repository’s authoring boundaries.</p>
           </details>
-          <div className="profile-export">
-            <h3>Bring your practice history.</h3>
-            <p>Your profile contains repairs, check activity, and hint usage. You choose whether to share it with your agent.</p>
+          <section className="profile-export" aria-labelledby="brief-readings-title">
+            <div className="section-toolbar">
+              <h2 id="brief-readings-title">Your readings</h2>
+              <span className="plain-label">kept in this browser</span>
+            </div>
+            <p>What your learning profile carries to the agent, if you choose to share it. It never includes hint or solution text.</p>
+            {readingsError ? (
+              <p className="field-help" role="status">{readingsError}</p>
+            ) : conceptReadings.rows.length ? (
+              <>
+                <table className="readings-table">
+                  <thead>
+                    <tr><th scope="col">Concept</th><th scope="col">Incidents</th><th scope="col">Repaired</th><th scope="col">Runs</th><th scope="col">Hints</th></tr>
+                  </thead>
+                  <tbody>
+                    {conceptReadings.rows.map((row) => (
+                      <tr key={row.concept}>
+                        <th scope="row">{row.concept}</th>
+                        <td className="readout">{row.incidents}</td>
+                        <td className={`readout ${row.repaired ? 'is-repaired' : ''}`}>{row.repaired}</td>
+                        <td className="readout">{row.runs}</td>
+                        <td className="readout">{row.hints}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {conceptReadings.untouched > 0 && <p className="field-help"><span className="readout">{conceptReadings.untouched}</span> {conceptReadings.untouched === 1 ? 'concept' : 'concepts'} not yet worked {conceptReadings.untouched === 1 ? 'is' : 'are'} left out.</p>}
+              </>
+            ) : (
+              <p className="field-help">No readings yet. Once you work on an incident, your repairs, runs and hint tiers appear here.</p>
+            )}
             <button className="btn" onClick={downloadProfile}><Icon name="download" /> Download learning profile</button>
             <p className="action-message" role="status">{profileMessage}</p>
-          </div>
+          </section>
         </section>
 
         <section className="prepared-brief" aria-labelledby="prepared-brief-title">

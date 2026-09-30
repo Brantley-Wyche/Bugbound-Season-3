@@ -193,6 +193,27 @@ export function readingsFor(store, levelId) {
   };
 }
 
+/**
+ * Per-concept readings for concepts with any work or repair, most runs first:
+ * { concept, incidents, repaired, runs, hints }. `untouched` counts the concepts left out.
+ */
+export function readingsByConcept(levels, completed, store) {
+  const concepts = new Map();
+  for (const level of levels) {
+    const row = concepts.get(level.concept) || { concept: level.concept, incidents: 0, repaired: 0, runs: 0, hints: 0 };
+    const activity = store.levels[level.id] || {};
+    row.incidents += 1;
+    row.repaired += completed.has(level.id) ? 1 : 0;
+    row.runs += activity.checkRuns || 0;
+    row.hints += activity.hintsRevealed?.length || 0;
+    concepts.set(level.concept, row);
+  }
+  const all = [...concepts.values()];
+  const rows = all.filter((row) => row.runs || row.hints || row.repaired)
+    .sort((a, b) => b.runs - a.runs || b.repaired - a.repaired || a.concept.localeCompare(b.concept));
+  return { rows, untouched: all.length - rows.length };
+}
+
 /** The incident the learner worked on most recently, among ids. */
 export function lastWorkedId(store, ids) {
   let latest = null;
