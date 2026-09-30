@@ -30,7 +30,8 @@ function parseStore(raw) {
     if (!activity || typeof activity !== 'object' || Array.isArray(activity)
       || ['checkRuns', 'passedRuns', 'failedRuns'].some((field) => activity[field] !== undefined && !isCount(activity[field]))
       || (activity.hintsRevealed !== undefined && (!Array.isArray(activity.hintsRevealed) || activity.hintsRevealed.some((tier) => ![1, 2, 3].includes(tier))))
-      || (activity.events !== undefined && (!Array.isArray(activity.events) || !activity.events.every(validEvent)))) {
+      || (activity.events !== undefined && (!Array.isArray(activity.events) || !activity.events.every(validEvent)))
+      || (activity.conclusion !== undefined && typeof activity.conclusion !== 'string')) {
       throw new Error('Saved learning history contains an invalid activity record.');
     }
   }
@@ -117,6 +118,14 @@ export function recordHintReveal(levelId, tier) {
   });
 }
 
+export const MAX_CONCLUSION = 4000;
+
+/** The learner's optional conclusion, kept with the incident's readings. */
+export function saveConclusion(levelId, text) {
+  const conclusion = String(text).slice(0, MAX_CONCLUSION);
+  return updateLevel(levelId, (current) => (current.conclusion === conclusion ? current : { ...current, conclusion }), { worked: false });
+}
+
 /** A progress reset clears repairs; readings are kept and show where the reset happened. */
 export function recordReset() {
   let store;
@@ -178,6 +187,7 @@ export function readingsFor(store, levelId) {
     runs: activity.checkRuns || 0,
     hints: activity.hintsRevealed || [],
     lastWorked: activity.lastPracticedAt || null,
+    conclusion: activity.conclusion || '',
     entries: events,
     runEvents: (activity.events || []).filter((event) => event.type === 'run'),
   };

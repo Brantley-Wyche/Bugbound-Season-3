@@ -34,7 +34,6 @@ export default function App() {
   const { completed, records, unsaved, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
   const [draft, setDraft] = useState({ topic: 'effect cleanup', difficulty: 'Hard', count: 1, context: '' });
   const [filters, setFilters] = useState({ query: '', status: 'all' });
-  const [reflections, setReflections] = useState({});
   const [sourceRevision, setSourceRevision] = useState(0);
   const repairedFoundations = foundationIds.filter((id) => completed.has(id)).length;
   const repairedGenerated = generatedIds.filter((id) => completed.has(id)).length;
@@ -53,7 +52,7 @@ export default function App() {
   }, []);
 
   function confirmReset() {
-    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and this session’s notes stay unchanged.')) {
+    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and conclusions stay unchanged.')) {
       if (!resetProgress().failure) recordReset();
     }
   }
@@ -107,9 +106,7 @@ export default function App() {
       ) : activeLevel ? (
         <LevelPage key={`${activeLevel.id}:${revision}`} level={activeLevel} levels={levels} completed={completed} sourceRevision={sourceRevision}
           record={records.get(activeLevel.id) ?? null} unsaved={unsaved.has(activeLevel.id)}
-          onComplete={(details) => markComplete(activeLevel.id, details)} autoRunChecks={route.verify && revision === 0}
-          reflection={reflections[activeLevel.id] || ''}
-          onReflectionChange={(value) => setReflections((current) => ({ ...current, [activeLevel.id]: value }))} />
+          onComplete={(details) => markComplete(activeLevel.id, details)} autoRunChecks={route.verify && revision === 0} />
       ) : (
         <main className="practice-page missing-page" id="main-content" tabIndex={-1}>
           <Icon name="file" size={38} />
