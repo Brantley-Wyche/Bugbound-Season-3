@@ -33,7 +33,7 @@ export default function ChecksRunner({ level, onAllPass, autoRun = false, onStat
         const history = recordCheckRun(id, finished);
         if (!history.ok) setHistoryFailure(history.message);
         callbacksRef.current.onStateChange?.(passed ? 'passed' : 'failed');
-        if (passed) callbacksRef.current.onAllPass?.();
+        if (passed) callbacksRef.current.onAllPass?.({ at: history.at, run: history.run });
       },
     });
     sessionRef.current = session;
