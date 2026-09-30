@@ -190,6 +190,7 @@ export const StatefulButton = forwardRef<HTMLButtonElement, StatefulButtonProps>
     errorText = "Try again",
     icon,
     disabled,
+    onClick,
     ...rest
   },
   ref,
@@ -207,11 +208,18 @@ export const StatefulButton = forwardRef<HTMLButtonElement, StatefulButtonProps>
     typeof stateText === "string" ? `${state}-${stateText}` : state;
 
   return (
-    <Button ref={ref} disabled={disabled || isBusy} aria-busy={isBusy} whileHover={undefined} {...rest}>
-      <span
-        aria-live="polite"
-        className="relative inline-flex items-center justify-center overflow-hidden"
-      >
+    // A busy button stays focusable: disabling it would drop keyboard focus
+    // to the document mid-run. Its caller announces progress separately.
+    <Button
+      ref={ref}
+      disabled={disabled}
+      aria-disabled={isBusy || undefined}
+      aria-busy={isBusy}
+      whileHover={undefined}
+      onClick={isBusy ? undefined : onClick}
+      {...rest}
+    >
+      <span className="relative inline-flex items-center justify-center overflow-hidden">
         <AnimatePresence initial={false}>
           {state === "loading" ? (
             <IconSlot keyId="loading-icon">

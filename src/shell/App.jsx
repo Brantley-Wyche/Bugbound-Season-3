@@ -98,7 +98,7 @@ export default function App() {
       ) : route.page === 'brief' ? (
         <AgentStation levels={levels} completed={completed} draft={draft} onDraftChange={setDraft} progressFailure={storageFailure} />
       ) : activeLevel ? (
-        <LevelPage key={`${activeLevel.id}:${revision}:${sourceRevision}`} level={activeLevel} levels={levels} completed={completed}
+        <LevelPage key={`${activeLevel.id}:${revision}`} level={activeLevel} levels={levels} completed={completed} sourceRevision={sourceRevision}
           onComplete={() => markComplete(activeLevel.id)} autoRunChecks={route.verify && revision === 0}
           reflection={reflections[activeLevel.id] || ''}
           onReflectionChange={(value) => setReflections((current) => ({ ...current, [activeLevel.id]: value }))} />
