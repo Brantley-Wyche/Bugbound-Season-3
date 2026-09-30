@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getPracticeLevels, recommendChallenge, filterChallenges } from '../src/shell/workspace/practice.js';
+import { getPracticeLevels, recommendChallenge, filterChallenges, groupBatches, benchIncident } from '../src/shell/workspace/practice.js';
 
 const levels = Object.freeze([
   Object.freeze({ id: '01-first', number: 1, title: 'First challenge', concept: 'Rendering' }),
@@ -75,4 +75,27 @@ test('search and status filters combine and support empty or unmatched results',
   assert.deepEqual(filterChallenges(levels, { query: 'missing' }, new Set()), []);
   assert.deepEqual(filterChallenges([], {}, new Set()), []);
   assert.deepEqual(ids(filterChallenges(levels, {}, new Set())), ['01-first', '15-capstone', '16-timer', '17-search']);
+});
+
+test('generated incidents group by generation date, newest batch first', () => {
+  const generated = [
+    { id: '16-a', number: 16, generatedAt: '2026-07-04' },
+    { id: '17-b', number: 17, generatedAt: '2026-07-04' },
+    { id: '18-c', number: 18, generatedAt: '2026-09-02' },
+    { id: '19-d', number: 19 },
+  ];
+  const batches = groupBatches(generated);
+  assert.deepEqual(batches.map((batch) => [batch.date, ids(batch.levels)]), [
+    ['2026-09-02', ['18-c']], ['2026-07-04', ['16-a', '17-b']], [null, ['19-d']],
+  ]);
+});
+
+test('the bench holds the unrepaired incident worked last, else the next open one', () => {
+  assert.equal(benchIncident(levels, new Set(), '01-first').level.id, '01-first');
+  assert.equal(benchIncident(levels, new Set(), '01-first').continuing, true);
+  const next = benchIncident(levels, new Set(['16-timer']), '16-timer');
+  assert.equal(next.level.id, '17-search');
+  assert.equal(next.continuing, false);
+  assert.equal(benchIncident(levels, new Set(['16-timer', '17-search']), null).level.id, '01-first');
+  assert.equal(benchIncident(levels, new Set(ids(levels)), '16-timer'), null);
 });
