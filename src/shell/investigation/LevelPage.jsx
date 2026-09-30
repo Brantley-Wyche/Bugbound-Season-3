@@ -79,7 +79,7 @@ export default function LevelPage({ level, levels, completed, record = null, uns
               <h2 id="experiment-title" tabIndex={-1}>Live experiment</h2>
               <div className="experiment-actions">
                 <button className="text-button" onClick={() => { setDemoKey((value) => value + 1); setMounts((value) => value + 1); }}><Icon name="refresh" size={16} /> Remount</button>
-                <button className="btn focus-button" onClick={() => setFocused((value) => !value)} aria-pressed={focused} aria-controls="investigation-context"><Icon name={focused ? 'collapse' : 'expand'} size={16} />{focused ? 'Show context' : 'Focus experiment'}</button>
+                <button className="btn focus-button" onClick={() => setFocused((value) => !value)} aria-pressed={focused} aria-controls="investigation-report investigation-context"><Icon name={focused ? 'collapse' : 'expand'} size={16} />{focused ? 'Show context' : 'Focus experiment'}</button>
               </div>
             </div>
             <div className="experiment-frame">
@@ -101,6 +101,7 @@ export default function LevelPage({ level, levels, completed, record = null, uns
             record={record}
             unsaved={unsaved}
             next={next}
+            runEvents={readings.runEvents}
             onAllPass={onComplete}
             autoRun={autoRunChecks}
             conclusion={readings.conclusion}
@@ -110,14 +111,15 @@ export default function LevelPage({ level, levels, completed, record = null, uns
           </ChecksRunner>
         </div>
 
-        <aside className="investigation-context" id="investigation-context" aria-label="Incident context" hidden={focused}>
-          <section className="incident-brief" aria-labelledby="incident-brief-title">
-            <h2 id="incident-brief-title" tabIndex={-1}>Incident report</h2>
-            <p className="symptom">{level.symptom}</p>
-            <h3>Source files</h3>
-            <p className="field-help">{level.vague ? 'Investigate within these files.' : 'Open these files in your editor.'}</p>
-            <ul className="source-files">{level.files.map((path) => <SourceFile key={path} path={path} />)}</ul>
-          </section>
+        {/* The report leads the context column, and leads the page when the workspace stacks. */}
+        <section className="investigation-context is-report incident-brief" id="investigation-report" aria-labelledby="incident-brief-title" hidden={focused}>
+          <h2 id="incident-brief-title" tabIndex={-1}>Incident report</h2>
+          <p className="symptom">{level.symptom}</p>
+          <h3>Source files</h3>
+          <p className="field-help">{level.vague ? 'Investigate within these files.' : 'Open these files in your editor.'}</p>
+          <ul className="source-files">{level.files.map((path) => <SourceFile key={path} path={path} />)}</ul>
+        </section>
+        <aside className="investigation-context is-reference" id="investigation-context" aria-label="Concept reference and guidance" hidden={focused}>
           <details className="concept-reference" open>
             <summary><Icon name="book" /> Concept reference</summary>
             <h3>{level.concept}</h3>

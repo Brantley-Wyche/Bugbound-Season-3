@@ -1,4 +1,4 @@
-export function createAgentBrief({ topic = '', difficulty = '', count = 1, context = '' } = {}) {
+export function createAgentBrief({ topic = '', difficulty = '', count = 1, context = '', profile = false } = {}) {
   const practiceTopic = topic.trim() || 'effect cleanup';
   const practiceDifficulty = (difficulty.trim() || 'Intermediate').toLowerCase();
   const requestedCount = Number(count);
@@ -11,6 +11,7 @@ export function createAgentBrief({ topic = '', difficulty = '', count = 1, conte
     'For my external AI coding agent working in this Bugbound repository:',
     `Generate ${levelCount} ${practiceDifficulty} Bugbound ${levelCount === 1 ? 'level' : 'levels'} about ${practiceTopic}.`,
     ...(engineeringContext ? [`Engineering context: ${engineeringContext}`] : []),
+    ...(profile ? ['I attached bugbound-learning-profile.json, my readings from this repository. Use it to target concepts where I needed more runs or hints, and do not repeat an incident I already repaired.'] : []),
     'Read and follow AGENTS.md and .claude/skills/bugbound-levelsmith/SKILL.md. Work on a new generation branch unless I have already provided one.',
     'Keep blind mode: never reveal a planted bug\'s cause in chat, comments, or commit messages. Keep hints and solutions base64-encoded only.',
     'Prove the checks fail against the planted version and pass after a privately applied fix, then restore the planted version and discard the fix.',

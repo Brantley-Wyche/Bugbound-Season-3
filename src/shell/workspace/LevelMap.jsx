@@ -89,15 +89,16 @@ function Bench({ bench, store }) {
   );
 }
 
-function LabRecord({ levels, records, store }) {
-  const times = [...records.values()].map((record) => record.at).filter(Boolean).sort();
+/** A repair record for a set of incidents: dates, runs, hints and conclusions, drawn like the Repaired entry. */
+function RecordBand({ title, lead, levels, records, store, extraFields = null, aside }) {
+  const times = levels.map((level) => records.get(level.id)?.at).filter(Boolean).sort();
   const runs = levels.reduce((sum, level) => sum + (store.levels[level.id]?.checkRuns || 0), 0);
   const hints = levels.reduce((sum, level) => sum + (store.levels[level.id]?.hintsRevealed?.length || 0), 0);
-  const batches = groupBatches(getPracticeLevels(levels, 'generated')).length;
+  const conclusions = levels.filter((level) => store.levels[level.id]?.conclusion?.trim()).length;
   return (
     <section className="lab-record" aria-labelledby="record-title">
-      <h2 id="record-title"><Icon name="check" size={18} />Every incident repaired</h2>
-      <p><span className="readout">{levels.length}</span> of <span className="readout">{levels.length}</span> incidents repaired. Revisit any incident to check your current source.</p>
+      <h2 id="record-title"><Icon name="check" size={18} />{title}</h2>
+      <p>{lead}</p>
       <dl className="readings-row is-compact">
         {times.length > 0 && <>
           <div className="readings-field"><dt>First repaired</dt><dd className="readout">{formatDay(times[0])}</dd></div>
@@ -105,13 +106,49 @@ function LabRecord({ levels, records, store }) {
         </>}
         <div className="readings-field"><dt>Runs</dt><dd className="readout">{pad2(runs)}</dd></div>
         <div className="readings-field"><dt>Hints opened</dt><dd className="readout">{pad2(hints)}</dd></div>
-        <div className="readings-field"><dt>Batches</dt><dd className="readout">{pad2(batches)}</dd></div>
+        <div className="readings-field"><dt>Conclusions</dt><dd className="readout">{pad2(conclusions)}</dd></div>
+        {extraFields}
       </dl>
       <div className="bench-actions">
         <a className="btn btn-primary" href="#/brief">Brief an incident<Icon name="arrow" size={16} /></a>
-        <span className="quiet">The lab stays open. Each brief adds a batch to the register.</span>
+        {aside}
       </div>
     </section>
+  );
+}
+
+function LabRecord({ levels, records, store }) {
+  const batches = groupBatches(getPracticeLevels(levels, 'generated')).length;
+  return (
+    <RecordBand
+      title="Every incident repaired"
+      lead={<><span className="readout">{levels.length}</span> of <span className="readout">{levels.length}</span> incidents repaired. Revisit any incident to check your current source.</>}
+      levels={levels} records={records} store={store}
+      extraFields={<div className="readings-field"><dt>Batches</dt><dd className="readout">{pad2(batches)}</dd></div>}
+      aside={<span className="quiet">The lab stays open. Each brief adds a batch to the register.</span>}
+    />
+  );
+}
+
+/** Every generated incident is repaired: the latest batch's record, and the next brief as the next step. */
+function BatchRecord({ generated, foundationsNext, records, store }) {
+  const batches = groupBatches(generated);
+  const latest = batches[0];
+  const count = latest.levels.length;
+  return (
+    <RecordBand
+      title={latest.date ? <>Batch <span className="readout">{formatDate(latest.date, { year: true })}</span> repaired</> : 'Batch repaired'}
+      lead={<>
+        <span className="readout">{count}</span> of <span className="readout">{count}</span> incidents in this batch repaired
+        {batches.length > 1 && <>, and all <span className="readout">{batches.length}</span> batches before it</>}. Brief your agent for the next batch.
+      </>}
+      levels={latest.levels} records={records} store={store}
+      aside={foundationsNext && (
+        <a className="inline-link" href={levelHref(foundationsNext.level.id)}>
+          {foundationsNext.continuing ? 'Or continue' : 'Or revisit Foundations with'} incident <span className="readout">{pad2(foundationsNext.level.number)}</span> {foundationsNext.level.title}
+        </a>
+      )}
+    />
   );
 }
 
@@ -121,12 +158,15 @@ export default function LevelMap({ levels, completed, records, unsaved, filters,
   const foundations = getPracticeLevels(levels, 'foundations');
   const bench = benchIncident(levels, completed, lastWorkedId(store, levels.map((level) => level.id)));
   const allRepaired = levels.length > 0 && levels.every((level) => completed.has(level.id));
+  // Generated practice leads: once every generated incident is repaired, the season's end is that batch's record.
+  const generatedRepaired = generated.length > 0 && generated.every((level) => completed.has(level.id));
   const visible = new Set(filterChallenges(levels, filters, completed).map((level) => level.id));
   const batches = groupBatches(generated.filter((level) => visible.has(level.id)));
   const shownFoundations = foundations.filter((level) => visible.has(level.id));
   const filtering = Boolean(filters.query.trim()) || filters.status !== 'all';
   const changeFilter = (key, value) => onFiltersChange({ ...filters, [key]: value });
-  const tableProps = { records, unsaved, benchId: bench?.level.id, store };
+  const showBench = !allRepaired && !generatedRepaired;
+  const tableProps = { records, unsaved, benchId: showBench ? bench?.level.id : undefined, store };
 
   const repairTimes = [...records.values()].map((record) => record.at).filter(Boolean);
   const latestRepair = repairTimes.sort().at(-1);
@@ -140,7 +180,9 @@ export default function LevelMap({ levels, completed, records, unsaved, filters,
         <a href="#/brief" className="btn"><Icon name="plus" /> Brief an incident</a>
       </div>
 
-      {allRepaired ? <LabRecord levels={levels} records={records} store={store} /> : bench && <Bench bench={bench} store={store} />}
+      {allRepaired ? <LabRecord levels={levels} records={records} store={store} />
+        : generatedRepaired ? <BatchRecord generated={generated} foundationsNext={bench} records={records} store={store} />
+          : bench && <Bench bench={bench} store={store} />}
 
       <section className="register" aria-labelledby="register-title">
         <div className="register-heading">
