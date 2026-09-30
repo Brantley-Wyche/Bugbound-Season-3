@@ -150,8 +150,16 @@
 .context-details summary { cursor: pointer; font-size: .875rem; }
 .context-details summary > span { color: var(--lab-muted); font-size: .75rem; float: right; }
 .context-details .field-label { margin-top: 20px; }
-.profile-export { margin-top: 30px; }
-.profile-export p { font-size: .8125rem; color: var(--lab-muted); margin: 9px 0 18px; }
+.profile-export { margin-top: 40px; }
+.profile-export .section-toolbar { align-items: baseline; }
+.profile-export > p { font-size: .8125rem; color: var(--lab-muted); margin: 8px 0 16px; }
+.profile-export > .field-help { margin-bottom: 16px !important; }
+.readings-table { width: 100%; border-collapse: collapse; font-size: .8125rem; margin-bottom: 8px; }
+.readings-table th, .readings-table td { padding: 8px 0; border-bottom: 1px solid var(--lab-line); text-align: right; font-weight: 400; }
+.readings-table th:first-child { text-align: left; }
+.readings-table thead th { font-size: .75rem; color: var(--lab-muted); }
+.readings-table td { width: 72px; }
+.readings-table td.is-repaired { color: var(--lab-teal); }
 .section-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .prepared-brief { min-width: 0; }
 .prepared-brief > .section-toolbar { margin-bottom: 20px; }
