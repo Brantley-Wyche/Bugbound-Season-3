@@ -13,6 +13,7 @@ export default function ReadingsRow({ level, record, unsaved, readings, classNam
       <Field label="Case"><span className="readout">{bugId(level.number)}</span></Field>
       <Field label="Concept">{level.concept}</Field>
       <Field label="Severity">{level.severity}</Field>
+      {level.difficulty && <Field label="Difficulty">{level.difficulty}</Field>}
       <Field label="Origin">{level.generatedAt ? <>Generated <span className="readout">{formatDate(level.generatedAt)}</span></> : 'Foundations'}</Field>
       <Field label="Status">
         {record ? (

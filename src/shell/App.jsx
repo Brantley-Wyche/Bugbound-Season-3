@@ -28,7 +28,7 @@ export default function App() {
   const route = parseRoute(hash);
   const activeLevel = route.page === 'level' ? levels.find((level) => level.id === route.id) : null;
   const { completed, records, unsaved, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
-  const [draft, setDraft] = useState({ topic: 'effect cleanup', difficulty: 'Hard', count: 1, context: '' });
+  const [draft, setDraft] = useState({ topic: 'effect cleanup', difficulty: 'Hard', count: 1, context: '', profile: false });
   const [filters, setFilters] = useState({ query: '', status: 'all' });
   const [sourceRevision, setSourceRevision] = useState(0);
   const repairedFoundations = foundationIds.filter((id) => completed.has(id)).length;

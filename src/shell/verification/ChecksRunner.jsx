@@ -48,11 +48,34 @@ function RepairedEntry({ level, record, unsaved, fresh, headingRef, conclusion, 
   );
 }
 
+const BAR_RUNS = 6;
+
+/** The last few runs as cell rows, one cell per check: the lab's running measurement. */
+function BarTrace({ runEvents, record }) {
+  const runs = runEvents.slice(-BAR_RUNS);
+  if (runs.length < 2) return null;
+  return (
+    <ol className="bar-trace" aria-label="Recent runs">
+      {runs.map((entry, index) => {
+        const repaired = record?.run === entry.run;
+        return (
+          <li key={entry.run} className={`${index === runs.length - 1 ? 'is-latest' : ''} ${repaired ? 'is-repaired' : ''}`}>
+            <span className="sr-only">Run {entry.run}: {entry.passed} of {entry.total} passed{repaired ? ', repaired' : ''}.</span>
+            <span className="trace-bar" aria-hidden="true">
+              {Array.from({ length: entry.total }, (_, cell) => <span key={cell} className={cell < entry.passed ? 'is-pass' : ''} />)}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 /**
  * The verification record and the instrument bar pinned below the experiment column.
  * Children (the incident's readings) render between the record and the bar.
  */
-export default function ChecksRunner({ level, record = null, unsaved = false, next = null, onAllPass, autoRun = false, conclusion = '', onConclusionChange, children }) {
+export default function ChecksRunner({ level, record = null, unsaved = false, next = null, runEvents = [], onAllPass, autoRun = false, conclusion = '', onConclusionChange, children }) {
   const [results, setResults] = useState(null);
   const [running, setRunning] = useState(false);
   const [lastRun, setLastRun] = useState(null);
@@ -156,7 +179,7 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
       <section className="verification-panel" id="verification" aria-labelledby="verification-title" aria-busy={running}>
         <div className="section-toolbar">
           <h2 id="verification-title" tabIndex={-1}>Verification</h2>
-          <span className="plain-label"><span className="readout">{total}</span> {total === 1 ? 'check' : 'checks'}{lastRun?.run && <> · last run <span className="readout">{pad2(lastRun.run)}</span></>}</span>
+          <span className="plain-label"><span className="readout">{total}</span> {total === 1 ? 'check' : 'checks'}</span>
         </div>
         <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement}</p>
         {historyFailure && (
@@ -230,6 +253,7 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
           {record && finished && !repairedHere && <span className="status-repaired bar-stands">Repaired{repairedDay && <> <span className="readout">{repairedDay}</span></>} still stands</span>}
           {unsaved && <span className="status-qualifier">Not saved yet</span>}
         </div>
+        <BarTrace runEvents={runEvents} record={record} />
         <span className="bar-shortcut" aria-hidden="true"><kbd>{shortcutKey}</kbd>{' '}<kbd>Enter</kbd></span>
         <StatefulButton
           className={`btn ${record && !failing ? '' : 'btn-primary'}`}

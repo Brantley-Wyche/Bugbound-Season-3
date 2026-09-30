@@ -18,11 +18,13 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
   const [contextOpen, setContextOpen] = useState(Boolean(draft.context));
   const { store, error: readingsError } = useLearning();
   const conceptReadings = readingsByConcept(levels, completed, store);
+  // The concept with the most runs among those not yet fully repaired: a lever, not a verdict.
+  const readingTopic = conceptReadings.rows.find((row) => row.repaired < row.incidents && row.runs + row.hints > 0);
   const prompt = createAgentBrief(draft);
   const copied = copiedPrompt === prompt;
 
   function update(key, value) {
-    onDraftChange({ ...draft, [key]: value });
+    onDraftChange((current) => ({ ...current, [key]: value }));
     setError('');
   }
 
@@ -46,7 +48,8 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
       anchor.download = 'bugbound-learning-profile.json';
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief.');
+      onDraftChange((current) => ({ ...current, profile: true }));
+      setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief; the brief now mentions it.');
     } catch {
       setProfileMessage(progressFailure
         ? 'Resolve the saved repairs error above, then download your profile again. No profile was exported.'
@@ -70,9 +73,18 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
           <div className="topic-ideas" aria-label="Practice topic suggestions">
             {TOPICS.map((topic) => <button type="button" key={topic} aria-pressed={draft.topic === topic} onClick={() => update('topic', topic)}>{topic}</button>)}
           </div>
+          {readingTopic && (
+            <div className="topic-from-readings">
+              <span className="plain-label">From your readings</span>
+              <div className="topic-ideas">
+                <button type="button" aria-pressed={draft.topic === readingTopic.concept} onClick={() => update('topic', readingTopic.concept)}>{readingTopic.concept}</button>
+              </div>
+              <span className="plain-label"><span className="readout">{readingTopic.runs}</span> {readingTopic.runs === 1 ? 'run' : 'runs'} · <span className="readout">{readingTopic.hints}</span> {readingTopic.hints === 1 ? 'hint' : 'hints'}, not yet repaired</span>
+            </div>
+          )}
           <div className="brief-options">
             <label className="field-label">Difficulty
-              <select value={draft.difficulty} onChange={(event) => update('difficulty', event.target.value)}><option>Beginner</option><option>Intermediate</option><option>Hard</option></select>
+              <select value={draft.difficulty} onChange={(event) => update('difficulty', event.target.value)}><option>Intermediate</option><option>Hard</option></select>
             </label>
             <label className="field-label">Incidents
               <select value={draft.count} onChange={(event) => update('count', Number(event.target.value))}><option value={1}>1 incident</option><option value={2}>2 incidents</option><option value={3}>3 incidents</option></select>
@@ -116,6 +128,10 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
               <p className="field-help">No readings yet. Once you work on an incident, your repairs, runs and hint tiers appear here.</p>
             )}
             <button className="btn" onClick={downloadProfile}><Icon name="download" /> Download learning profile</button>
+            <label className="profile-mention">
+              <input type="checkbox" checked={Boolean(draft.profile)} onChange={(event) => update('profile', event.target.checked)} />
+              Mention an attached profile in the brief
+            </label>
             <p className="action-message" role="status">{profileMessage}</p>
           </section>
         </section>
