@@ -47,7 +47,7 @@ function readState(storage, validIds) {
 
 function failure(operation, error) {
   const action = operation === 'read' ? 'read' : operation === 'save' ? 'save' : 'reset';
-  return { operation, message: `Could not ${action} saved completion in this browser. ${error?.message || 'Please retry.'}` };
+  return { operation, message: `Could not ${action} saved repairs in this browser. ${error?.message || 'Please retry.'}` };
 }
 
 /** Independent completion records prevent concurrent tabs from overwriting each other's saves. */

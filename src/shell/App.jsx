@@ -8,7 +8,9 @@ import AgentStation from './authoring/AgentStation.jsx';
 import Icon from './Icon.jsx';
 
 const levelIds = levels.map((level) => level.id);
-const generatedCount = levels.filter((level) => level.number > 15).length;
+const foundationIds = levels.filter((level) => level.number <= 15).map((level) => level.id);
+const generatedIds = levels.filter((level) => level.number > 15).map((level) => level.id);
+const pad = (value) => String(value).padStart(2, '0');
 
 function useHashRoute() {
   const [navigation, setNavigation] = useState(() => ({ hash: window.location.hash, lastId: parseRoute(window.location.hash).id || null }));
@@ -33,10 +35,11 @@ export default function App() {
   const [filters, setFilters] = useState({ query: '', status: 'all' });
   const [reflections, setReflections] = useState({});
   const [sourceRevision, setSourceRevision] = useState(0);
-  const savedCount = levels.filter((level) => level.number > 15 && completed.has(level.id)).length;
+  const repairedFoundations = foundationIds.filter((id) => completed.has(id)).length;
+  const repairedGenerated = generatedIds.filter((id) => completed.has(id)).length;
 
   useEffect(() => {
-    const title = activeLevel?.title || (route.page === 'brief' ? 'Create a challenge' : route.page === 'practice' ? 'Practice' : 'Challenge not found');
+    const title = activeLevel?.title || (route.page === 'brief' ? 'Brief an incident' : route.page === 'practice' ? 'Practice' : 'Incident not found');
     document.title = `${title} · Bugbound Season 3`;
     window.scrollTo({ top: 0, behavior: 'instant' });
     document.getElementById('page-title')?.focus({ preventScroll: true });
@@ -49,7 +52,7 @@ export default function App() {
   }, []);
 
   function confirmReset() {
-    if (window.confirm('Reset saved completion for all challenges in this browser? Exercise files, learning-profile activity, and this session’s notes will stay unchanged.')) resetProgress();
+    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and this session’s notes stay unchanged.')) resetProgress();
   }
 
   return (
@@ -60,22 +63,23 @@ export default function App() {
       }}>Skip to content</a>
       <header className="lab-header">
         <a className="lab-wordmark" href="#/" aria-label="Bugbound Season 3, Practice">
-          <img src="/bugbound-icon.svg" width="36" height="36" alt="" />
+          <img src="/bugbound-icon.svg" width="32" height="32" alt="" />
           <span>Bugbound <small>Season 3</small></span>
         </a>
         <nav className="primary-nav" aria-label="Main navigation">
           <a href="#/" aria-current={route.page === 'practice' || route.page === 'level' ? 'page' : undefined}>Practice</a>
-          <a href="#/brief" aria-current={route.page === 'brief' ? 'page' : undefined}>Create challenge</a>
+          <a href="#/brief" aria-current={route.page === 'brief' ? 'page' : undefined}>Brief an incident</a>
         </nav>
-        <span className="lab-identity">Engineering Lab</span>
-        <span className="header-saved" aria-label={`${savedCount} of ${generatedCount} generated challenges have saved completion`}>
-          <Icon name="check" size={15} /> {savedCount}<span> / {generatedCount} saved</span>
-        </span>
+        <p className="header-readout">
+          <span>Foundations <span className="readout">{pad(repairedFoundations)}/{pad(foundationIds.length)}</span></span>
+          <span>Generated <span className="readout">{pad(repairedGenerated)}/{pad(generatedIds.length)}</span></span>
+          <span>repaired</span>
+        </p>
       </header>
 
       <aside className="desktop-notice" role="note">
         <Icon name="monitor" size={22} />
-        <p><strong>Use a desktop to work on the exercises.</strong> Edit actual source files in your local editor, let Vite reload the app, then run the checks. You can still browse the challenges and references here.</p>
+        <p><strong>Use a desktop to work on the incidents.</strong> Edit the actual source files in your local editor, let Vite reload the app, then run the checks. You can still browse the incidents and references here.</p>
       </aside>
 
       {storageFailure && (
@@ -88,8 +92,8 @@ export default function App() {
       )}
 
       {catalogErrors.length > 0 && <div className="storage-notice" role="alert">
-        <p>Some challenge files need attention. Run <code>npm run validate-levels</code> in your editor terminal, then reload. Available challenges remain browsable.</p>
-        <button className="btn" onClick={() => window.location.reload()}>Reload challenges</button>
+        <p>Some incident files need attention. Run <code>npm run validate-levels</code> in your editor terminal, then reload. Available incidents remain browsable.</p>
+        <button className="btn" onClick={() => window.location.reload()}>Reload incidents</button>
       </div>}
 
       {route.page === 'practice' ? (
@@ -105,8 +109,8 @@ export default function App() {
       ) : (
         <main className="practice-page missing-page" id="main-content" tabIndex={-1}>
           <Icon name="file" size={38} />
-          <h1 id="page-title" tabIndex={-1}>Challenge not found.</h1>
-          <p>This link does not match a challenge in the current repository. If your agent is adding one, finish the generation and reload.</p>
+          <h1 id="page-title" tabIndex={-1}>Incident not found.</h1>
+          <p>This link does not match an incident in the current repository. If your agent is adding one, finish the generation and reload.</p>
           <a className="btn btn-primary" href="#/">Return to practice <Icon name="arrow" /></a>
         </main>
       )}
@@ -114,7 +118,7 @@ export default function App() {
       <footer className="lab-footer">
         <span>Bugbound <span aria-hidden="true">/</span> Engineering Lab</span>
         <span className="footer-context">Your editor. Your agent. Your investigation.</span>
-        <button className="text-button" onClick={confirmReset}>Reset saved completion</button>
+        <button className="text-button" onClick={confirmReset}>Reset repairs</button>
       </footer>
     </div>
   );

@@ -64,7 +64,7 @@ export function recordHintReveal(levelId, tier) {
 }
 
 export function createLearningProfile(levels, completed, progressFailure = null) {
-  if (progressFailure) throw new Error('Resolve the saved completion error before exporting your learning profile.');
+  if (progressFailure) throw new Error('Resolve the saved repairs error before exporting your learning profile.');
   let telemetry;
   try {
     telemetry = loadStore();

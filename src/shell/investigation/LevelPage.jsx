@@ -56,11 +56,11 @@ export default function LevelPage({ level, levels, completed, sourceRevision = 0
           <span className="incident-index">{String(level.number).padStart(2, '0')}</span>
           <div className="investigation-title">
             <h1 id="page-title" tabIndex={-1}>{level.title}</h1>
-            <div className="investigation-meta"><span>{level.concept}</span><span>{level.difficulty || level.severity} difficulty</span><span>{level.number > 15 ? 'Agent-generated' : 'Foundations'}</span></div>
+            <div className="investigation-meta"><span>{level.concept}</span><span>{level.severity} severity</span><span>{level.number > 15 ? 'Agent-generated' : 'Foundations'}</span></div>
           </div>
           <div className="investigation-state">
             <span className={`visit-state state-${verification}`}><span className="state-dot" />{stateLabel}</span>
-            {isSaved && <span className="saved-state"><Icon name="check" size={14} /> Completion saved</span>}
+            {isSaved && <span className="saved-state"><Icon name="check" size={14} /> Repaired</span>}
           </div>
         </div>
         <nav className="investigation-jumps" aria-label="Investigation sections">
@@ -97,7 +97,7 @@ export default function LevelPage({ level, levels, completed, sourceRevision = 0
               <textarea id="reflection" rows={4} value={reflection} onChange={(event) => onReflectionChange(event.target.value)} placeholder="The evidence that changed my understanding was…" />
               <p className="field-help">Kept for this app session. Copy your notes before reloading or closing the tab.</p>
               <div className="resolution-actions">
-                {next ? <a className="btn btn-primary" href={levelHref(next.level.id)}>Next suggestion <Icon name="arrow" /></a> : <a className="btn btn-primary" href="#/brief">Create another challenge <Icon name="plus" /></a>}
+                {next ? <a className="btn btn-primary" href={levelHref(next.level.id)}>Next suggestion <Icon name="arrow" /></a> : <a className="btn btn-primary" href="#/brief">Brief another incident <Icon name="plus" /></a>}
                 <a className="inline-link" href={collection === 'generated' ? '#/' : '#/foundations'}>Choose from the register</a>
               </div>
             </section>
