@@ -13,22 +13,18 @@ const foundationIds = levels.filter((level) => level.number <= 15).map((level) =
 const generatedIds = levels.filter((level) => level.number > 15).map((level) => level.id);
 const pad = (value) => String(value).padStart(2, '0');
 
-function useHashRoute() {
-  const [navigation, setNavigation] = useState(() => ({ hash: window.location.hash, lastId: parseRoute(window.location.hash).id || null }));
+function useHash() {
+  const [hash, setHash] = useState(() => window.location.hash);
   useEffect(() => {
-    const onChange = () => {
-      const hash = window.location.hash;
-      const route = parseRoute(hash);
-      setNavigation((previous) => ({ hash, lastId: route.page === 'level' && levelIds.includes(route.id) ? route.id : previous.lastId }));
-    };
+    const onChange = () => setHash(window.location.hash);
     window.addEventListener('hashchange', onChange);
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
-  return navigation;
+  return hash;
 }
 
 export default function App() {
-  const { hash, lastId } = useHashRoute();
+  const hash = useHash();
   const route = parseRoute(hash);
   const activeLevel = route.page === 'level' ? levels.find((level) => level.id === route.id) : null;
   const { completed, records, unsaved, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
@@ -43,7 +39,11 @@ export default function App() {
     document.title = `${title} · Bugbound Season 3`;
     window.scrollTo({ top: 0, behavior: 'instant' });
     document.getElementById('page-title')?.focus({ preventScroll: true });
-  }, [hash, activeLevel, route.page]);
+    // #/foundations is the register, scrolled to its Foundations table.
+    if (route.page === 'practice' && route.collection === 'foundations') {
+      document.getElementById('foundations-title')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
+  }, [hash, activeLevel, route.page, route.collection]);
 
   useEffect(() => {
     const onSourceChange = () => setSourceRevision((value) => value + 1);
@@ -99,7 +99,7 @@ export default function App() {
       </div>}
 
       {route.page === 'practice' ? (
-        <LevelMap levels={levels} completed={completed} collection={route.collection} lastId={lastId}
+        <LevelMap levels={levels} completed={completed} records={records} unsaved={unsaved}
           filters={filters} onFiltersChange={setFilters} />
       ) : route.page === 'brief' ? (
         <AgentStation levels={levels} completed={completed} records={records} draft={draft} onDraftChange={setDraft} progressFailure={storageFailure} />

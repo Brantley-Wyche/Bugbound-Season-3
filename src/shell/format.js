@@ -17,10 +17,10 @@ export function formatClock(iso) {
 }
 
 /** A calendar date such as a manifest's "2026-07-04", read in local time: "Jul 4" or "Jul 4, 2025". */
-export function formatDate(dateOnly, now = new Date()) {
+export function formatDate(dateOnly, { year: withYear = false, now = new Date() } = {}) {
   const [year, month, day] = dateOnly.split('-').map(Number);
   const date = new Date(year, month - 1, day);
-  const options = year === now.getFullYear() ? { month: 'short', day: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' };
+  const options = year === now.getFullYear() && !withYear ? { month: 'short', day: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' };
   return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
