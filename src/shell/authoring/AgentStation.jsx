@@ -89,7 +89,7 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
               <h2 id="brief-readings-title">Your readings</h2>
               <span className="plain-label">kept in this browser</span>
             </div>
-            <p>What your learning profile carries to the agent, if you choose to share it. It never includes hint or solution text.</p>
+            <p>A summary by concept of what your learning profile carries, if you choose to share it. The profile never includes hint or solution text.</p>
             {readingsError ? (
               <p className="field-help" role="status">{readingsError}</p>
             ) : conceptReadings.rows.length ? (

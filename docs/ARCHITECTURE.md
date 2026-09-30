@@ -10,8 +10,9 @@ behavioral assertions, test IDs, encoded hints, or encoded solutions.
 src/
   main.jsx                    Browser shell entry
   shell/
-    App.jsx                   App composition, route state, session notes
+    App.jsx                   App composition, route state, brief draft and filters
     Icon.jsx                  Shared shell icons
+    format.js                 Day, time, BUG ID and folio formatting
     workspace/                Practice register, route parsing, recommendations
     investigation/            Investigation page, source guidance, hints, prose
     authoring/                External-agent brief builder and profile export UI
@@ -34,11 +35,11 @@ it does not eagerly import executable exercise manifests.
 
 | Folder | Primary files | Responsibility |
 |---|---|---|
-| `workspace/` | `LevelMap.jsx`, `navigation.js`, `practice.js` | Browse freely, filter the register, parse routes, suggest next practice. |
-| `investigation/` | `LevelPage.jsx`, `HintBox.jsx`, `Prose.jsx` | Compose the investigation and optional guidance. |
+| `workspace/` | `LevelMap.jsx`, `navigation.js`, `practice.js` | The bench, the register by batch and the lab record; filter, parse routes, suggest next practice. |
+| `investigation/` | `LevelPage.jsx`, `ReadingsRow.jsx`, `Readings.jsx`, `HintBox.jsx`, `Prose.jsx` | Compose the investigation, its readings row and readings log, and optional guidance. |
 | `authoring/` | `AgentStation.jsx`, `brief.js` | Prepare a handoff for an external agent; the app does not invoke an agent. |
-| `progress/` | `progress.js`, `useProgress.js`, `learning.js` | Separate saved completion from current verification and activity history. |
-| `verification/` | `ChecksRunner.jsx`, `check-session.js` | Sequence checks, expose results, cancel abandoned visits. |
+| `progress/` | `progress.js`, `useProgress.js`, `learning.js`, `useLearning.js` | Repairs (with time and run, generation-scoped) kept apart from current verification; readings (per-incident event log, conclusions, resets) that survive a reset. |
+| `verification/` | `ChecksRunner.jsx`, `check-session.js` | Sequence checks, render the verification record, the Repaired entry and the instrument bar, cancel abandoned visits. |
 | `runtime/` | `exercise-entry.jsx`, `exercise-runtime.jsx`, `frame-check.js`, `harness.jsx`, `ExercisePreview.jsx`, `ErrorBoundary.jsx` | Own frame loading, rendering, deadlines, errors, and cleanup. |
 
 ## Runtime and build boundaries
