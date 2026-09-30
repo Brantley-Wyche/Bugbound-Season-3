@@ -172,19 +172,17 @@
 /* Investigation: content remains mounted while the experiment gains space. */
 .investigation-page { width: min(100%, 1600px); margin: 0 auto; padding: 22px 36px 56px; }
 .investigation-header { margin-bottom: 24px; }
-.investigation-title-row { display: flex; align-items: center; gap: 23px; margin-top: 17px; }
-.investigation-title { min-width: 0; flex: 1; }
-.investigation-title h1 { font-size: 1.875rem; overflow-wrap: anywhere; }
-.investigation-meta { display: flex; flex-wrap: wrap; gap: 7px 16px; color: var(--lab-muted); font-size: .75rem; margin-top: 9px; }
-.investigation-meta span + span { padding-left: 16px; border-left: 1px solid var(--lab-line); }
-.investigation-state { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-.visit-state { display: inline-flex; align-items: center; gap: 8px; color: var(--lab-muted); font-size: .75rem; }
-.state-running { color: var(--lab-amber); }
-.state-passed { color: var(--lab-teal); }
-.state-failed { color: var(--lab-error); }
-.state-passed .state-dot { background: currentColor; }
-.saved-state { display: flex; align-items: center; gap: 6px; font-size: .75rem; color: var(--lab-muted); }
-.investigation-jumps { display: flex; gap: 24px; margin-top: 18px; }
+.investigation-title-row { display: flex; align-items: baseline; gap: 24px; margin-top: 8px; }
+.investigation-title-row .incident-index { min-width: 64px; }
+.investigation-title-row h1 { min-width: 0; font-size: 1.875rem; overflow-wrap: anywhere; }
+/* The readings row: ruled fields under the title, aligned with it. */
+.readings-row { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 16px 0 0; padding: 12px 0 12px 88px; border-block: 1px solid var(--lab-line); }
+.readings-field dt { font-size: .75rem; color: var(--lab-muted); }
+.readings-field dd { margin: 2px 0 0; font-size: .8125rem; }
+.status-open { display: inline-flex; align-items: center; gap: 8px; color: var(--lab-amber); }
+.status-repaired { display: inline-flex; align-items: center; gap: 6px; color: var(--lab-teal); }
+.status-qualifier { color: var(--lab-muted); font-size: .8125rem; }
+.investigation-jumps { display: flex; gap: 24px; margin-top: 12px; }
 .investigation-jumps button { padding: 6px 0; min-height: 36px; background: transparent; border: 0; color: var(--lab-teal); font-size: .8125rem; text-decoration: underline; text-underline-offset: 4px; }
 .investigation-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 0; border-top: 1px solid var(--lab-line); transition: grid-template-columns 200ms cubic-bezier(.16, 1, .3, 1); }
 .experiment-column { min-width: 0; padding: 24px 30px 0 0; }
@@ -194,8 +192,11 @@
 .experiment-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
 .experiment-actions { display: flex; align-items: center; gap: 18px; }
 .experiment-actions .focus-button { min-height: 36px; padding: 6px 10px; font-size: .75rem; }
-.experiment-caption { display: flex; gap: 9px; align-items: center; padding: 10px 17px; background: var(--lab-raised); color: var(--lab-muted); font-size: .75rem; border-bottom: 1px solid var(--lab-line); }
-.experiment-caption > .state-dot { color: var(--lab-teal); background: currentColor; }
+/* The live experiment is the one framed element; its caption is a readout of real events. */
+.experiment-frame { border: 1px solid var(--lab-line); border-radius: 6px; overflow: hidden; }
+.experiment-caption { display: flex; gap: 16px; align-items: center; min-height: 36px; padding: 0 16px; background: var(--lab-raised); color: var(--lab-muted); font-size: .75rem; border-bottom: 1px solid var(--lab-line); }
+.experiment-live { display: inline-flex; align-items: center; gap: 8px; color: var(--lab-ink); }
+.experiment-live > .state-dot { color: var(--lab-teal); background: currentColor; }
 .experiment-caption-detail { margin-left: auto; }
 .demo-stage { min-height: 300px; max-height: 420px; padding: 30px; background: #11171b; overflow: auto; display: flex; align-items: flex-start; }
 .demo-stage > * { flex: 0 1 auto; min-width: 0; }
@@ -205,9 +206,51 @@
 .demo-crash pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8125rem; margin: 16px 0; }
 .verification-panel { border-top: 1px solid var(--lab-line); margin-top: 29px; padding-top: 23px; scroll-margin-top: 20px; }
 .investigation-page h2[tabindex="-1"] { scroll-margin-top: 24px; }
-.verification-panel .section-toolbar { margin-bottom: 18px; }
-.verification-summary, .verification-note { color: var(--lab-muted); font-size: .8125rem; margin: 12px 0 16px !important; }
-.verification-note kbd { font: .75rem var(--font-mono); color: var(--lab-ink); border: 1px solid var(--lab-line); border-radius: 4px; padding: 0 5px; }
+.investigation-page :where(.run-header, .repaired-heading):focus { outline: none; }
+.verification-panel .section-toolbar { align-items: baseline; }
+.verification-note { color: var(--lab-muted); font-size: .8125rem; margin: 12px 0 16px !important; }
+.lab-shell kbd { font: .75rem var(--font-mono); color: var(--lab-ink); border: 1px solid var(--lab-line); border-radius: 4px; padding: 1px 6px; }
+.run-header { margin: 16px 0 8px !important; font-size: .75rem; color: var(--lab-muted); scroll-margin-bottom: 96px; }
+/* Repaired: the finish is an entry in the verification record, never a banner. */
+.repaired-entry { position: relative; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--lab-teal); }
+.repaired-entry.is-fresh { border-top-color: transparent; }
+.repaired-entry.is-fresh::before { content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--lab-teal); transform-origin: left; animation: rule-draw 320ms cubic-bezier(.16, 1, .3, 1); }
+@keyframes rule-draw { from { transform: scaleX(0); } }
+.repaired-heading { display: flex; align-items: center; gap: 8px; font-size: 1.125rem !important; color: var(--lab-teal); scroll-margin-bottom: 96px; }
+.repaired-day { font-size: .875rem; font-weight: 400; }
+.repaired-heading .status-qualifier { font-weight: 400; }
+.repaired-line { margin-top: 8px !important; font-size: .875rem; }
+.repaired-entry .verification-note { margin: 4px 0 0 !important; }
+.conclusion-label { display: flex; align-items: baseline; gap: 8px; margin-top: 24px; font-size: .8125rem; font-weight: 600; }
+.conclusion-label .plain-label { font-weight: 400; }
+.repaired-entry textarea { margin-top: 8px; background: var(--lab-surface); }
+/* Readings: the incident's own history, as measurements. */
+.readings { margin-top: 32px; }
+.run-trace { display: flex; flex-wrap: wrap; gap: 16px 28px; list-style: none; margin: 16px 0 0; padding: 0; }
+.run-trace li { display: flex; flex-direction: column; gap: 6px; }
+.trace-label { font-size: .75rem; color: var(--lab-muted); }
+.trace-bar { display: flex; gap: 2px; }
+.trace-bar > span { width: 16px; height: 6px; border-radius: 1px; border: 1px solid #5a6360; }
+.trace-bar > span.is-pass { background: var(--lab-teal); border-color: var(--lab-teal); }
+.trace-value { font-size: .8125rem; }
+.run-trace .is-repaired .trace-value, .readings-repaired { color: var(--lab-teal); }
+.readings-day h3 { margin-top: 20px; font-size: .75rem !important; color: var(--lab-muted); }
+.readings-log { list-style: none; margin: 8px 0 0; padding: 0; font-size: .8125rem; }
+.readings-log li { display: grid; grid-template-columns: 80px 88px minmax(0, 1fr); gap: 16px; padding: 8px 0; border-top: 1px solid var(--lab-line); }
+.readings-log li:last-child { border-bottom: 1px solid var(--lab-line); }
+.readings-time { font-size: .75rem; color: var(--lab-muted); padding-top: 1px; }
+.readings-detail { color: var(--lab-muted); }
+.readings .text-button { margin-top: 8px; }
+/* The instrument bar stays in view at the foot of the experiment column. */
+.instrument-bar { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; min-height: 64px; margin-top: 32px; padding: 12px 0; background: var(--lab-ground); border-top: 1px solid var(--lab-line); }
+.bar-readout { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; min-width: 0; font-size: .8125rem; }
+.bar-reading { display: inline-flex; align-items: baseline; gap: 12px; padding: 4px 0; border: 0; background: transparent; color: var(--lab-ink); text-decoration: underline dotted #5a6360; text-underline-offset: 5px; cursor: pointer; }
+.bar-reading .status-repaired { align-self: center; }
+.bar-reading .is-fail { color: var(--lab-error); }
+.bar-reading .is-pass { color: var(--lab-teal); }
+.bar-time, .bar-muted { color: var(--lab-muted); }
+.bar-stands { font-size: .8125rem; }
+.bar-shortcut { margin-left: auto; font-size: .75rem; color: var(--lab-muted); }
 .checks-list { list-style: none; margin: 0; padding: 0; }
 .check-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; border-top: 1px solid var(--lab-line); }
 .check-chip { flex: 0 0 58px; font-size: .75rem; color: var(--lab-muted); padding-top: 3px; }
@@ -217,7 +260,6 @@
 .check-row.pass .check-chip { color: var(--lab-teal); }
 .check-row.fail .check-chip { color: var(--lab-error); }
 .check-row.pending .check-chip { color: var(--lab-amber); }
-.source-id { color: var(--lab-muted); font: .75rem var(--font-mono); white-space: nowrap; }
 .symptom { margin: 18px 0 24px !important; font-size: .875rem; line-height: 1.8; overflow-wrap: anywhere; }
 .incident-brief h3 { font-size: .8125rem; }
 .source-files { list-style: none; margin: 12px 0 0; padding: 0; }
@@ -229,7 +271,7 @@
 .concept-reference summary { cursor: pointer; color: var(--lab-ink); font-size: .875rem; }
 .concept-reference summary > svg { margin-right: 6px; color: var(--lab-teal); }
 .concept-reference h3 { margin: 20px 0 12px; }
-.concept-reference p { color: var(--lab-muted); font-size: .8125rem; line-height: 1.85; margin: 12px 0; overflow-wrap: anywhere; }
+.concept-reference p { color: var(--lab-muted); font-size: .875rem; line-height: 1.75; margin: 12px 0; overflow-wrap: anywhere; }
 .concept-reference code { background: var(--lab-raised); color: #d1dcd6; border: 0; white-space: normal; overflow-wrap: anywhere; font-size: .75rem; }
 .hints-section { margin-top: 24px; }
 .hints-section h2 { font-size: .9375rem; }
@@ -239,10 +281,6 @@
 .hint-toggle:hover { color: var(--lab-amber); }
 .hint-toggle .tier { color: var(--lab-muted); font-size: .75rem; text-align: right; }
 .hint-body { padding: 0 0 20px; color: var(--lab-muted); font-size: .8125rem; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
-.resolution-review { margin-top: 28px; border-top: 1px solid var(--lab-line); padding-top: 26px; }
-.resolution-review > p { color: var(--lab-muted); margin: 12px 0 18px; font-size: .8125rem; }
-.resolution-review textarea { background: var(--lab-surface); }
-.resolution-actions { display: flex; gap: 22px; align-items: center; margin-top: 23px; }
 
 @media (min-width: 1500px) {
   .investigation-workspace { grid-template-columns: minmax(0, 1fr) 390px; }
@@ -275,8 +313,6 @@
   .launch-aside p { margin: 5px 0 10px; }
   .brief-workspace { grid-template-columns: 1fr; gap: 40px; }
   .prepared-brief { border-top: 1px solid var(--lab-line); padding-top: 28px; }
-  .investigation-title-row { flex-wrap: wrap; }
-  .investigation-state { align-items: flex-start; width: 100%; padding-left: 69px; }
   .investigation-workspace { grid-template-columns: 1fr; }
   .experiment-column { padding-right: 0; }
   .investigation-context { border-left: 0; border-top: 1px solid var(--lab-line); margin-top: 28px; padding: 25px 0 0; }
@@ -326,11 +362,10 @@
   .lab-shell .brief-output { padding: 18px; }
   .brief-copy-row { flex-direction: column; align-items: flex-start; gap: 12px; }
   .investigation-page { padding: 17px 20px 40px; }
-  .investigation-title-row { gap: 16px; align-items: flex-start; }
-  .investigation-title h1 { font-size: 1.5rem; }
-  .investigation-state { padding-left: 0; }
-  .investigation-meta { gap: 5px 10px; }
-  .investigation-meta span + span { padding-left: 10px; }
+  .investigation-title-row { gap: 16px; }
+  .investigation-title-row .incident-index { min-width: 0; }
+  .investigation-title-row h1 { font-size: 1.5rem; }
+  .readings-row { padding-left: 0; gap: 8px 20px; }
   .investigation-jumps { gap: 20px; }
   .experiment-toolbar { align-items: center; flex-wrap: nowrap; }
   .experiment-toolbar h2 { font-size: 1rem; }
@@ -345,7 +380,9 @@
   .concept-reference p { font-size: .875rem; }
   .check-row { gap: 10px; }
   .check-chip { flex-basis: 52px; }
-  .resolution-actions { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .bar-shortcut { display: none; }
+  .readings-log li { grid-template-columns: 72px minmax(0, 1fr); gap: 4px 12px; }
+  .readings-detail { grid-column: 2; }
   .lab-footer { padding: 18px 20px; flex-wrap: wrap; gap: 5px; }
   .storage-notice { flex-direction: column; align-items: flex-start; padding: 18px 20px; gap: 14px; }
 }

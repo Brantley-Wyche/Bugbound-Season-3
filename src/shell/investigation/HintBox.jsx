@@ -2,7 +2,7 @@ import { useState } from 'react';
 import hints from '../../levels/hints.json';
 import { recordHintReveal } from '../progress/learning.js';
 
-const TIER_LABELS = ['Gentle nudge', 'Closer look', 'Basically the answer'];
+export const TIER_LABELS = ['Gentle nudge', 'Closer look', 'Basically the answer'];
 
 function decode(b64) {
   return new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));

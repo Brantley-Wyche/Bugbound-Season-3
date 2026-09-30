@@ -55,8 +55,8 @@ function readState(storage, validIds) {
 }
 
 function failure(operation, error) {
-  const action = operation === 'read' ? 'read' : operation === 'save' ? 'save' : 'reset';
-  return { operation, message: `Could not ${action} saved repairs in this browser. ${error?.message || 'Please retry.'}` };
+  const action = operation === 'read' ? 'read your saved repairs' : operation === 'save' ? 'save your repair' : 'reset your repairs';
+  return { operation, message: `Could not ${action} in this browser. ${error?.message || 'Please retry.'}` };
 }
 
 /**
