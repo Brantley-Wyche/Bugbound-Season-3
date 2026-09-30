@@ -46,7 +46,7 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
       setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief.');
     } catch {
       setProfileMessage(progressFailure
-        ? 'Resolve the saved completion error above, then download your profile again. No profile was exported.'
+        ? 'Resolve the saved repairs error above, then download your profile again. No profile was exported.'
         : 'Your practice history could not be read or downloaded. No incomplete profile was exported. Try downloading it again.');
     }
   }
@@ -55,8 +55,8 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
     <main className="brief-page" id="main-content" tabIndex={-1}>
       <a className="back-link" href="#/"><Icon name="back" size={16} /> Back to practice</a>
       <div className="page-heading">
-        <h1 id="page-title" tabIndex={-1}>Create a challenge.</h1>
-        <p>Define the practice. Your coding agent authors the bug.</p>
+        <h1 id="page-title" tabIndex={-1}>Brief an incident</h1>
+        <p>Set the practice. Your coding agent authors the incident; this page prepares the brief and never runs the agent.</p>
       </div>
       <div className="brief-workspace">
         <section className="brief-controls" aria-labelledby="challenge-settings-title">
@@ -71,8 +71,8 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
             <label className="field-label">Difficulty
               <select value={draft.difficulty} onChange={(event) => update('difficulty', event.target.value)}><option>Beginner</option><option>Intermediate</option><option>Hard</option></select>
             </label>
-            <label className="field-label">Challenges
-              <select value={draft.count} onChange={(event) => update('count', Number(event.target.value))}><option value={1}>1 challenge</option><option value={2}>2 challenges</option><option value={3}>3 challenges</option></select>
+            <label className="field-label">Incidents
+              <select value={draft.count} onChange={(event) => update('count', Number(event.target.value))}><option value={1}>1 incident</option><option value={2}>2 incidents</option><option value={3}>3 incidents</option></select>
             </label>
           </div>
           <details className="context-details" open={contextOpen} onToggle={(event) => setContextOpen(event.currentTarget.open)}>
@@ -83,7 +83,7 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
           </details>
           <div className="profile-export">
             <h3>Bring your practice history.</h3>
-            <p>Your profile contains completion, check activity, and hint usage. You choose whether to share it with your agent.</p>
+            <p>Your profile contains repairs, check activity, and hint usage. You choose whether to share it with your agent.</p>
             <button className="btn" onClick={downloadProfile}><Icon name="download" /> Download learning profile</button>
             <p className="action-message" role="status">{profileMessage}</p>
           </div>
@@ -100,8 +100,8 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
             <h3>Take it to your coding agent.</h3>
             <ol>
               <li><strong>Send the brief.</strong> Open this repository in your agent and paste the instructions.</li>
-              <li><strong>Let the agent author and verify.</strong> It should prove the checks fail against the planted bug and pass with its private fix, then restore the buggy version.</li>
-              <li><strong>Return to investigate.</strong> New challenges appear here when their manifests are added. Confirm the agent finished validation before you begin.</li>
+              <li><strong>Let the agent author and prove the incident.</strong> It should prove the checks fail against the planted bug and pass with its private fix, then restore the buggy version.</li>
+              <li><strong>Return to the register.</strong> New incidents appear under Generated when their manifests are added. Confirm the agent finished validation before you begin.</li>
             </ol>
             <p>The app prepares this handoff. It does not run your agent.</p>
             <a className="inline-link" href="#/">Return to practice <Icon name="arrow" size={16} /></a>

@@ -132,7 +132,7 @@ export default function ChecksRunner({ level, onAllPass, autoRun = false, onStat
           })}
         </ul>
       ) : (
-        <p className="verification-note">No behavioral checks are available for this challenge.</p>
+        <p className="verification-note">No behavioral checks are available for this incident.</p>
       )}
       <p className="verification-note">
         Edit the source in your editor, then run the checks to verify its behavior

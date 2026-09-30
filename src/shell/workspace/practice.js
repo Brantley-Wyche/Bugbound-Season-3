@@ -12,7 +12,7 @@ export function recommendChallenge(levels, completed, lastId) {
 
   return {
     level,
-    reason: `Next available practice in ${level.concept || 'React'}, with no saved completion.`,
+    reason: `Next available incident in ${level.concept || 'React'}, not yet repaired.`,
   };
 }
 

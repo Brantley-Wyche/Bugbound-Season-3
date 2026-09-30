@@ -273,6 +273,6 @@ test('malformed per-level learning history never breaks the practice interaction
 test('profile export refuses an uncertain completion snapshot', () => {
   const original = globalThis.localStorage;
   globalThis.localStorage = new MemoryStorage();
-  try { assert.throws(() => createLearningProfile([], new Set(), { operation: 'read' }), /saved completion/i); }
+  try { assert.throws(() => createLearningProfile([], new Set(), { operation: 'read' }), /saved repairs/i); }
   finally { globalThis.localStorage = original; }
 });

@@ -9,7 +9,7 @@ export default function ExercisePreview({ levelId, title, frameUrl = exerciseFra
   useEffect(() => {
     const frame = frameRef.current;
     const channel = crypto.randomUUID();
-    const timeout = setTimeout(() => { setStatus('error'); setMessage('The exercise did not finish loading. Remount to try again.'); }, 20000);
+    const timeout = setTimeout(() => { setStatus('error'); setMessage('The live experiment did not finish loading. Remount to try again.'); }, 20000);
     let frameWindow = null;
     // Keys pressed inside the experiment stay in the frame, so the run-checks chord is re-dispatched here.
     const forwardShortcut = (event) => {
@@ -38,8 +38,8 @@ export default function ExercisePreview({ levelId, title, frameUrl = exerciseFra
     };
   }, [levelId, frameUrl]);
   return <>
-    {status === 'loading' && <p role="status">Loading your local exercise…</p>}
-    {status === 'error' && <p role="alert">{message} Use Remount after correcting the exercise files.</p>}
+    {status === 'loading' && <p role="status">Loading the live experiment…</p>}
+    {status === 'error' && <p role="alert">{message} Use Remount after correcting the incident’s source files.</p>}
     <iframe ref={frameRef} className="exercise-preview" title={`${title} — live experiment`} style={{ height }} hidden={status === 'error'} />
   </>;
 }
