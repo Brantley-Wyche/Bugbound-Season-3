@@ -10,7 +10,7 @@ export default function ReadingsRow({ level, record, unsaved, readings, classNam
   const worked = readings.runs > 0 || readings.hints.length > 0;
   return (
     <dl className={`readings-row ${className}`}>
-      <Field label="Incident"><span className="readout">{bugId(level.number)}</span></Field>
+      <Field label="Case"><span className="readout">{bugId(level.number)}</span></Field>
       <Field label="Concept">{level.concept}</Field>
       <Field label="Severity">{level.severity}</Field>
       <Field label="Origin">{level.generatedAt ? <>Generated <span className="readout">{formatDate(level.generatedAt)}</span></> : 'Foundations'}</Field>

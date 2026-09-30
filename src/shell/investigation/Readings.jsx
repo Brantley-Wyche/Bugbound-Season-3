@@ -63,7 +63,7 @@ export default function Readings({ level, record, readings, error }) {
               return (
                 <li key={`${entry.type}:${entry.at}:${entry.run ?? entry.tier ?? ''}`}>
                   <span className="readout readings-time">{formatTime(entry.at)}</span>
-                  <span className="readout readings-event">{event}</span>
+                  <span className={`readings-event ${entry.type === 'run' || entry.type === 'hint' ? 'readout' : ''}`}>{event}</span>
                   <span className="readings-detail">{detail}</span>
                 </li>
               );

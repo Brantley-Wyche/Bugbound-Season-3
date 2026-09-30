@@ -170,7 +170,7 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
 
         {total > 0 ? (
           <>
-            <p className="run-header readout" id={`${id}-run-header`} tabIndex={-1}>{runHeader}</p>
+            <p className="run-header" id={`${id}-run-header`} tabIndex={-1}>{runHeader}</p>
             <ul className="checks-list">
               {checks.map((check, index) => {
                 const result = results?.[index];
@@ -227,7 +227,7 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
           ) : (
             <span><span className="readout">{total}</span> {total === 1 ? 'check' : 'checks'} <span className="bar-muted">· Not run this visit</span></span>
           )}
-          {record && finished && !repairedHere && <span className="status-repaired bar-stands">Repaired{repairedDay && <> <span className="readout">{repairedDay}</span></>} stands</span>}
+          {record && finished && !repairedHere && <span className="status-repaired bar-stands">Repaired{repairedDay && <> <span className="readout">{repairedDay}</span></>} still stands</span>}
           {unsaved && <span className="status-qualifier">Not saved yet</span>}
         </div>
         <span className="bar-shortcut" aria-hidden="true"><kbd>{shortcutKey}</kbd>{' '}<kbd>Enter</kbd></span>
