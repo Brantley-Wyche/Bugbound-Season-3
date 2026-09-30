@@ -229,7 +229,7 @@ The reusable spatial pattern is a broad working area beside narrower supporting 
 
 - **Wide desktop** (at least 1500px): context widens (390px), with more experiment inset.
 - **Compact desktop** (at most 1100px): outer spacing tightens, context narrows (315px), and the register's Concept column moves under each title.
-- **Stacked workspace** (at most 860px): paired panels become one column; Investigation context follows the experiment and verification. The focus control hides, and context is visible even if focus was active before resizing.
+- **Stacked workspace** (at most 860px, including a half-screen window beside an editor): paired panels become one column in the order incident report and source files, experiment, verification and readings, then Concept reference and hints, so the report stays in view while the learner reproduces it. The focus control hides, and context is visible even if focus was active before resizing.
 - **Narrow screen** (at most 700px): navigation occupies a second header row, page insets become compact (20px), the readings row drops its lead column, and register tables keep Case, Incident and Status. Source-copy controls grow to touch targets (44px).
 - **Desktop notice** (at most 600px, or with both `hover: none` and `pointer: coarse`): a visible notice explains the local editor workflow while the briefs and references remain browsable. A narrow fine-pointer desktop window beside an editor does not get it, matching the family rule.
 
@@ -241,7 +241,7 @@ The shell uses no box shadows. Depth comes from adjacent graphite tones, one-pix
 
 **The Ruled Surface Rule.** Use flat fills and fine divisions to organize related work: ruled rows, real tables, and the verification record. No cards, colored side borders or banners.
 
-## Motion
+### Motion
 
 Motion shows state. Buttons transition background and border (160ms), register rows their background (150ms), and focus mode the workspace columns (200ms with `cubic-bezier(.16, 1, .3, 1)`).
 
@@ -271,11 +271,11 @@ Topic suggestions are compact outlined buttons with a pressed state. Their selec
 
 ### Readings row
 
-Under an incident's title, a ruled row of fields: Incident (`BUG-###`), Concept, Severity, Origin (Generated with its date, or Foundations) and Status (Open in amber with a dot, or Repaired with its day in teal, plus "not saved yet" when the save failed). Once there is work it adds Runs, Hints opened (tier numbers) and Last worked. The bench reuses it without the rules.
+Under an incident's title, a ruled row of fields: Case (`BUG-###`), Concept, Severity, Difficulty (generated incidents, as requested in the brief), Origin (Generated with its date, or Foundations) and Status (Open in amber with a dot, or Repaired with its day in teal, plus "not saved yet" when the save failed). Once there is work it adds Runs, Hints opened (tier numbers) and Last worked. The bench reuses it without the rules.
 
 ### Instrument bar
 
-Pinned to the foot of the experiment column while the column scrolls, so Run is in view on arrival at desktop heights. It holds the latest reading (Not run this visit, Running check N of M, or a dotted-underlined "Run 03 · 2 of 4 passed · 2:14 PM" that jumps to that run's record), the Ctrl Enter key caps, Run checks, and once the incident is repaired, Next (the next suggested incident, or Brief an incident). Amber goes to Run checks while the incident is open or a later run fails, otherwise to Next. Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page, including inside the experiment, but not while typing in a page field.
+Pinned to the foot of the experiment column while the column scrolls, so Run is in view on arrival at desktop heights. It holds the latest reading (Not run this visit, Running check N of M, or a dotted-underlined "Run 03 · 2 of 4 passed · 2:14 PM" that jumps to that run's record), the **bar trace** (the last six runs as rows of 8px cells, one per check, filled teal when passed, the latest underlined; shown from the second run), the Ctrl Enter key caps (hidden at compact widths), Run checks, and once the incident is repaired, Next (the next suggested incident, or Brief an incident). Amber goes to Run checks while the incident is open or a later run fails, otherwise to Next. Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page, including inside the experiment, but not while typing in a page field.
 
 ### Verification record
 
@@ -285,17 +285,17 @@ Checks are listed before any run with Not run states. A run's header reads "Run 
 
 ### Readings
 
-Below Verification, the incident's history in this browser, from real events only: the first visit, every finished run with its pass count, each hint tier the first time it opens (its number, never its text), and resets. A run trace shows the latest runs as rows of cells with "2/4" readouts and marks the repairing run. The log is grouped by day, newest first, shows six entries with a toggle for the rest, and keeps the newest 50 per incident. Repairs are reset per generation; readings and conclusions survive a reset.
+Below Verification, the incident's history in this browser, from real events only: the first visit, every finished run with its pass count and its change since the previous run ("+1 since Run 02", "no change since Run 02"), each hint tier the first time it opens (its number, never its text), and resets. The repairing run is marked Repaired. The log is grouped by day, newest first, shows six entries with a toggle for the rest, and keeps the newest 50 per incident. Repairs are reset per generation; readings and conclusions survive a reset.
 
 ### Practice: bench and register
 
-Practice leads with **the bench**: the unrepaired incident worked on last (Continue incident NN) or the next open one (Start incident NN), drawn like its investigation heading with its report and readings row. When every incident is repaired, the bench becomes **the lab record**: first and last repair, runs, hints opened and batches, with Brief an incident as the next step.
+Practice leads with **the bench**: the unrepaired incident worked on last (Continue incident NN) or the next open one (Start incident NN), drawn like its investigation heading with its report and readings row. Generated practice leads, so the season's end is per batch: when every generated incident is repaired, the bench becomes **the batch record** ("Batch Jul 4, 2026 repaired": first and last repair, runs, hints opened and conclusions written), with Brief an incident as the next step and a quiet link to continue or revisit a Foundations incident. When every incident, Foundations included, is repaired, it becomes **the lab record**, which adds the batch count. Neither band marks a register row amber.
 
 **The register** is real tables. Generated incidents are grouped by generation date ("Batch Jul 4, 2026 · 2 incidents"), newest first; Foundations follows. Columns: Case (`BUG-###`), Incident (the row header and link), Concept, Severity, Activity ("3 runs · 1 hint" or a dash read as "No activity yet") and Status (Repaired with its day, or Open). Only the bench incident gets amber. A plain click anywhere on a row opens it; the title stays the real link. Search and a status filter apply to both groups. After a reset, a muted line under the heading says when repairs were reset and that readings were kept, until the next repair. `#/foundations` opens the register at its Foundations table.
 
 ### Brief
 
-The brief builder pairs settings with the exact prepared handoff. **Your readings** summarizes by concept what the learning profile carries (incidents, repaired, runs, hints opened), most runs first, and counts the concepts left out; the profile download stays optional and never includes hint or solution text.
+The brief builder pairs settings with the exact prepared handoff. Difficulty offers Intermediate and Hard, for a senior final season. Under the topic suggestions, **From your readings** offers the concept with the most runs that is not yet fully repaired, with its runs and hints, as a lever rather than a verdict. **Your readings** summarizes by concept what the learning profile carries (incidents, repaired, runs, hints opened), most runs first, and counts the concepts left out. The profile download stays optional and never includes hint or solution text; downloading it checks "Mention an attached profile in the brief", which adds one line asking the agent to use it.
 
 ### Navigation
 

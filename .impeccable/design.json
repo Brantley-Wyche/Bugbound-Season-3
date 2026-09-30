@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-13T01:19:46.898Z",
+  "generatedAt": "2026-09-30T17:55:42.402Z",
   "title": "Design System: Bugbound Season 3 — Engineering Lab",
   "extensions": {
     "colorMeta": {
@@ -184,6 +184,21 @@
           "oklch(95% 0.08253 84.59)"
         ]
       },
+      "header-ground": {
+        "role": "neutral",
+        "displayName": "Header graphite",
+        "canonical": "#151819",
+        "tonalRamp": [
+          "oklch(15% 0.00504 219.71)",
+          "oklch(26.43% 0.00504 219.71)",
+          "oklch(37.86% 0.00504 219.71)",
+          "oklch(49.29% 0.00504 219.71)",
+          "oklch(60.71% 0.00504 219.71)",
+          "oklch(72.14% 0.00504 219.71)",
+          "oklch(83.57% 0.00504 219.71)",
+          "oklch(95% 0.00504 219.71)"
+        ]
+      },
       "selection-ground": {
         "role": "neutral",
         "displayName": "Text selection ground",
@@ -334,6 +349,36 @@
           "oklch(95% 0.01435 162.43)"
         ]
       },
+      "reading-empty-line": {
+        "role": "neutral",
+        "displayName": "Unfilled reading",
+        "canonical": "#5a6360",
+        "tonalRamp": [
+          "oklch(15% 0.01210 173.85)",
+          "oklch(26.43% 0.01210 173.85)",
+          "oklch(37.86% 0.01210 173.85)",
+          "oklch(49.29% 0.01210 173.85)",
+          "oklch(60.71% 0.01210 173.85)",
+          "oklch(72.14% 0.01210 173.85)",
+          "oklch(83.57% 0.01210 173.85)",
+          "oklch(95% 0.01210 173.85)"
+        ]
+      },
+      "desktop-notice-ground": {
+        "role": "neutral",
+        "displayName": "Notice ground",
+        "canonical": "#2c2b24",
+        "tonalRamp": [
+          "oklch(15% 0.01244 100.45)",
+          "oklch(26.43% 0.01244 100.45)",
+          "oklch(37.86% 0.01244 100.45)",
+          "oklch(49.29% 0.01244 100.45)",
+          "oklch(60.71% 0.01244 100.45)",
+          "oklch(72.14% 0.01244 100.45)",
+          "oklch(83.57% 0.01244 100.45)",
+          "oklch(95% 0.01244 100.45)"
+        ]
+      },
       "desktop-notice-line": {
         "role": "neutral",
         "displayName": "Desktop notice rule",
@@ -402,32 +447,20 @@
         "purpose": "Prepared instructions; related smaller variants serve paths and diagnostics."
       },
       "caption": {
-        "displayName": "Compact metadata",
-        "purpose": "Compact metadata, source references, and check labels."
+        "displayName": "Caption",
+        "purpose": "Labels, column heads, check states and captions at the 12px floor."
       },
       "small": {
         "displayName": "Supporting text",
-        "purpose": "Supporting copy, hint tiers, and compact metadata."
+        "purpose": "Supporting copy and table text."
       },
       "heading-compact": {
         "displayName": "Compact section heading",
-        "purpose": "Mobile section headings and preview error headings."
+        "purpose": "Register group headings and narrow section headings."
       },
       "heading-register": {
         "displayName": "Register heading",
-        "purpose": "Register heading and narrow suggestion title."
-      },
-      "suggestion-compact": {
-        "displayName": "Compact suggestion",
-        "purpose": "Suggestion title at the compact-desktop breakpoint."
-      },
-      "heading-medium": {
-        "displayName": "Medium heading",
-        "purpose": "Empty suggestion heading; local narrow investigation declaration is overridden by the shared narrow heading rule."
-      },
-      "suggestion": {
-        "displayName": "Suggestion heading",
-        "purpose": "Desktop suggested challenge title."
+        "purpose": "The register heading and the record bands."
       },
       "title-narrow": {
         "displayName": "Narrow title",
@@ -436,6 +469,18 @@
       "title-investigation": {
         "displayName": "Investigation title",
         "purpose": "Desktop investigation heading."
+      },
+      "readout": {
+        "displayName": "Readout",
+        "purpose": "BUG IDs, run numbers, pass counts, times, dates, counts and paths in tabular monospace."
+      },
+      "heading-bench": {
+        "displayName": "Bench title",
+        "purpose": "The incident on the bench."
+      },
+      "folio": {
+        "displayName": "Folio",
+        "purpose": "The incident numeral beside its title."
       }
     },
     "shadows": [],
@@ -446,11 +491,6 @@
         "purpose": "Background and border feedback on standard buttons."
       },
       {
-        "name": "register-hover",
-        "value": "background-color 150ms",
-        "purpose": "Local row hover feedback without movement."
-      },
-      {
         "name": "workspace-focus",
         "value": "grid-template-columns 200ms cubic-bezier(.16, 1, .3, 1)",
         "purpose": "Give the mounted experiment more space."
@@ -459,8 +499,32 @@
         "name": "reduced-motion",
         "value": "animation: none; transition: none; scroll-behavior: auto",
         "purpose": "Applied across the shell when prefers-reduced-motion is reduce."
+      },
+      {
+        "name": "register-hover",
+        "value": "background-color 150ms",
+        "purpose": "Register row hover feedback without movement."
+      },
+      {
+        "name": "rule-draw",
+        "value": "transform scaleX(0 → 1) 320ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "The season's one authored moment: the Repaired rule draws across once on the repairing run."
       }
     ],
+    "libraryMotion": {
+      "provider": "beUI",
+      "installation": "shadcn official registry",
+      "components": [
+        "button-stateful",
+        "action-swap-roll"
+      ],
+      "adaptations": [
+        "Stateful Button uses aria-disabled while loading and no inner live region",
+        "Tabs installed but no longer rendered"
+      ],
+      "styling": "Engineering Lab tokens; Tailwind utilities without Preflight",
+      "motion": "Run and copy state feedback; reduced-motion alternatives; verification press scale 0.98"
+    },
     "breakpoints": [
       {
         "name": "wide-desktop-min",
@@ -477,22 +541,12 @@
       {
         "name": "narrow-screen-max",
         "value": "700px"
+      },
+      {
+        "name": "desktop-notice",
+        "value": "600px, or hover: none and pointer: coarse"
       }
-    ],
-    "libraryMotion": {
-      "provider": "beUI",
-      "installation": "shadcn official registry",
-      "components": [
-        "button-stateful",
-        "action-swap-roll",
-        "tabs"
-      ],
-      "adaptations": [
-        "Tabs native anchor destinations and navigation landmark"
-      ],
-      "styling": "Engineering Lab tokens; Tailwind utilities without Preflight",
-      "motion": "Action feedback and collection continuity; reduced-motion alternatives; verification press scale 0.98"
-    }
+    ]
   },
   "components": [
     {
@@ -540,7 +594,7 @@
       "kind": "nav",
       "refersTo": "navigation",
       "description": "Plain links with an amber rule identifying the current page.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#/\" aria-current=\"page\">Practice</a><a href=\"#/brief\">Create challenge</a></nav>",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#/\" aria-current=\"page\">Practice</a><a href=\"#/brief\">Brief an incident</a></nav>",
       "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-nav { display: flex; gap: 24px; min-height: 78px; background: #151819; border-bottom: 1px solid var(--lab-line, #3b4242); } .ds-nav a { display: inline-flex; align-items: center; position: relative; font-size: .875rem; color: var(--lab-muted, #afb6b2); text-decoration: none; } .ds-nav a:hover, .ds-nav a[aria-current] { color: var(--lab-ink, #edece6); } .ds-nav a[aria-current]::after { content: ''; height: 2px; background: var(--lab-amber, #ddbd79); position: absolute; bottom: 0; left: 0; right: 0; } .ds-nav a:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-nav { min-height: 44px; gap: 28px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
     },
     {
@@ -552,76 +606,104 @@
       "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-topics { display: flex; flex-wrap: wrap; gap: 7px; } .ds-topics button { background: transparent; color: var(--lab-muted, #afb6b2); border: 1px solid var(--lab-line, #3b4242); border-radius: 5px; padding: 7px 10px; font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .75rem; min-height: 36px; cursor: pointer; } .ds-topics button:hover { background: var(--lab-raised, #2a2f30); color: var(--lab-ink, #edece6); } .ds-topics button[aria-pressed=\"true\"] { background: #303d37; border-color: #657f74; color: #cae1d7; } .ds-topics button:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-topics button { min-height: 42px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
     },
     {
-      "name": "Flat launch surface",
-      "kind": "card",
-      "refersTo": "launch-surface",
-      "description": "Square tonal surface used for the current suggestion or the starting state.",
-      "html": "<section class=\"ds-launch\"><h2>Your lab starts with a brief.</h2><p>Tell your coding agent what you want to practice. Its generated challenges will appear in this register.</p><a class=\"ds-launch-action\" href=\"#/brief\">Prepare an agent brief <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" /></svg></a></section>",
-      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-launch { background: var(--lab-surface, #222627); padding: 22px 28px; border-radius: 0; } .ds-launch h2 { margin: 0; font-size: 1.5rem; font-weight: 620; line-height: 1.4; letter-spacing: -.015em; } .ds-launch p { color: var(--lab-muted, #afb6b2); margin: 12px 0 18px; max-width: 75ch; } .ds-launch-action { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 9px 15px; border: 1px solid transparent; border-radius: 6px; background: var(--lab-amber, #ddbd79); color: var(--action-ink, #25271f); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-weight: 600; font-size: .875rem; line-height: 1.45; text-decoration: none; cursor: pointer; transition: background-color 160ms, border-color 160ms; } .ds-launch-action:hover:not(:disabled) { background: var(--amber-hover, #ebce93); border-color: transparent; } .ds-launch-action:disabled { opacity: .65; cursor: wait; } .ds-launch-action:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-launch { padding: 24px 20px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
-    },
-    {
-      "name": "Challenge register row",
-      "kind": "custom",
-      "refersTo": "register-row",
-      "description": "Ruled full-row link with a technical identifier and explicit completion scope. The sample title is illustrative.",
-      "html": "<a class=\"ds-row\" href=\"#/\"><span class=\"ds-row-id\">16</span><span class=\"ds-row-subject\"><strong>Example investigation</strong><span>Custom hooks</span></span><span class=\"ds-row-difficulty\">Hard</span><span class=\"ds-row-status\"><span class=\"ds-row-dot\"></span>Saved complete</span><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" /></svg></a>",
-      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-row { display: grid; grid-template-columns: 78px minmax(0, 1fr) 115px 140px 24px; align-items: center; gap: 18px; padding: 17px 18px; min-height: 82px; border-block: 1px solid var(--lab-line, #3b4242); color: var(--lab-ink, #edece6); text-decoration: none; transition: background-color 150ms; } .ds-row:hover { background: var(--lab-surface, #222627); } .ds-row-id { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-size: .9375rem; color: var(--lab-amber, #ddbd79); font-variant-numeric: tabular-nums; } .ds-row-subject { display: flex; flex-direction: column; gap: 4px; min-width: 0; } .ds-row-subject strong { font-weight: 550; font-size: .9375rem; overflow-wrap: anywhere; } .ds-row-subject > span { color: var(--lab-muted, #afb6b2); font-size: .8125rem; overflow-wrap: anywhere; } .ds-row-difficulty, .ds-row-status { font-size: .75rem; color: var(--lab-muted, #afb6b2); } .ds-row-status { display: flex; align-items: center; gap: 8px; color: var(--lab-teal, #a4cbc0); } .ds-row-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; border: 1px solid currentColor; background: currentColor; flex-shrink: 0; } .ds-row > svg { color: var(--lab-muted, #afb6b2); } .ds-row:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (max-width: 700px) { .ds-row { grid-template-columns: 32px minmax(0, 1fr) 18px; gap: 8px 13px; padding: 19px 5px; } .ds-row-id { grid-column: 1; grid-row: 1; align-self: start; padding-top: 1px; } .ds-row-subject { grid-column: 2; grid-row: 1; } .ds-row > svg { grid-column: 3; grid-row: 1; } .ds-row-difficulty { grid-column: 2; grid-row: 2; } .ds-row-status { grid-column: 2; grid-row: 3; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
-    },
-    {
       "name": "Verification rows",
       "kind": "custom",
       "refersTo": "verification-row",
       "description": "Stable text status column beside a readable check description. Sample check names are illustrative and reveal no exercise content.",
       "html": "<ul class=\"ds-checks\"><li class=\"ds-check\"><span class=\"ds-check-state\">Not run</span><div class=\"ds-check-body\">Example behavioral check</div></li><li class=\"ds-check ds-check-pass\"><span class=\"ds-check-state\">Pass</span><div class=\"ds-check-body\">Example completed check</div></li><li class=\"ds-check ds-check-fail\"><span class=\"ds-check-state\">Fail</span><div class=\"ds-check-body\">Example check needing attention<div class=\"ds-check-error\">Readable diagnostic output appears here.</div></div></li></ul>",
       "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-checks { list-style: none; margin: 0; padding: 0; } .ds-check { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; border-top: 1px solid var(--lab-line, #3b4242); } .ds-check-state { flex: 0 0 58px; font-size: .6875rem; color: var(--lab-amber, #ddbd79); padding-top: 3px; } .ds-check-pass .ds-check-state { color: var(--lab-teal, #a4cbc0); } .ds-check-fail .ds-check-state { color: var(--lab-error, #f0b1a2); } .ds-check-body { flex: 1; min-width: 0; font-size: .8125rem; } .ds-check-error { color: var(--lab-error, #f0b1a2); font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-size: .75rem; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 5px; } @media (max-width: 700px) { .ds-check { gap: 10px; } .ds-check-state { flex-basis: 52px; } }@media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }"
+    },
+    {
+      "name": "Readings row",
+      "kind": "custom",
+      "refersTo": "readings-row",
+      "description": "Ruled fields under an incident title: case, concept, severity, origin, status, and the readings once there is work. Sample values are illustrative.",
+      "html": "<dl class=\"ds-readings\"><div><dt>Case</dt><dd class=\"ds-readout\">BUG-016</dd></div><div><dt>Concept</dt><dd>Refs &amp; Timing</dd></div><div><dt>Severity</dt><dd>Medium</dd></div><div><dt>Status</dt><dd class=\"ds-open\"><span class=\"ds-dot\"></span>Open</dd></div><div><dt>Runs</dt><dd class=\"ds-readout\">03</dd></div><div><dt>Hints opened</dt><dd class=\"ds-readout\">01</dd></div></dl>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-readout { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-variant-numeric: tabular-nums; } .ds-readings { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 0; padding: 12px 0; border-block: 1px solid var(--lab-line, #3b4242); } .ds-readings dt { font-size: .75rem; color: var(--lab-muted, #afb6b2); } .ds-readings dd { margin: 2px 0 0; font-size: .8125rem; } .ds-open { display: inline-flex; align-items: center; gap: 8px; color: var(--lab-amber, #ddbd79); } .ds-dot { width: 6px; height: 6px; border-radius: 50%; border: 1px solid currentColor; }"
+    },
+    {
+      "name": "Instrument bar",
+      "kind": "custom",
+      "refersTo": "instrument-bar",
+      "description": "Pinned at the foot of the experiment column: the latest reading, the bar trace of recent runs, the shortcut and Run checks. Sample values are illustrative.",
+      "html": "<div class=\"ds-bar\"><button class=\"ds-reading\" type=\"button\"><span class=\"ds-readout\">Run 03</span><span class=\"ds-fail\">2 of 4 passed</span><span class=\"ds-readout ds-muted\">2:14 PM</span></button><ol class=\"ds-trace\" aria-label=\"Recent runs\"><li><span class=\"ds-cells\"><span class=\"ds-pass\"></span><span></span><span></span><span></span></span></li><li><span class=\"ds-cells\"><span class=\"ds-pass\"></span><span class=\"ds-pass\"></span><span></span><span></span></span></li><li class=\"ds-latest\"><span class=\"ds-cells\"><span class=\"ds-pass\"></span><span class=\"ds-pass\"></span><span></span><span></span></span></li></ol><span class=\"ds-keys\"><kbd>Ctrl</kbd> <kbd>Enter</kbd></span><button class=\"ds-run\" type=\"button\">Run checks</button></div>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-readout { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-variant-numeric: tabular-nums; } .ds-bar { display: flex; align-items: center; gap: 16px; min-height: 64px; padding: 12px 0; background: var(--lab-ground, #191c1d); border-top: 1px solid var(--lab-line, #3b4242); } .ds-reading { display: inline-flex; align-items: baseline; gap: 12px; margin-right: auto; padding: 4px 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: .8125rem; text-decoration: underline dotted #5a6360; text-underline-offset: 5px; cursor: pointer; } .ds-fail { color: var(--lab-error, #f0b1a2); } .ds-muted { color: var(--lab-muted, #afb6b2); } .ds-trace { display: flex; align-items: flex-end; gap: 10px; list-style: none; margin: 0; padding: 0; } .ds-trace li { padding-bottom: 4px; border-bottom: 1px solid transparent; } .ds-trace li.ds-latest { border-bottom-color: var(--lab-ink, #edece6); } .ds-cells { display: flex; gap: 2px; } .ds-cells > span { width: 8px; height: 8px; border-radius: 1px; border: 1px solid #5a6360; } .ds-cells > span.ds-pass { background: var(--lab-teal, #a4cbc0); border-color: var(--lab-teal, #a4cbc0); } .ds-keys { font-size: .75rem; color: var(--lab-muted, #afb6b2); } .ds-keys kbd { font: .75rem var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); color: var(--lab-ink, #edece6); border: 1px solid var(--lab-line, #3b4242); border-radius: 4px; padding: 1px 6px; } .ds-run { min-height: 42px; padding: 9px 15px; border: 0; border-radius: 6px; background: var(--lab-amber, #ddbd79); color: #25271f; font: inherit; font-size: .875rem; font-weight: 600; transition: background-color 160ms; } .ds-run:hover { background: #ebce93; } .ds-run:focus-visible, .ds-reading:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } @media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; } }"
+    },
+    {
+      "name": "Repaired entry",
+      "kind": "custom",
+      "refersTo": "repaired-entry",
+      "description": "The finish recorded inside Verification, with the season's one authored moment: the teal rule draws across once. Sample values are illustrative.",
+      "html": "<div class=\"ds-repaired\"><h3><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12l4 4L19 6\" /></svg>Repaired</h3><p><span class=\"ds-readout\">BUG-016</span> repaired today at <span class=\"ds-readout\">2:31 PM</span> on run <span class=\"ds-readout\">04</span>. Saved in this browser.</p><p class=\"ds-note\">A later run checks your current source. It never undoes this record.</p></div>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-readout { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-variant-numeric: tabular-nums; } .ds-repaired { position: relative; padding-top: 20px; } .ds-repaired::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--lab-teal, #a4cbc0); transform-origin: left; animation: ds-rule 320ms cubic-bezier(.16, 1, .3, 1); } @keyframes ds-rule { from { transform: scaleX(0); } } .ds-repaired h3 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 1.125rem; font-weight: 620; color: var(--lab-teal, #a4cbc0); } .ds-repaired p { margin: 8px 0 0; font-size: .875rem; } .ds-repaired .ds-note { margin-top: 4px; color: var(--lab-muted, #afb6b2); font-size: .8125rem; } @media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; } }"
+    },
+    {
+      "name": "Register row",
+      "kind": "custom",
+      "refersTo": "register-row",
+      "description": "A row of the incident register table: case ID, title link, concept, severity, activity and dated status. Sample values are illustrative.",
+      "html": "<table class=\"ds-register\"><thead><tr><th>Case</th><th>Incident</th><th>Concept</th><th>Severity</th><th>Activity</th><th>Status</th></tr></thead><tbody><tr><td class=\"ds-readout ds-muted\">BUG-003</td><th scope=\"row\"><a href=\"#/\">Lost in Transit</a></th><td class=\"ds-muted\">Props</td><td class=\"ds-muted\">Medium</td><td class=\"ds-readout ds-muted ds-small\">3 runs</td><td class=\"ds-status\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12l4 4L19 6\" /></svg>Repaired <span class=\"ds-readout\">Sep 12</span></td></tr></tbody></table>",
+      "css": ":host { color: var(--lab-ink, #edece6); font-family: var(--font-sans, 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif); font-size: .9375rem; line-height: 1.6; } .ds-readout { font-family: var(--font-mono, 'Cascadia Code', 'Cascadia Mono', ui-monospace, 'JetBrains Mono', Consolas, monospace); font-variant-numeric: tabular-nums; } .ds-register { width: 100%; border-collapse: collapse; font-size: .875rem; } .ds-register thead th { padding: 8px 12px 8px 0; text-align: left; font-size: .75rem; font-weight: 400; color: var(--lab-muted, #afb6b2); border-bottom: 1px solid var(--lab-line, #3b4242); } .ds-register td, .ds-register tbody th { padding: 12px 12px 12px 0; text-align: left; font-weight: 400; border-bottom: 1px solid var(--lab-line, #3b4242); } .ds-register tbody tr { transition: background-color 150ms; } .ds-register tbody tr:hover { background: var(--lab-surface, #222627); } .ds-register a { color: inherit; text-decoration: none; } .ds-register a:hover { text-decoration: underline; } .ds-register a:focus-visible { outline: 2px solid var(--lab-focus, #e6ce9d); outline-offset: 4px; } .ds-muted { color: var(--lab-muted, #afb6b2); font-size: .8125rem; } .ds-small { font-size: .75rem; } .ds-status { display: flex; align-items: center; gap: 6px; color: var(--lab-teal, #a4cbc0); font-size: .8125rem; } @media (prefers-reduced-motion: reduce) { :host * { transition: none !important; animation: none !important; } }"
     }
   ],
   "narrative": {
     "northStar": "Engineering Lab",
-    "overview": "Engineering Lab is precise, readable, and approachable. Graphite work surfaces, warm text, fine divisions, and deliberate accents support the judgment of an experienced developer. The interface feels like a working instrument: controls are familiar, information aligns, and the live experiment has room to be observed.\n\nThe existing Bugbound icon carries the family identity. Flat ruled surfaces and clear typographic steps provide structure; evidence and actions provide the color. This record describes the finished shell in `src/styles/lab.css` and `src/shell/`, with shared font stacks from `src/styles/global.css`. The preserved exercise surface retains its own appearance and is outside this shell system.",
+    "overview": "Engineering Lab is precise, readable, and approachable. Graphite work surfaces, warm text, fine divisions, and deliberate accents support the judgment of an experienced developer. The interface works like an instrument: it measures the investigation and shows the readings back. Controls are familiar, information aligns, and the live experiment has room to be observed.\n\nSeason 1's field notebook resolved incidents; Season 2's investigation desk closed cases in a record. The lab repairs them and keeps readings: every run is a measurement with a number, a time and a pass count, and the learner's history feeds the next brief they write. The family constants in `FAMILY.md` hold throughout. The unit is the incident; Season 3's one finished word is **Repaired**, with \"not saved yet\" as its only qualifier.\n\nThe existing Bugbound icon carries the family identity. Flat ruled surfaces and clear typographic steps provide structure; evidence and actions provide the color. This record describes the finished shell in `src/styles/lab.css` and `src/shell/`, with shared font stacks from `src/styles/global.css`. The preserved exercise surface retains its own appearance and is outside this shell system.",
     "keyCharacteristics": [
       "Warm graphite surfaces with restrained amber and muted teal.",
-      "Readable sans text paired with monospace technical content.",
-      "Flat panels and ruled registers with precise alignment.",
-      "Explicit state labels and visible keyboard focus.",
-      "Responsive context that gives the experiment room without discarding it."
+      "Readable sans text; monospace readouts for every identifier and measured quantity.",
+      "Ruled rows and tables with precise alignment; no cards, no banners.",
+      "Status as words, and the finish recorded where verification happens.",
+      "The live experiment as the one framed element, with Run always in view."
     ],
     "rules": [
       {
         "name": "The Labeled Evidence Rule",
-        "body": "Pair state color with text that names its scope; saved completion and verification this visit remain distinct signals.",
+        "body": "Pair state color with text that names its scope. A repair is history; only a run verifies the current source, and a later run never undoes the record.",
         "section": "colors"
       },
       {
+        "name": "The 12px floor",
+        "body": "No shell text is smaller than 12px (0.75rem) at any width, including labels, column heads, check states, source paths, readouts and inline reference code.",
+        "section": "typography"
+      },
+      {
         "name": "The Technical Text Rule",
-        "body": "Reserve monospace for identifiers, source paths, prepared instructions, and diagnostic output; keep reading and control labels in the sans family.",
+        "body": "Monospace is for references and readings: identifiers, measured quantities, source paths, the prepared brief and diagnostic output. Prose, labels and status words stay in the sans family.",
         "section": "typography"
       },
       {
         "name": "The Mounted Experiment Rule",
-        "body": "Focus mode changes available space while retaining the experiment and reference state; remount remains a separate, explicitly labeled action.",
+        "body": "Focus mode changes available space while retaining the experiment and reference state; Remount remains a separate, explicitly labeled action. Saving a source file reloads only the experiment and clears the last run.",
         "section": "layout"
       },
       {
         "name": "The Ruled Surface Rule",
-        "body": "Use flat fills and fine divisions to organize related work; preserve the continuous register and evidence-list structure.",
+        "body": "Use flat fills and fine divisions to organize related work: ruled rows, real tables, and the verification record. No cards, colored side borders or banners.",
         "section": "elevation"
+      },
+      {
+        "name": "The Repaired entry",
+        "body": "The run that first passes every check ends with a teal-ruled entry: a Repaired heading, \"BUG-016 repaired today at 2:31 PM on run 04. Saved in this browser.\", the note that a later run never undoes the record, and an optional **Conclusion** saved with it in this browser. On later visits the entry stands first in Verification, and a later run adds \"Repaired Sep 24 still stands\" with its own pass count. There is no completion banner.",
+        "section": "components"
       }
     ],
     "dos": [
-      "**Do** use the existing Bugbound icon and the Engineering Lab palette for shell surfaces.",
-      "**Do** keep reading and controls in the sans family, with monospace for technical material.",
-      "**Do** align related information with rules, shared columns, and restrained tonal changes.",
-      "**Do** preserve visible keyboard focus, semantic navigation, wrapping, and reduced-motion behavior.",
-      "**Do** label evidence by its actual scope and retain a readable state before the first run.",
-      "**Do** preserve the mounted experiment and disclosure state when focus mode changes its space."
+      "Do say \"incident\" for the unit and \"Repaired\" for the finished state, with \"not saved yet\" as its only qualifier.",
+      "Do record the repair in the verification record, with its time and run.",
+      "Do show readings only from real events, and never record hint text.",
+      "Do keep Run in view and give amber to the one next action.",
+      "Do keep reading and controls in the sans family, with monospace readouts for references and measurements.",
+      "Do preserve visible keyboard focus, semantic navigation, wrapping, reduced motion and the 12px floor.",
+      "Do preserve the mounted experiment and disclosure state when focus mode changes its space."
     ],
     "donts": [
-      "**Don't** apply shell colors, typography overrides, or new component rules inside the preserved exercise surface.",
-      "**Don't** make color the only distinction between verification states or saved completion.",
-      "**Don't** replace the flat ruled register with independently floating cards or decorative shadows.",
-      "**Don't** imply that preparing a brief ran an agent or validated a discovered challenge.",
-      "**Don't** expose guidance before the learner deliberately reveals it."
+      "Don't apply shell colors, typography overrides, or new component rules inside the preserved exercise surface.",
+      "Don't make color the only distinction between verification states or the repair record.",
+      "Don't announce a repair in a banner, or let a later run undo it.",
+      "Don't replace the ruled register and record with cards, colored side borders, decorative shadows, or lab costume (beakers, grid paper, oscilloscope glow, terminal chrome).",
+      "Don't imply that preparing a brief ran an agent or validated a discovered incident.",
+      "Don't expose guidance before the learner deliberately reveals it."
     ]
   }
 }
