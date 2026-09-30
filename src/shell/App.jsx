@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { levels, catalogErrors } from '../levels/index.js';
 import { useProgress } from './progress/useProgress.js';
+import { recordReset } from './progress/learning.js';
 import { parseRoute } from './workspace/navigation.js';
 import LevelMap from './workspace/LevelMap.jsx';
 import LevelPage from './investigation/LevelPage.jsx';
@@ -30,7 +31,7 @@ export default function App() {
   const { hash, lastId } = useHashRoute();
   const route = parseRoute(hash);
   const activeLevel = route.page === 'level' ? levels.find((level) => level.id === route.id) : null;
-  const { completed, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
+  const { completed, records, unsaved, markComplete, resetProgress, retry, failure: storageFailure, revision } = useProgress(levelIds);
   const [draft, setDraft] = useState({ topic: 'effect cleanup', difficulty: 'Hard', count: 1, context: '' });
   const [filters, setFilters] = useState({ query: '', status: 'all' });
   const [reflections, setReflections] = useState({});
@@ -52,7 +53,9 @@ export default function App() {
   }, []);
 
   function confirmReset() {
-    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and this session’s notes stay unchanged.')) resetProgress();
+    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and this session’s notes stay unchanged.')) {
+      if (!resetProgress().failure) recordReset();
+    }
   }
 
   return (
@@ -100,10 +103,11 @@ export default function App() {
         <LevelMap levels={levels} completed={completed} collection={route.collection} lastId={lastId}
           filters={filters} onFiltersChange={setFilters} />
       ) : route.page === 'brief' ? (
-        <AgentStation levels={levels} completed={completed} draft={draft} onDraftChange={setDraft} progressFailure={storageFailure} />
+        <AgentStation levels={levels} completed={completed} records={records} draft={draft} onDraftChange={setDraft} progressFailure={storageFailure} />
       ) : activeLevel ? (
         <LevelPage key={`${activeLevel.id}:${revision}`} level={activeLevel} levels={levels} completed={completed} sourceRevision={sourceRevision}
-          onComplete={() => markComplete(activeLevel.id)} autoRunChecks={route.verify && revision === 0}
+          record={records.get(activeLevel.id) ?? null} unsaved={unsaved.has(activeLevel.id)}
+          onComplete={(details) => markComplete(activeLevel.id, details)} autoRunChecks={route.verify && revision === 0}
           reflection={reflections[activeLevel.id] || ''}
           onReflectionChange={(value) => setReflections((current) => ({ ...current, [activeLevel.id]: value }))} />
       ) : (

@@ -10,7 +10,7 @@ const COPY_ITEMS = [
   { id: 'copied', label: 'Brief copied', ariaLabel: 'Brief copied', icon: <Icon name="check" /> },
 ];
 
-export default function AgentStation({ levels, completed, draft, onDraftChange, progressFailure = null }) {
+export default function AgentStation({ levels, completed, records, draft, onDraftChange, progressFailure = null }) {
   const [copiedPrompt, setCopiedPrompt] = useState(null);
   const [error, setError] = useState('');
   const [profileMessage, setProfileMessage] = useState('');
@@ -36,7 +36,7 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
 
   function downloadProfile() {
     try {
-      const profile = createLearningProfile(levels, completed, progressFailure);
+      const profile = createLearningProfile(levels, completed, progressFailure, records);
       const url = URL.createObjectURL(new Blob([JSON.stringify(profile, null, 2)], { type: 'application/json' }));
       const anchor = document.createElement('a');
       anchor.href = url;

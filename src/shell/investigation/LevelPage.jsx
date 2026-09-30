@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { recordVisit } from '../progress/learning.js';
+import { formatDay } from '../format.js';
 import { getPracticeLevels, recommendChallenge } from '../workspace/practice.js';
 import { levelHref } from '../workspace/navigation.js';
 import Prose from './Prose.jsx';
@@ -26,7 +28,8 @@ function SourceFile({ path }) {
   );
 }
 
-export default function LevelPage({ level, levels, completed, sourceRevision = 0, onComplete, autoRunChecks = false, reflection, onReflectionChange }) {
+export default function LevelPage({ level, levels, completed, record = null, unsaved = false, sourceRevision = 0, onComplete, autoRunChecks = false, reflection, onReflectionChange }) {
+  useEffect(() => { recordVisit(level.id); }, [level.id]);
   const [demoKey, setDemoKey] = useState(0);
   const [focused, setFocused] = useState(false);
   const [verification, setVerification] = useState('idle');
@@ -60,7 +63,7 @@ export default function LevelPage({ level, levels, completed, sourceRevision = 0
           </div>
           <div className="investigation-state">
             <span className={`visit-state state-${verification}`}><span className="state-dot" />{stateLabel}</span>
-            {isSaved && <span className="saved-state"><Icon name="check" size={14} /> Repaired</span>}
+            {isSaved && <span className="saved-state"><Icon name="check" size={14} /> Repaired{record?.at ? ` ${formatDay(record.at)}` : ''}{unsaved ? ' · not saved yet' : ''}</span>}
           </div>
         </div>
         <nav className="investigation-jumps" aria-label="Investigation sections">
