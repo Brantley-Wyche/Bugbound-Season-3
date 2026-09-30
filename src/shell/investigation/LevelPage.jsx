@@ -26,10 +26,17 @@ function SourceFile({ path }) {
   );
 }
 
-export default function LevelPage({ level, levels, completed, onComplete, autoRunChecks = false, reflection, onReflectionChange }) {
+export default function LevelPage({ level, levels, completed, sourceRevision = 0, onComplete, autoRunChecks = false, reflection, onReflectionChange }) {
   const [demoKey, setDemoKey] = useState(0);
   const [focused, setFocused] = useState(false);
   const [verification, setVerification] = useState('idle');
+  const [checkedSource, setCheckedSource] = useState(sourceRevision);
+  // A source save reloads the preview and clears the last run, since that run
+  // described the previous source. Hints, Focus and the reflection stay put.
+  if (checkedSource !== sourceRevision) {
+    setCheckedSource(sourceRevision);
+    setVerification('idle');
+  }
   const isSaved = completed.has(level.id);
   const collection = level.number > 15 ? 'generated' : 'foundations';
   const next = recommendChallenge(getPracticeLevels(levels, collection), new Set([...completed, level.id]), level.id);
@@ -75,12 +82,12 @@ export default function LevelPage({ level, levels, completed, onComplete, autoRu
             </div>
             <div className="experiment-caption"><span className="state-dot" /><span>Running your local source</span><span className="experiment-caption-detail">Edits hot-reload here</span></div>
             <div className="demo-stage exercise-surface">
-              <ExercisePreview key={demoKey} levelId={level.id} title={level.title} />
+              <ExercisePreview key={`${demoKey}:${sourceRevision}`} levelId={level.id} title={level.title} />
             </div>
             <p className="experiment-footnote">Reproduce the reported behavior, then make your repair in your editor. Remount resets this preview’s component state.</p>
           </section>
 
-          <ChecksRunner level={level} onAllPass={onComplete} autoRun={autoRunChecks} onStateChange={setVerification} />
+          <ChecksRunner key={sourceRevision} level={level} onAllPass={onComplete} autoRun={autoRunChecks} onStateChange={setVerification} />
 
           {verification === 'passed' && (
             <section className="resolution-review" aria-labelledby="reflection-title">

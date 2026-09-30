@@ -86,17 +86,22 @@ export default function LevelMap({ levels, completed, collection, lastId, filter
         <div className="register-column-head" aria-hidden="true"><span>Incident</span><span>Investigation</span><span>Difficulty</span><span>Status</span><span /></div>
         {visible.length ? (
           <ul className="challenge-list">
-            {visible.map((level) => (
-              <li key={level.id}>
-                <a className="challenge-row" href={levelHref(level.id)}>
-                  <span className="row-id">{String(level.number).padStart(2, '0')}</span>
-                  <span className="row-subject"><strong>{level.title}</strong><span>{level.concept}</span></span>
-                  <span className="row-difficulty">{level.difficulty || level.severity}</span>
-                  <span className={`row-status ${completed.has(level.id) ? 'is-saved' : ''}`}><span className="state-dot" />{completed.has(level.id) ? 'Saved complete' : 'Open'}</span>
-                  <Icon name="arrow" className="row-arrow" />
-                </a>
-              </li>
-            ))}
+            {visible.map((level) => {
+              const folio = String(level.number).padStart(2, '0');
+              const difficulty = level.difficulty || level.severity;
+              const status = completed.has(level.id) ? 'Saved complete' : 'Open';
+              return (
+                <li key={level.id}>
+                  <a className="challenge-row" href={levelHref(level.id)} aria-label={`${folio} ${level.title}. ${level.concept}. ${difficulty}. ${status}.`}>
+                    <span className="row-id">{folio}</span>
+                    <span className="row-subject"><strong>{level.title}</strong><span>{level.concept}</span></span>
+                    <span className="row-difficulty">{difficulty}</span>
+                    <span className={`row-status ${completed.has(level.id) ? 'is-saved' : ''}`}><span className="state-dot" aria-hidden="true" />{status}</span>
+                    <Icon name="arrow" className="row-arrow" />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <div className="register-empty" role="status">

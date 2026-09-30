@@ -4,6 +4,8 @@ import { runExerciseCheck } from '../runtime/frame-check.js';
 import { recordCheckRun } from '../progress/learning.js';
 import { StatefulButton } from '../../components/motion/button/stateful';
 
+const shortcutKey = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘' : 'Ctrl';
+
 export default function ChecksRunner({ level, onAllPass, autoRun = false, onStateChange }) {
   const [results, setResults] = useState(null);
   const [running, setRunning] = useState(false);
@@ -49,6 +51,20 @@ export default function ChecksRunner({ level, onAllPass, autoRun = false, onStat
     if (autoRun) runAll();
   }, [autoRun, id, checks, runAll]);
 
+  // Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page;
+  // the preview frame forwards the same chord from inside the experiment.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key !== 'Enter' || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
+      // Leave the chord to fields on this page, such as the reflection draft.
+      if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
+      event.preventDefault();
+      runAll();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [runAll]);
+
   const passedCount = results?.filter((result) => result.pass).length ?? 0;
   const summary = results === null
     ? 'Not checked this visit.'
@@ -74,7 +90,8 @@ export default function ChecksRunner({ level, onAllPass, autoRun = false, onStat
           errorText="Re-run checks"
           pressScale={0.98}
           onClick={runAll}
-          disabled={running || checks.length === 0}
+          aria-keyshortcuts={`${shortcutKey === '⌘' ? 'Meta' : 'Control'}+Enter`}
+          disabled={checks.length === 0}
         >
           Run checks
         </StatefulButton>
@@ -118,7 +135,8 @@ export default function ChecksRunner({ level, onAllPass, autoRun = false, onStat
         <p className="verification-note">No behavioral checks are available for this challenge.</p>
       )}
       <p className="verification-note">
-        Edit the source in your editor, then run the checks to verify its behavior.
+        Edit the source in your editor, then run the checks to verify its behavior
+        (<kbd>{shortcutKey}</kbd>{' '}<kbd>Enter</kbd>).
       </p>
     </section>
   );

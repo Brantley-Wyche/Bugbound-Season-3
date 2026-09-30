@@ -14,7 +14,10 @@ Local adaptation: `tabs.tsx` accepts native anchor destinations and a navigation
 landmark for Bugbound's collection routes. The upstream motion implementation is
 retained. `button/stateful.tsx` observes its measured label with ResizeObserver
 instead of setting measurement state after every render; this also updates its
-width when fonts or labels change. Other installed component and helper source
+width when fonts or labels change. While loading it uses `aria-disabled` instead
+of `disabled`, so keyboard focus stays on it, and its label no longer carries its
+own live region (the verification summary announces the run). Other installed
+component and helper source
 files are unchanged.
 App styles map the library utilities to the Engineering Lab tokens.
 

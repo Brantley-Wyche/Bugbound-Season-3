@@ -13,7 +13,7 @@ export default class ErrorBoundary extends Component {
   render() {
     if (this.state.error) {
       return (
-        <div className="demo-crash">
+        <div className="demo-crash" role="alert">
           <strong>The component crashed</strong>
           <pre>{String(this.state.error?.message || this.state.error)}</pre>
           <button className="btn" onClick={() => this.setState({ error: null })}>

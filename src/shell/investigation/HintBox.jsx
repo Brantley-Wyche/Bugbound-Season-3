@@ -35,7 +35,7 @@ export default function HintBox({ levelId }) {
               className="hint-toggle"
               onClick={() => toggleHint(i)}
               aria-expanded={revealed[i]}
-              aria-controls={`${levelId}-hint-${i + 1}`}
+              aria-controls={revealed[i] ? `${levelId}-hint-${i + 1}` : undefined}
             >
               <span>Hint {i + 1}</span>
               <span className="tier">{revealed[i] ? 'hide' : TIER_LABELS[i]}</span>

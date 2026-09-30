@@ -217,7 +217,8 @@ The spacing values in the frontmatter are recurring measurements, not a universa
 - **Wide desktop** (at least 1500px): context widens (390px), with more experiment inset.
 - **Compact desktop** (at most 1100px): outer spacing tightens, the identity descriptor hides, and context narrows (315px).
 - **Stacked workspace** (at most 860px): paired panels become one column; Investigation context follows the experiment and checks. The focus control hides, and context is visible even if focus was active before resizing.
-- **Narrow screen** (at most 700px): navigation occupies a second header row, page insets become compact (20px), and the register becomes a stacked row layout. A visible notice explains the local editor workflow while the briefs and references remain browsable. Source-copy controls grow to touch targets (44px).
+- **Narrow screen** (at most 700px): navigation occupies a second header row, page insets become compact (20px), and the register becomes a stacked row layout. Source-copy controls grow to touch targets (44px).
+- **Desktop notice** (at most 600px, or with both `hover: none` and `pointer: coarse`): a visible notice explains the local editor workflow while the briefs and references remain browsable. A narrow fine-pointer desktop window beside an editor does not get it, matching the family rule.
 
 **The Mounted Experiment Rule.** Focus mode changes available space while retaining the experiment and reference state; remount remains a separate, explicitly labeled action.
 
@@ -239,7 +240,7 @@ The existing Bugbound SVG remains the brand mark. Utility icons are outlined SVG
 
 ### Buttons
 
-Precise, quiet controls with a clear primary action. Primary and secondary buttons share padding and a minimum height (42px); amber fill distinguishes primary actions. Secondary hover uses raised graphite and a stronger rule. Text buttons underline on hover; icon buttons change tone and fill. Disabled controls reduce opacity (0.65). Focus uses an offset outline (2px, offset 4px), and controls retain their semantic button or link role.
+Precise, quiet controls with a clear primary action. Primary and secondary buttons share padding and a minimum height (42px); amber fill distinguishes primary actions. Secondary hover uses raised graphite and a stronger rule. Text buttons underline on hover; icon buttons change tone and fill. Disabled controls reduce opacity (0.65). A busy control (Run checks while running) dims the same way but uses `aria-disabled`, so it keeps keyboard focus. Focus uses an offset outline (2px, offset 4px), and controls retain their semantic button or link role.
 
 ### Inputs / Fields
 
@@ -271,7 +272,7 @@ Each challenge is a full-row link. An amber monospace identifier anchors the row
 
 ### Experiment and evidence
 
-The experiment has a compact toolbar, local-source caption, bounded scrollable stage, and explanatory footnote. Focus widens the stage without remounting it. Checks stay immediately below as ruled rows with a stable status column and a readable name; failure detail wraps in monospace. The list distinguishes Not run, Running, Pending, Pass, and Fail, and an announced summary reports the current run.
+The experiment has a compact toolbar, local-source caption, bounded scrollable stage, and explanatory footnote. Focus widens the stage without remounting it. Checks stay immediately below as ruled rows with a stable status column and a readable name; failure detail wraps in monospace. The list distinguishes Not run, Running, Pending, Pass, and Fail, and an announced summary reports the current run. Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page, including inside the experiment; the verification note names the chord. Saving a source file reloads the experiment and clears the last run, while hints, Focus and the reflection draft stay as they were.
 
 ### Context and guidance
 
