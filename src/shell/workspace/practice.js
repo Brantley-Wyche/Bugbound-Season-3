@@ -12,8 +12,32 @@ export function recommendChallenge(levels, completed, lastId) {
 
   return {
     level,
-    reason: `Next available practice in ${level.concept || 'React'}, with no saved completion.`,
+    reason: `Next available incident in ${level.concept || 'React'}, not yet repaired.`,
   };
+}
+
+/** Generated incidents grouped by their generation date, newest batch first; catalog order within a batch. */
+export function groupBatches(levels) {
+  const batches = new Map();
+  for (const level of levels) {
+    const date = level.generatedAt || 'undated';
+    if (!batches.has(date)) batches.set(date, []);
+    batches.get(date).push(level);
+  }
+  return [...batches].map(([date, members]) => ({ date: date === 'undated' ? null : date, levels: members }))
+    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+}
+
+/**
+ * The incident on the bench: the unrepaired one the learner worked on last,
+ * else the suggested next open incident (generated first). Null when every incident is repaired.
+ */
+export function benchIncident(levels, completed, lastWorked) {
+  const worked = levels.find((level) => level.id === lastWorked && !completed.has(level.id));
+  if (worked) return { level: worked, continuing: true };
+  const suggestion = recommendChallenge(getPracticeLevels(levels, 'generated'), completed, null)
+    || recommendChallenge(getPracticeLevels(levels, 'foundations'), completed, null);
+  return suggestion ? { level: suggestion.level, continuing: false, reason: suggestion.reason } : null;
 }
 
 export function filterChallenges(levels, { query = '', status = 'all' }, completed) {

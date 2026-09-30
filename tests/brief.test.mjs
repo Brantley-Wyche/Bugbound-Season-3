@@ -52,3 +52,10 @@ test('the generated handoff requires private fail-before and pass-after evidence
   assert.match(brief, /npm run build/);
   assert.match(brief, /npm run verify-level -- <id>/);
 });
+
+test('an attached learning profile adds one line asking the agent to use it', () => {
+  assert.doesNotMatch(createAgentBrief({}), /learning-profile/);
+  const brief = createAgentBrief({ profile: true });
+  assert.match(brief, /attached bugbound-learning-profile\.json/);
+  assert.match(brief, /more runs or hints/);
+});

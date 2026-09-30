@@ -20,7 +20,7 @@ The existing app uses React 19 and Vite with npm. It runs locally beside a sourc
 
 ## Capabilities and Constraints
 
-- Choose freely among challenges, with an explained suggested next challenge. Confirmed by the user on 2026-09-12.
+- Choose freely among incidents, with an explained suggested next incident. Confirmed by the user on 2026-09-12.
 - Retain the original curriculum as browsable Foundations; generated practice leads the Season 3 experience.
 - Preserve all existing exercise source, manifests, checks, data-testid attributes, encoded hints and solutions, and blind mode.
 - Season 3 may use npm dependencies and actual library components installed through their documented workflow (user confirmed 2026-09-12). Preserve the existing React/Vite architecture and assess compatibility; generated exercises retain their separate package-import restriction.
@@ -36,11 +36,11 @@ Bugbound retains its user-created icon and the family resemblance to Season 1's 
 ## Product Principles
 
 - Give learners agency and make recommendations understandable.
-- Show evidence with its actual scope; saved completion does not establish current correctness.
+- Show evidence with its actual scope; a saved repair does not establish current correctness.
 - Offer reference and hints without judging their use.
 - Represent the external agent handoff honestly.
 - Protect the learning exercise as the product's executable specification.
 
 ## Accessibility & Inclusion
 
-Desktop-first exercises require editing and running real source code. Keep this explanation visible on smaller devices while keeping challenges, briefs, and references browsable. Support keyboard navigation, readable contrast, reduced motion, and zoom.
+Desktop-first exercises require editing and running real source code. Keep this explanation visible on smaller devices while keeping incidents, briefs, and references browsable. Support keyboard navigation, readable contrast, reduced motion, and zoom.

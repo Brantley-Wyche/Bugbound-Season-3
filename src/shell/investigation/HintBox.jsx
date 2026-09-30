@@ -2,7 +2,7 @@ import { useState } from 'react';
 import hints from '../../levels/hints.json';
 import { recordHintReveal } from '../progress/learning.js';
 
-const TIER_LABELS = ['Gentle nudge', 'Closer look', 'Basically the answer'];
+export const TIER_LABELS = ['Gentle nudge', 'Closer look', 'Basically the answer'];
 
 function decode(b64) {
   return new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
@@ -35,7 +35,7 @@ export default function HintBox({ levelId }) {
               className="hint-toggle"
               onClick={() => toggleHint(i)}
               aria-expanded={revealed[i]}
-              aria-controls={`${levelId}-hint-${i + 1}`}
+              aria-controls={revealed[i] ? `${levelId}-hint-${i + 1}` : undefined}
             >
               <span>Hint {i + 1}</span>
               <span className="tier">{revealed[i] ? 'hide' : TIER_LABELS[i]}</span>

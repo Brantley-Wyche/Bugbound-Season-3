@@ -7,7 +7,7 @@ export function validateExecutableLevel(level, expectedId) {
   if (!level || level.id !== expectedId || !level.Component || !['function', 'object'].includes(typeof level.Component)
     || !Array.isArray(level.checks) || !level.checks.length
     || level.checks.some((check) => typeof check.name !== 'string' || !check.name.trim() || typeof check.run !== 'function')) {
-    throw new Error('The exercise manifest is incomplete. Ask your agent to validate it before continuing.');
+    throw new Error('The incident manifest is incomplete. Ask your agent to validate it before continuing.');
   }
   return level;
 }
@@ -46,6 +46,6 @@ export async function startExerciseRuntime(loadLevel) {
     }
     root.render(createElement(Preview));
   } catch (error) {
-    post({ type: 'error', message: `Exercise could not load: ${String(error?.message || error)}` });
+    post({ type: 'error', message: `The incident could not load: ${String(error?.message || error)}` });
   }
 }
