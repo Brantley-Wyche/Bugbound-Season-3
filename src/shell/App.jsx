@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { levels, catalogErrors } from '../levels/index.js';
 import { useProgress } from './progress/useProgress.js';
 import { recordReset } from './progress/learning.js';
@@ -21,6 +21,43 @@ function useHash() {
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
   return hash;
+}
+
+/** Reset asks in place: Keep repairs takes focus, Escape keeps them, and focus returns to the trigger. */
+function ResetRepairs({ onReset }) {
+  const [confirming, setConfirming] = useState(false);
+  const [message, setMessage] = useState('');
+  const triggerRef = useRef(null);
+  const keepRef = useRef(null);
+  const wasConfirming = useRef(false);
+
+  useEffect(() => {
+    if (confirming) keepRef.current?.focus();
+    else if (wasConfirming.current) triggerRef.current?.focus();
+    wasConfirming.current = confirming;
+  }, [confirming]);
+
+  const close = (text = '') => {
+    setConfirming(false);
+    setMessage(text);
+  };
+
+  if (!confirming) {
+    return (
+      <span className="reset-repairs">
+        <span role="status" className="reset-message">{message}</span>
+        <button ref={triggerRef} className="text-button" onClick={() => { setMessage(''); setConfirming(true); }}>Reset repairs</button>
+      </span>
+    );
+  }
+  return (
+    <div className="reset-confirm" role="group" aria-labelledby="reset-question"
+      onKeyDown={(event) => { if (event.key === 'Escape') close(); }}>
+      <p id="reset-question">Reset every repair saved in this browser? Incidents reopen. Source files, readings and conclusions stay.</p>
+      <button ref={keepRef} className="btn" onClick={() => close()}>Keep repairs</button>
+      <button className="btn btn-reset" onClick={() => { onReset(); close('Repairs reset.'); }}>Reset repairs</button>
+    </div>
+  );
 }
 
 export default function App() {
@@ -51,10 +88,8 @@ export default function App() {
     return () => import.meta.hot?.off('bugbound:exercise-change', onSourceChange);
   }, []);
 
-  function confirmReset() {
-    if (window.confirm('Reset every repair saved in this browser? Incidents reopen. Source files, readings, and conclusions stay unchanged.')) {
-      if (!resetProgress().failure) recordReset();
-    }
+  function reset() {
+    if (!resetProgress().failure) recordReset();
   }
 
   return (
@@ -119,7 +154,7 @@ export default function App() {
       <footer className="lab-footer">
         <span>Bugbound <span aria-hidden="true">/</span> Engineering Lab</span>
         <span className="footer-context">Your editor. Your agent. Your investigation.</span>
-        <button className="text-button" onClick={confirmReset}>Reset repairs</button>
+        <ResetRepairs onReset={reset} />
       </footer>
     </div>
   );

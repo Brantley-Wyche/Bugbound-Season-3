@@ -181,3 +181,35 @@ test('abandon aborts the running executor and gives each check its catalog index
   pending.resolve({ pass: true });
   assert.equal(await running, null);
 });
+
+test('cancel stops the running sequence, reports the checks finished so far, and the visit can run again', async () => {
+  const pending = deferred();
+  const calls = [];
+  const complete = [];
+  const cancelled = [];
+  const session = createCheckSession({
+    checks,
+    runCheck: (check, { signal }) => {
+      calls.push(check);
+      if (check === checks[0]) return { name: check.name, pass: true };
+      signal.addEventListener('abort', () => pending.resolve({ name: check.name, pass: false, message: 'Check cancelled.' }));
+      return pending.promise;
+    },
+    onComplete: (outcome) => complete.push(outcome),
+    onCancel: (results) => cancelled.push(results),
+  });
+
+  const run = session.run();
+  await Promise.resolve();
+  assert.equal(session.cancel(), true);
+  assert.equal(await run, null);
+  assert.deepEqual(calls, checks);
+  assert.deepEqual(complete, []);
+  assert.deepEqual(cancelled, [[{ name: checks[0].name, pass: true }]]);
+  assert.equal(session.cancel(), false);
+
+  const rerun = createCheckSession({ checks: [checks[0]], runCheck: (check) => ({ name: check.name, pass: true }) });
+  assert.equal((await rerun.run()).passed, true);
+  const again = await session.run();
+  assert.equal(again.passed, false);
+});
