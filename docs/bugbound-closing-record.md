@@ -63,7 +63,17 @@ All progress lives in the learner's browser. Repairs are generation-scoped recor
 - **Found and fixed:** the batch record miscounted earlier batches (fixed in `8acd4a1`), and the authoring guide now notes that `h.type` appends to a field's value.
 - **Noted, not changed:** the agent-facing brief still says "level" (it matches the authoring guide); a foundation whose checks all fail on one render error shows that same message on every row; and verify mode records readings like any visit.
 
-**Not verified:** Firefox (computer use can only screenshot a browser, and that access was declined; another method is pending), Safari (no macOS machine), screen-reader speech (judged low priority), physical touch devices.
+**Firefox** (157, driven headless through WebDriver BiDi with puppeteer-core and a temporary profile):
+- No horizontal overflow and no text under 12px on Practice, Foundations, the brief and an incident at 1440×900, 1280×800, 960×1000, 800×900 and 375×812.
+- The instrument bar is in view on arrival at every desktop size, and the notice shows only at 375.
+- Runs work from the button, from Ctrl+Enter on the page and from inside the experiment. Run checks keeps focus while busy.
+- Cancel returns focus and records nothing, and no check frames are left behind.
+- Readings log each run with its change, and the bar trace fills.
+- The inline reset keeps repairs on Escape.
+- `#/foundations` scrolls to its table, and the brief copies.
+- On the synthetic fixture: the Repaired entry takes focus, the rule draws, the conclusion saves, and the entry stands after a reload with "still stands" on a later run. With Firefox's reduced-motion preference on, the rule appears without drawing and buttons don't transition.
+
+**Not verified:** Safari (no macOS machine; WebKit could be approximated through Playwright, but that isn't Safari), screen-reader speech (judged low priority), physical touch devices.
 
 ## 5. Keeping it running
 
