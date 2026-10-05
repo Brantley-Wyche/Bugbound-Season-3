@@ -1,7 +1,8 @@
 /** Owns one visit's check sequence and its disposable execution lifetime. */
-export function createCheckSession({ checks, runCheck, onStart, onProgress, onComplete }) {
+export function createCheckSession({ checks, runCheck, onStart, onProgress, onComplete, onCancel }) {
   let active = true;
   let running = false;
+  let cancelled = false;
   let controller = null;
 
   return {
@@ -10,9 +11,18 @@ export function createCheckSession({ checks, runCheck, onStart, onProgress, onCo
       controller?.abort();
     },
 
+    /** Stops the current run; the visit stays usable. Returns whether a run was cancelled. */
+    cancel() {
+      if (!active || !running || cancelled) return false;
+      cancelled = true;
+      controller?.abort();
+      return true;
+    },
+
     async run() {
       if (!active || running) return null;
       running = true;
+      cancelled = false;
       controller = new AbortController();
 
       try {
@@ -21,13 +31,21 @@ export function createCheckSession({ checks, runCheck, onStart, onProgress, onCo
 
         for (const check of checks) {
           if (!active) return null;
+          if (cancelled) {
+            onCancel?.([...results]);
+            return null;
+          }
           let result;
           try {
-          result = await runCheck(check, { signal: controller.signal, index: results.length });
+            result = await runCheck(check, { signal: controller.signal, index: results.length });
           } catch (error) {
             result = { name: check.name, pass: false, message: String(error?.message || error) };
           }
           if (!active) return null;
+          if (cancelled) {
+            onCancel?.([...results]);
+            return null;
+          }
           results.push(result);
           onProgress?.([...results]);
         }

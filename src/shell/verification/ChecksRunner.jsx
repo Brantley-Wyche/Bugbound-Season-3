@@ -81,7 +81,9 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
   const [lastRun, setLastRun] = useState(null);
   const [repairedHere, setRepairedHere] = useState(false);
   const [historyFailure, setHistoryFailure] = useState(null);
+  const [cancelled, setCancelled] = useState(false);
   const sessionRef = useRef(null);
+  const runButtonRef = useRef(null);
   const repairedRef = useRef(null);
   const callbacksRef = useRef({ onAllPass, record });
   const { id, checks } = level;
@@ -98,6 +100,14 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
         setResults([]);
         setRunning(true);
         setLastRun(null);
+        setCancelled(false);
+      },
+      // A cancelled run is not a reading: nothing is logged or recorded.
+      onCancel() {
+        setRunning(false);
+        setResults(null);
+        setCancelled(true);
+        runButtonRef.current?.focus();
       },
       onProgress: setResults,
       onComplete({ results: finished, passed }) {
@@ -122,6 +132,7 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
   const runAll = useCallback(() => {
     sessionRef.current?.run();
   }, []);
+  const cancelRun = () => sessionRef.current?.cancel();
 
   useEffect(() => {
     if (autoRun) runAll();
@@ -165,12 +176,12 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
     ? `Running check ${Math.min(results.length + 1, total)} of ${total}…`
     : finished
       ? `${runLabel} · ${formatDay(lastRun.at)} ${formatTime(lastRun.at)} · ${passedCount} of ${results.length} passed`
-      : 'Not run this visit';
+      : cancelled ? 'Run cancelled · Not run this visit' : 'Not run this visit';
   const announcement = running
     ? `Running check ${Math.min(results.length + 1, total)} of ${total}.`
     : finished
       ? `${runLabel}: ${passedCount} of ${results.length} checks passed.${repairedHere ? ` ${bugId(level.number)} repaired.` : ''}`
-      : '';
+      : cancelled ? 'Run cancelled. Nothing was recorded.' : '';
 
   const entryProps = { level, record, unsaved, conclusion, onConclusionChange };
 
@@ -248,14 +259,16 @@ export default function ChecksRunner({ level, record = null, unsaved = false, ne
           ) : record ? (
             <span><span className="status-repaired"><Icon name="check" size={16} />Repaired{repairedDay && <> <span className="readout">{repairedDay}</span></>}</span> <span className="bar-muted">· Not run this visit</span></span>
           ) : (
-            <span><span className="readout">{total}</span> {total === 1 ? 'check' : 'checks'} <span className="bar-muted">· Not run this visit</span></span>
+            <span><span className="readout">{total}</span> {total === 1 ? 'check' : 'checks'} <span className="bar-muted">· {cancelled ? 'Run cancelled' : 'Not run this visit'}</span></span>
           )}
           {record && finished && !repairedHere && <span className="status-repaired bar-stands">Repaired{repairedDay && <> <span className="readout">{repairedDay}</span></>} still stands</span>}
           {unsaved && <span className="status-qualifier">Not saved yet</span>}
         </div>
         <BarTrace runEvents={runEvents} record={record} />
         <span className="bar-shortcut" aria-hidden="true"><kbd>{shortcutKey}</kbd>{' '}<kbd>Enter</kbd></span>
+        {running && <button type="button" className="text-button bar-cancel" onClick={cancelRun}>Cancel</button>}
         <StatefulButton
+          ref={runButtonRef}
           className={`btn ${record && !failing ? '' : 'btn-primary'}`}
           aria-label={running ? 'Running checks…' : results?.length ? 'Re-run checks' : 'Run checks'}
           aria-keyshortcuts={`${shortcutKey === '⌘' ? 'Meta' : 'Control'}+Enter`}

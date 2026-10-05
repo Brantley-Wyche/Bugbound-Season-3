@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { getPracticeLevels, filterChallenges, groupBatches, benchIncident } from './practice.js';
 import { levelHref } from './navigation.js';
 import { useLearning } from '../progress/useLearning.js';
@@ -7,6 +8,16 @@ import ReadingsRow from '../investigation/ReadingsRow.jsx';
 import Icon from '../Icon.jsx';
 
 const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
+
+/** The value once it has stopped changing for `delay` ms. */
+function useSettled(value, delay) {
+  const [settled, setSettled] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setSettled(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return settled;
+}
 
 function activityFor(store, id) {
   const activity = store.levels[id];
@@ -164,6 +175,8 @@ export default function LevelMap({ levels, completed, records, unsaved, filters,
   const batches = groupBatches(generated.filter((level) => visible.has(level.id)));
   const shownFoundations = foundations.filter((level) => visible.has(level.id));
   const filtering = Boolean(filters.query.trim()) || filters.status !== 'all';
+  // Announce the result count once typing pauses, not on every keystroke.
+  const announcedCount = useSettled(`Showing ${visible.size} of ${plural(levels.length, 'incident')}.`, 700);
   const changeFilter = (key, value) => onFiltersChange({ ...filters, [key]: value });
   const showBench = !allRepaired && !generatedRepaired;
   const tableProps = { records, unsaved, benchId: showBench ? bench?.level.id : undefined, store };
@@ -238,7 +251,8 @@ export default function LevelMap({ levels, completed, records, unsaved, filters,
         {filtering && visible.size === 0 && (
           <button className="btn register-clear" onClick={() => onFiltersChange({ query: '', status: 'all' })}>Clear filters</button>
         )}
-        <p className="register-footnote" aria-live="polite">Showing {visible.size} of {plural(levels.length, 'incident')}. Repaired records an earlier successful run; a revisit starts unchecked.</p>
+        <p className="register-footnote">Showing {visible.size} of {plural(levels.length, 'incident')}. Repaired records an earlier successful run; a revisit starts unchecked.</p>
+        <p className="sr-only" role="status">{filtering ? announcedCount : ''}</p>
       </section>
       <div className="practice-endnote"><Icon name="file" size={20} /><p>New incidents are discovered from your local repository. Have your agent validate them and prove their checks in both directions before you begin.</p></div>
     </main>

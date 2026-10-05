@@ -67,6 +67,12 @@
 .lab-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 36px; border-top: 1px solid var(--lab-line); margin-top: auto; color: var(--lab-muted); font-size: .75rem; }
 .lab-footer > span:first-child { display: flex; gap: 10px; }
 .lab-footer .text-button { font-size: .75rem; }
+.reset-repairs { display: inline-flex; align-items: center; gap: 12px; }
+.reset-message { color: var(--lab-teal); }
+.reset-confirm { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 8px 12px; max-width: 760px; }
+.reset-confirm p { color: var(--lab-ink); font-size: .8125rem; }
+.lab-shell .btn-reset { color: var(--lab-error); }
+.lab-shell .btn-reset:hover { border-color: var(--lab-error); }
 .storage-notice { display: flex; gap: 24px; justify-content: space-between; align-items: center; background: #392f24; color: #f0d6a6; padding: 18px 36px; }
 
 /* Practice: one active proposition, then the complete register. */

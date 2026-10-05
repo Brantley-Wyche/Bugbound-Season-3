@@ -10,15 +10,15 @@ npx shadcn@latest add @beui/button-stateful @beui/tabs @beui/action-swap-roll
 
 Upstream: https://github.com/starc007/ui-components
 
-Local adaptation: `tabs.tsx` accepts native anchor destinations and a navigation
-landmark for Bugbound's collection routes. The upstream motion implementation is
-retained. `button/stateful.tsx` observes its measured label with ResizeObserver
-instead of setting measurement state after every render; this also updates its
-width when fonts or labels change. While loading it uses `aria-disabled` instead
-of `disabled`, so keyboard focus stays on it, and its label no longer carries its
-own live region (the verification summary announces the run). Other installed
-component and helper source
-files are unchanged.
+The Tabs component was removed on 2026-10-05 once the register stopped using
+collection tabs.
+
+Local adaptation: `button/stateful.tsx` swaps its label without the upstream
+letter cascade, blur or measured-width animation, and shows no icon for a failed
+run, so Bugbound's one authored motion stays the Repaired record. While loading
+it uses `aria-disabled` instead of `disabled`, so keyboard focus stays on it, and
+its label carries no live region of its own (the verification summary announces
+the run). Other installed component and helper source files are unchanged.
 App styles map the library utilities to the Engineering Lab tokens.
 
 The upstream license is reproduced below.
