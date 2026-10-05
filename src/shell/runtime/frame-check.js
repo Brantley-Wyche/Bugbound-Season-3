@@ -28,7 +28,7 @@ export function runExerciseCheck(levelId, index, {
     const cancel = () => finish({ pass: false, message: 'Check cancelled.' });
     const receive = (event) => {
       if (event.source !== frame.contentWindow || event.origin !== win.location.origin || event.data?.channel !== channel) return;
-      if (event.data.type === 'error') finish({ pass: false, message: String(event.data.message || 'Exercise could not load.') });
+      if (event.data.type === 'error') finish({ pass: false, message: String(event.data.message || 'The incident could not load.') });
       if (event.data.type === 'result' && typeof event.data.result?.pass === 'boolean') {
         const { pass, message } = event.data.result;
         finish(pass ? { pass } : { pass, message: String(message || 'Behavioral check failed.') });
@@ -42,7 +42,7 @@ export function runExerciseCheck(levelId, index, {
     frame.src = frameAddress(frameUrl, levelId, channel, 'check', win.location.href, index, Math.min(15000, timeoutMs));
     win.addEventListener('message', receive);
     signal?.addEventListener('abort', cancel, { once: true });
-    timer = setTimeout(() => finish({ pass: false, message: 'Check timed out while loading or running the exercise.' }), timeoutMs);
+    timer = setTimeout(() => finish({ pass: false, message: 'Check timed out while loading or running the incident.' }), timeoutMs);
     if (signal?.aborted) { cancel(); return; }
     doc.body.appendChild(frame);
   });

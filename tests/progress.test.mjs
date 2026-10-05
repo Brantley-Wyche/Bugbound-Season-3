@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sanitizeCompleted, createProgressController } from '../src/shell/progress/progress.js';
-import { recordCheckRun, recordHintReveal, createLearningProfile } from '../src/shell/progress/learning.js';
+import {
+  recordCheckRun, recordHintReveal, recordVisit, recordReset, createLearningProfile,
+  getLearningSnapshot, readingsFor, lastWorkedId, readingsByConcept, MAX_EVENTS,
+} from '../src/shell/progress/learning.js';
 
 class MemoryStorage {
   constructor(values = {}) {
@@ -273,6 +276,160 @@ test('malformed per-level learning history never breaks the practice interaction
 test('profile export refuses an uncertain completion snapshot', () => {
   const original = globalThis.localStorage;
   globalThis.localStorage = new MemoryStorage();
-  try { assert.throws(() => createLearningProfile([], new Set(), { operation: 'read' }), /saved completion/i); }
+  try { assert.throws(() => createLearningProfile([], new Set(), { operation: 'read' }), /saved repairs/i); }
   finally { globalThis.localStorage = original; }
+});
+
+function withLocalStorage(storage, run) {
+  const original = globalThis.localStorage;
+  globalThis.localStorage = storage;
+  try { return run(); } finally { globalThis.localStorage = original; }
+}
+
+test('a repair is recorded with its time and run number and survives a reload', () => {
+  const storage = new MemoryStorage();
+  const controller = createProgressController(['a'], { storage });
+  controller.markComplete('a', { at: '2026-09-24T14:31:00.000Z', run: 4 });
+  const other = createProgressController(['a'], { storage });
+  assert.deepEqual(other.getSnapshot().records.get('a'), { at: '2026-09-24T14:31:00.000Z', run: 4 });
+  assert.equal(other.getSnapshot().unsaved.size, 0);
+});
+
+test('the earliest record of a repair wins when two tabs recorded it', () => {
+  const storage = new MemoryStorage({
+    'bugbound:progress:v2:event:initial:x': JSON.stringify({ version: 2, generation: 'initial', id: 'a', at: '2026-09-24T15:00:00.000Z', run: 5 }),
+    'bugbound:progress:v2:event:initial:y': JSON.stringify({ version: 2, generation: 'initial', id: 'a', at: '2026-09-24T14:31:00.000Z', run: 4 }),
+  });
+  assert.deepEqual(createProgressController(['a'], { storage }).getSnapshot().records.get('a'), { at: '2026-09-24T14:31:00.000Z', run: 4 });
+});
+
+test('a second tab does not record a repair that is already saved', () => {
+  const storage = new MemoryStorage();
+  const first = createProgressController(['a'], { storage });
+  const second = createProgressController(['a'], { storage });
+  first.markComplete('a', { at: '2026-09-24T14:31:00.000Z', run: 4 });
+  second.markComplete('a', { at: '2026-09-24T15:00:00.000Z', run: 5 });
+  assert.equal([...storage.values.keys()].filter((key) => key.includes(':event:')).length, 1);
+  assert.equal(second.getSnapshot().records.get('a').run, 4);
+});
+
+test('a repair that could not be saved stays visible as unsaved until retry', () => {
+  const storage = new MemoryStorage();
+  const controller = createProgressController(['a'], { storage });
+  storage.failWrites = true;
+  controller.markComplete('a', { at: '2026-09-24T14:31:00.000Z', run: 2 });
+  assert.equal(controller.getSnapshot().completed.has('a'), true);
+  assert.equal(controller.getSnapshot().unsaved.has('a'), true);
+  assert.equal(controller.getSnapshot().records.get('a').run, 2);
+  storage.failWrites = false;
+  controller.retry();
+  assert.equal(controller.getSnapshot().unsaved.size, 0);
+  assert.equal(createProgressController(['a'], { storage }).getSnapshot().records.get('a').run, 2);
+});
+
+test('older completion records without a time still read as repaired', () => {
+  const storage = new MemoryStorage({
+    'bugbound:progress:v2:event:initial:x': JSON.stringify({ version: 2, generation: 'initial', id: 'a' }),
+  });
+  const snapshot = createProgressController(['a'], { storage }).getSnapshot();
+  assert.equal(snapshot.completed.has('a'), true);
+  assert.deepEqual(snapshot.records.get('a'), { at: null, run: null });
+});
+
+test('a record with an invalid run number is reported, not trusted', () => {
+  const storage = new MemoryStorage({
+    'bugbound:progress:v2:event:initial:x': JSON.stringify({ version: 2, generation: 'initial', id: 'a', run: 0 }),
+  });
+  assert.equal(createProgressController(['a'], { storage }).getSnapshot().failure.operation, 'read');
+});
+
+test('runs are numbered across visits and logged with their pass counts', () => {
+  withLocalStorage(new MemoryStorage(), () => {
+    assert.equal(recordCheckRun('a', [{ pass: true }, { pass: false }]).run, 1);
+    const second = recordCheckRun('a', [{ pass: true }, { pass: true }]);
+    assert.equal(second.run, 2);
+    const { runEvents, runs } = readingsFor(getLearningSnapshot().store, 'a');
+    assert.equal(runs, 2);
+    assert.deepEqual(runEvents.map(({ run, passed, total }) => [run, passed, total]), [[1, 1, 2], [2, 2, 2]]);
+  });
+});
+
+test('a hint tier is logged the first time it opens, by number only', () => {
+  withLocalStorage(new MemoryStorage(), () => {
+    recordHintReveal('a', 1);
+    recordHintReveal('a', 1);
+    recordHintReveal('a', 2);
+    const hints = readingsFor(getLearningSnapshot().store, 'a').entries.filter((entry) => entry.type === 'hint');
+    assert.deepEqual(hints.map((entry) => entry.tier).sort(), [1, 2]);
+    assert.deepEqual(Object.keys(hints[0]).sort(), ['at', 'tier', 'type']);
+  });
+});
+
+test('only a first visit is logged, and it does not count as work', () => {
+  withLocalStorage(new MemoryStorage(), () => {
+    recordVisit('a');
+    recordVisit('a');
+    const readings = readingsFor(getLearningSnapshot().store, 'a');
+    assert.deepEqual(readings.entries.map((entry) => entry.type), ['opened']);
+    assert.equal(readings.lastWorked, null);
+    recordCheckRun('b', [{ pass: false }]);
+    recordVisit('b');
+    assert.equal(readingsFor(getLearningSnapshot().store, 'b').entries.some((entry) => entry.type === 'opened'), false);
+  });
+});
+
+test('the event log keeps the newest entries while the run count keeps growing', () => {
+  withLocalStorage(new MemoryStorage(), () => {
+    for (let index = 0; index < MAX_EVENTS + 5; index++) recordCheckRun('a', [{ pass: false }]);
+    const readings = readingsFor(getLearningSnapshot().store, 'a');
+    assert.equal(readings.entries.length, MAX_EVENTS);
+    assert.equal(readings.runs, MAX_EVENTS + 5);
+    assert.equal(readings.runEvents.at(-1).run, MAX_EVENTS + 5);
+  });
+});
+
+test('a reset appears only in readings that began before it', () => {
+  const storage = new MemoryStorage({ 'bugbound:learning:v1': JSON.stringify({
+    version: 1,
+    levels: { a: { checkRuns: 1, events: [{ type: 'run', at: '2026-09-20T10:00:00.000Z', run: 1, passed: 0, total: 1 }] } },
+  }) });
+  withLocalStorage(storage, () => {
+    recordReset();
+    const store = getLearningSnapshot().store;
+    assert.equal(readingsFor(store, 'a').entries[0].type, 'reset');
+    assert.deepEqual(readingsFor(store, 'b').entries, []);
+  });
+});
+
+test('the latest work names the most recently worked incident', () => {
+  withLocalStorage(new MemoryStorage({ 'bugbound:learning:v1': JSON.stringify({
+    version: 1,
+    levels: { a: { lastPracticedAt: '2026-09-20T10:00:00.000Z' }, b: { lastPracticedAt: '2026-09-24T10:00:00.000Z' } },
+  }) }), () => {
+    assert.equal(lastWorkedId(getLearningSnapshot().store, ['a', 'b', 'c']), 'b');
+    assert.equal(lastWorkedId(getLearningSnapshot().store, ['c']), null);
+  });
+});
+
+test('malformed readings surface as an error snapshot without throwing', () => {
+  withLocalStorage(new MemoryStorage({ 'bugbound:learning:v1': JSON.stringify({ version: 1, levels: { a: { events: [{ type: 'run', at: 'x' }] } } }) }), () => {
+    const snapshot = getLearningSnapshot();
+    assert.match(snapshot.error, /could not read/i);
+    assert.deepEqual(snapshot.store.levels, {});
+    assert.equal(getLearningSnapshot(), snapshot);
+  });
+});
+
+test('readings by concept summarize worked concepts and count the rest', () => {
+  const levels = [
+    { id: 'a', concept: 'Refs' }, { id: 'b', concept: 'Refs' },
+    { id: 'c', concept: 'Effects' }, { id: 'd', concept: 'Context' },
+  ];
+  const store = { version: 1, levels: { a: { checkRuns: 3, hintsRevealed: [1] }, c: { checkRuns: 5 } } };
+  const { rows, untouched } = readingsByConcept(levels, new Set(['b']), store);
+  assert.deepEqual(rows, [
+    { concept: 'Effects', incidents: 1, repaired: 0, runs: 5, hints: 0 },
+    { concept: 'Refs', incidents: 2, repaired: 1, runs: 3, hints: 1 },
+  ]);
+  assert.equal(untouched, 1);
 });

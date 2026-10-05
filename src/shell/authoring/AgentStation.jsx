@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { createLearningProfile } from '../progress/learning.js';
+import { createLearningProfile, readingsByConcept } from '../progress/learning.js';
+import { useLearning } from '../progress/useLearning.js';
 import { createAgentBrief } from './brief.js';
 import Icon from '../Icon.jsx';
 import { ActionSwapRollButton } from '../../components/motion/action-swap-roll';
@@ -10,16 +11,20 @@ const COPY_ITEMS = [
   { id: 'copied', label: 'Brief copied', ariaLabel: 'Brief copied', icon: <Icon name="check" /> },
 ];
 
-export default function AgentStation({ levels, completed, draft, onDraftChange, progressFailure = null }) {
+export default function AgentStation({ levels, completed, records, draft, onDraftChange, progressFailure = null }) {
   const [copiedPrompt, setCopiedPrompt] = useState(null);
   const [error, setError] = useState('');
   const [profileMessage, setProfileMessage] = useState('');
   const [contextOpen, setContextOpen] = useState(Boolean(draft.context));
+  const { store, error: readingsError } = useLearning();
+  const conceptReadings = readingsByConcept(levels, completed, store);
+  // The concept with the most runs among those not yet fully repaired: a lever, not a verdict.
+  const readingTopic = conceptReadings.rows.find((row) => row.repaired < row.incidents && row.runs + row.hints > 0);
   const prompt = createAgentBrief(draft);
   const copied = copiedPrompt === prompt;
 
   function update(key, value) {
-    onDraftChange({ ...draft, [key]: value });
+    onDraftChange((current) => ({ ...current, [key]: value }));
     setError('');
   }
 
@@ -36,27 +41,28 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
 
   function downloadProfile() {
     try {
-      const profile = createLearningProfile(levels, completed, progressFailure);
+      const profile = createLearningProfile(levels, completed, progressFailure, records);
       const url = URL.createObjectURL(new Blob([JSON.stringify(profile, null, 2)], { type: 'application/json' }));
       const anchor = document.createElement('a');
       anchor.href = url;
       anchor.download = 'bugbound-learning-profile.json';
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief.');
+      onDraftChange((current) => ({ ...current, profile: true }));
+      setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief; the brief now mentions it.');
     } catch {
       setProfileMessage(progressFailure
-        ? 'Resolve the saved completion error above, then download your profile again. No profile was exported.'
+        ? 'Resolve the saved repairs error above, then download your profile again. No profile was exported.'
         : 'Your practice history could not be read or downloaded. No incomplete profile was exported. Try downloading it again.');
     }
   }
 
   return (
     <main className="brief-page" id="main-content" tabIndex={-1}>
-      <a className="back-link" href="#/"><Icon name="back" size={16} /> Back to practice</a>
+      <a className="back-link" href="#/"><Icon name="back" size={16} /> Practice</a>
       <div className="page-heading">
-        <h1 id="page-title" tabIndex={-1}>Create a challenge.</h1>
-        <p>Define the practice. Your coding agent authors the bug.</p>
+        <h1 id="page-title" tabIndex={-1}>Brief an incident</h1>
+        <p>Set the practice. Your coding agent authors the incident; this page prepares the brief and never runs the agent.</p>
       </div>
       <div className="brief-workspace">
         <section className="brief-controls" aria-labelledby="challenge-settings-title">
@@ -67,12 +73,21 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
           <div className="topic-ideas" aria-label="Practice topic suggestions">
             {TOPICS.map((topic) => <button type="button" key={topic} aria-pressed={draft.topic === topic} onClick={() => update('topic', topic)}>{topic}</button>)}
           </div>
+          {readingTopic && (
+            <div className="topic-from-readings">
+              <span className="plain-label">From your readings</span>
+              <div className="topic-ideas">
+                <button type="button" aria-pressed={draft.topic === readingTopic.concept} onClick={() => update('topic', readingTopic.concept)}>{readingTopic.concept}</button>
+              </div>
+              <span className="plain-label"><span className="readout">{readingTopic.runs}</span> {readingTopic.runs === 1 ? 'run' : 'runs'} · <span className="readout">{readingTopic.hints}</span> {readingTopic.hints === 1 ? 'hint' : 'hints'}, not yet repaired</span>
+            </div>
+          )}
           <div className="brief-options">
             <label className="field-label">Difficulty
-              <select value={draft.difficulty} onChange={(event) => update('difficulty', event.target.value)}><option>Beginner</option><option>Intermediate</option><option>Hard</option></select>
+              <select value={draft.difficulty} onChange={(event) => update('difficulty', event.target.value)}><option>Intermediate</option><option>Hard</option></select>
             </label>
-            <label className="field-label">Challenges
-              <select value={draft.count} onChange={(event) => update('count', Number(event.target.value))}><option value={1}>1 challenge</option><option value={2}>2 challenges</option><option value={3}>3 challenges</option></select>
+            <label className="field-label">Incidents
+              <select value={draft.count} onChange={(event) => update('count', Number(event.target.value))}><option value={1}>1 incident</option><option value={2}>2 incidents</option><option value={3}>3 incidents</option></select>
             </label>
           </div>
           <details className="context-details" open={contextOpen} onToggle={(event) => setContextOpen(event.currentTarget.open)}>
@@ -81,12 +96,44 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
             <textarea id="brief-context" rows={5} value={draft.context} onChange={(event) => update('context', event.target.value)} placeholder="For example: a search interface with changing inputs, clear loading states, and cleanup requirements." />
             <p className="field-help">Describe the environment you want to practice in. The agent must still follow the repository’s authoring boundaries.</p>
           </details>
-          <div className="profile-export">
-            <h3>Bring your practice history.</h3>
-            <p>Your profile contains completion, check activity, and hint usage. You choose whether to share it with your agent.</p>
+          <section className="profile-export" aria-labelledby="brief-readings-title">
+            <div className="section-toolbar">
+              <h2 id="brief-readings-title">Your readings</h2>
+              <span className="plain-label">kept in this browser</span>
+            </div>
+            <p>A summary by concept of what your learning profile carries, if you choose to share it. The profile never includes hint or solution text.</p>
+            {readingsError ? (
+              <p className="field-help" role="status">{readingsError}</p>
+            ) : conceptReadings.rows.length ? (
+              <>
+                <table className="readings-table">
+                  <thead>
+                    <tr><th scope="col">Concept</th><th scope="col">Incidents</th><th scope="col">Repaired</th><th scope="col">Runs</th><th scope="col">Hints</th></tr>
+                  </thead>
+                  <tbody>
+                    {conceptReadings.rows.map((row) => (
+                      <tr key={row.concept}>
+                        <th scope="row">{row.concept}</th>
+                        <td className="readout">{row.incidents}</td>
+                        <td className={`readout ${row.repaired ? 'is-repaired' : ''}`}>{row.repaired}</td>
+                        <td className="readout">{row.runs}</td>
+                        <td className="readout">{row.hints}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {conceptReadings.untouched > 0 && <p className="field-help"><span className="readout">{conceptReadings.untouched}</span> {conceptReadings.untouched === 1 ? 'concept' : 'concepts'} not yet worked {conceptReadings.untouched === 1 ? 'is' : 'are'} left out.</p>}
+              </>
+            ) : (
+              <p className="field-help">No readings yet. Once you work on an incident, your repairs, runs and hint tiers appear here.</p>
+            )}
             <button className="btn" onClick={downloadProfile}><Icon name="download" /> Download learning profile</button>
+            <label className="profile-mention">
+              <input type="checkbox" checked={Boolean(draft.profile)} onChange={(event) => update('profile', event.target.checked)} />
+              Mention an attached profile in the brief
+            </label>
             <p className="action-message" role="status">{profileMessage}</p>
-          </div>
+          </section>
         </section>
 
         <section className="prepared-brief" aria-labelledby="prepared-brief-title">
@@ -100,8 +147,8 @@ export default function AgentStation({ levels, completed, draft, onDraftChange, 
             <h3>Take it to your coding agent.</h3>
             <ol>
               <li><strong>Send the brief.</strong> Open this repository in your agent and paste the instructions.</li>
-              <li><strong>Let the agent author and verify.</strong> It should prove the checks fail against the planted bug and pass with its private fix, then restore the buggy version.</li>
-              <li><strong>Return to investigate.</strong> New challenges appear here when their manifests are added. Confirm the agent finished validation before you begin.</li>
+              <li><strong>Let the agent author and prove the incident.</strong> It should prove the checks fail against the planted bug and pass with its private fix, then restore the buggy version.</li>
+              <li><strong>Return to the register.</strong> New incidents appear under Generated when their manifests are added. Confirm the agent finished validation before you begin.</li>
             </ol>
             <p>The app prepares this handoff. It does not run your agent.</p>
             <a className="inline-link" href="#/">Return to practice <Icon name="arrow" size={16} /></a>

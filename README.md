@@ -1,12 +1,12 @@
 # Bugbound Season 3 — Engineering Lab
 
-> **The final season of Bugbound:** an Engineering Lab for experienced React developers, with freely chosen, agent-generated challenges and suggested next practice. Shell components use real beUI components installed through its official shadcn registry; see [third-party notices](THIRD_PARTY_NOTICES.md), [the design system](DESIGN.md), and `components.json`. Generated exercises retain their separate import restrictions.
+> **The final season of Bugbound:** an Engineering Lab for experienced React developers, with freely chosen, agent-generated incidents and suggested next practice. Shell components use real beUI components installed through its official shadcn registry; see [third-party notices](THIRD_PARTY_NOTICES.md), [the design system](DESIGN.md), and `components.json`. Generated exercises retain their separate import restrictions.
 
 > **Learn React by fixing it.** A level-based debugging game where every lesson ships with a real, intentionally planted bug — and you're the engineer on call.
 
 ![Bugbound Season 3 Engineering Lab](docs/audits/evidence/2026-09-24-phase3-desktop.png)
 
-Bugbound Season 3 is a React Engineering Lab for practice with your own AI coding agent. Choose from generated challenges or revisit **15 foundation levels**. Each investigation gives you a bug report and a live component. Edit the actual source, observe the change, and run the in-app checks. Every challenge is available; the app suggests what to investigate next.
+Bugbound Season 3 is a React Engineering Lab for practice with your own AI coding agent. Choose from generated incidents or revisit the **15 foundation incidents**. Each investigation gives you a bug report and a live component. Edit the actual source, observe the change, and run the in-app checks. Every incident is open to choose; the app suggests what to investigate next.
 
 No embedded code editor, no sandbox — you use your real editor, real Vite HMR, and real debugging workflow, because that *is* the skill being practiced.
 
@@ -26,9 +26,10 @@ Each level has four parts:
 
 Progress is saved to `localStorage`. Three escalating hints per level are stored **base64-encoded** (decoded only when you click "reveal"), and [SOLUTIONS.md](SOLUTIONS.md) is encoded too — you can't spoil yourself by accident.
 
-After an incident is resolved, a short post-incident review asks you to explain the mechanism and
-the evidence that led to your fix. Check attempts and hint usage are stored locally as a
-spoiler-free learning profile for future personalized practice.
+The run that first passes every check records the incident as **Repaired**, with its time and run
+number, in the verification record; you can add an optional conclusion there. Each incident keeps
+its readings in this browser: runs with their pass counts, the hint tiers you opened (never their
+text) and resets. They also form a spoiler-free learning profile for your next brief.
 
 ## The curriculum
 
@@ -65,11 +66,12 @@ npm run build
 
 ## ♾️ Infinite mode: bring your own agent
 
-![Bugbound Season 3 challenge brief builder](.impeccable/review/brief-desktop-1280.png)
+![Bugbound Season 3 brief builder](.impeccable/review/brief-desktop-1280.png)
 
-Open **Create challenge** at any time. Its brief builder turns a topic,
-difficulty, and level count into a ready-to-send prompt. You can also download a spoiler-free
-learning profile so your agent can target concepts that required more attempts or hints.
+Open **Brief an incident** at any time. Its brief builder turns a topic,
+difficulty, and incident count into a ready-to-send prompt. It also shows your readings by concept,
+and you can download them as a spoiler-free learning profile so your agent can target concepts that
+took more runs or hints.
 
 Your AI coding agent generates fresh levels — new buggy components, checks, and encoded hints,
 in the same style, with the bugs kept secret from you:
@@ -82,7 +84,7 @@ Claude Code picks this up automatically via the bundled `bugbound-levelsmith` sk
 
 1. Reads the level contract (manifest shape + check-harness API) and studies an official level for style
 2. Designs a realistic component with a planted bug — hints and solution are drafted privately and land in the repo **base64-encoded only**
-3. Works on a generation branch and drops the level into `src/levels/custom/` — the game auto-discovers it and makes the first generated challenge playable immediately
+3. Works on a generation branch and drops the level into `src/levels/custom/` — the game auto-discovers it and adds it to the register as a new batch
 4. Proves it both ways: runs the checks against the bug (must fail, readably), against a private fix (must pass) — then deletes the fix
 5. Runs `npm run validate-levels`, `npm test`, and `npm run build` as final gates
 
