@@ -38,7 +38,7 @@ export default function HintBox({ levelId }) {
               aria-controls={revealed[i] ? `${levelId}-hint-${i + 1}` : undefined}
             >
               <span>Hint {i + 1}</span>
-              <span className="tier">{revealed[i] ? 'hide' : TIER_LABELS[i]}</span>
+              <span className="tier">{revealed[i] ? `Hide · ${TIER_LABELS[i]}` : TIER_LABELS[i]}</span>
             </button>
             {revealed[i] && (
               <div className="hint-body" id={`${levelId}-hint-${i + 1}`}>
