@@ -68,7 +68,7 @@ Checks run against a fresh, isolated mount of `Component` per check, with real D
 | `h.query(sel)` / `h.all(sel)` | nullable single / array |
 | `h.text(t)` / `h.value(t)` / `h.attr(t, name)` | read trimmed text / input value / attribute |
 | `await h.click(t)` | click + settle |
-| `await h.type(t, 'text')` | per-character native-setter typing (fires React onChange) |
+| `await h.type(t, 'text')` | per-character native-setter typing (fires React onChange); appends to the field's current value, so type into an empty field or build on what earlier steps typed |
 | `await h.selectOption(t, value)` | set a `<select>` + change event |
 | `await h.pause(ms)` | wait (for effects, timers, fake fetches) |
 | `await h.waitFor(assertion, { timeout: 3000, interval: 25 })` | retry an assertion until it succeeds or its deadline expires; prefer this for asynchronous readiness |
