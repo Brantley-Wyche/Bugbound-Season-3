@@ -150,8 +150,8 @@ function BatchRecord({ generated, foundationsNext, records, store }) {
     <RecordBand
       title={latest.date ? <>Batch <span className="readout">{formatDate(latest.date, { year: true })}</span> repaired</> : 'Batch repaired'}
       lead={<>
-        <span className="readout">{count}</span> of <span className="readout">{count}</span> incidents in this batch repaired
-        {batches.length > 1 && <>, and all <span className="readout">{batches.length}</span> batches before it</>}. Brief your agent for the next batch.
+        <span className="readout">{count}</span> of <span className="readout">{count}</span> {count === 1 ? 'incident' : 'incidents'} in this batch repaired
+        {batches.length > 1 && <>, and {batches.length === 2 ? 'the batch' : <>all <span className="readout">{batches.length - 1}</span> batches</>} before it</>}. Brief your agent for the next batch.
       </>}
       levels={latest.levels} records={records} store={store}
       aside={foundationsNext && (
