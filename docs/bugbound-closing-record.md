@@ -35,7 +35,8 @@ The arc runs from notebook to case file to lab: Season 1 resolves incidents and 
 - **Product:** `PRODUCT.md`. **Family:** `FAMILY.md`.
 - **Authoring:** `AGENTS.md`, `.claude/skills/bugbound-levelsmith/SKILL.md`, `npm run encode`, `npm run validate-levels`, `npm run verify-level -- <id>`.
 - **Curriculum:** `src/levels/` (01–15 protected), `src/levels/custom/` (generated), `src/levels/hints.json` and `SOLUTIONS.md` (base64 only).
-- **Design systems on claude.ai (private until shared):** [Bugbound Engineering Lab](https://claude.ai/artifact/A1JM3dzoMVENBJJcMbuznK) for Season 3 and [Bugbound Investigation Desk](https://claude.ai/artifact/Qyi7UsdUAehxEuL1hdGwUP) for Season 2. The [Season 3 mockup canvas](https://claude.ai/artifact/D5Eay9Mqe7QNrATD27LdGR) shows the first mockup round.
+- **Design systems on claude.ai (private until shared):** [Bugbound Field Notebook](https://claude.ai/artifact/JLzXt3DfCT78QuweN7DdBu) for Season 1, [Bugbound Investigation Desk](https://claude.ai/artifact/Qyi7UsdUAehxEuL1hdGwUP) for Season 2 and [Bugbound Engineering Lab](https://claude.ai/artifact/A1JM3dzoMVENBJJcMbuznK) for Season 3. The [Season 3 mockup canvas](https://claude.ai/artifact/D5Eay9Mqe7QNrATD27LdGR) matches the shipped build, with a batch record board added.
+- **Critique snapshots:** `.impeccable/critique/` holds the audit baseline (2026-09-28) and the post-build critique (2026-09-30).
 
 ### Storage
 
@@ -48,7 +49,7 @@ All progress lives in the learner's browser. Repairs are generation-scoped recor
 | Engineering Lab redesign and reliability audit (before this record) | Experiment-first investigation, free choice, the brief builder, isolated check frames, safer persistence |
 | Audit against `FAMILY.md` and Season 2 (2026-09-27) | Design baseline 25/40, technical 15/20. Three P1s: Run off-screen, no finish record, mixed vocabulary |
 | Build, merged as [Brantley-Wyche/Bugbound-Season-3#1](https://github.com/Brantley-Wyche/Bugbound-Season-3/pull/1) | Quick fixes, "incident" and "Repaired" throughout, 12px floor, repair records and readings, the instrument bar and Repaired entry, register by batch, the brief's readings. Post-build critique 30/40, then the four follow-ups it raised: the batch record, the report first when stacked, run deltas and the bar trace, readings feeding the brief |
-| Closing pass (`season-3-closing`) | Cancel a run, the Run button without letter cascade or blur, an inline reset confirmation instead of the native dialog, the unused Tabs component removed, the hint toggle's "Hide" label, a calmer filter announcement, `FAMILY.md` updated in all three repositories, the Season 3 design system, and the playthrough below |
+| Closing pass, merged as [Brantley-Wyche/Bugbound-Season-3#2](https://github.com/Brantley-Wyche/Bugbound-Season-3/pull/2) | Cancel a run, the Run button without letter cascade or blur, an inline reset confirmation instead of the native dialog, the unused Tabs component removed, the hint toggle's "Hide" label, a calmer filter announcement, `FAMILY.md` updated in all three repositories, the Season 3 design system, and the playthrough below |
 
 ## 4. Verification at close
 
@@ -87,3 +88,13 @@ All progress lives in the learner's browser. Repairs are generation-scoped recor
 - An embedded editor, hosted agent runs, or a monitor of the agent's work: the game stays beside the learner's own tools.
 - A cross-incident comparison of runs or an adaptive difficulty model: the suggestion is a simple, explained choice, and the brief's topic suggestion is a lever, not a verdict.
 - Phone polish: phones and tablets can browse and get the notice; solving needs a desktop.
+
+## 7. Family cleanup at close
+
+The earlier seasons' handoffs left small open items. They were closed on 2026-10-05:
+
+- **Season 1** ([Brantley-Wyche/Bugbound-Season-1#1](https://github.com/Brantley-Wyche/Bugbound-Season-1/pull/1)): the concept, workbench and hints are reachable by heading and landmark; section jumps read as controls; "Start here" stops pointing at the concept once it is opened; Reset progress appears only once something is resolved; the preview crash says saving retries on its own; Restart preview answers with a timed status; `DESIGN.md` loses its Next drift; and `docs/bugbound-season-1.jpg` shows the redesigned register.
+- **Season 2** ([Brantley-Wyche/Bugbound-Season-2#1](https://github.com/Brantley-Wyche/Bugbound-Season-2/pull/1)): Ctrl/⌘+Enter runs the checks; the progress store no longer re-renders every consumer when the window regains focus; the brand link is 44px tall; the mobile sheet no longer repeats "Incident register"; `PRODUCT.md` drops a one-time instruction; and its design system drops the retired `completion-*` tokens.
+- **Season 1's design system** is on claude.ai, so every season now has one.
+
+Left as decided: Season 1's notebook margin (it needs a rule change), its 10.5px lesson style (protected curriculum), and Season 2's px-only shell type. Season 2's production build stops on incident 10's planted route by design, so its gates are lint, typecheck, tests and curriculum validation.
