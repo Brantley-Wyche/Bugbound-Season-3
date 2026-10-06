@@ -91,10 +91,10 @@ All progress lives in the learner's browser. Repairs are generation-scoped recor
 
 ## 7. Family cleanup at close
 
-The earlier seasons' handoffs left small open items. They were closed on 2026-10-05, each on its own branch:
+The earlier seasons' handoffs left small open items. They were closed on 2026-10-05:
 
-- **Season 1** (`season-1-closing`): the concept, workbench and hints are reachable by heading and landmark; section jumps read as controls; "Start here" stops pointing at the concept once it is opened; Reset progress appears only once something is resolved; the preview crash says saving retries on its own; Restart preview answers with a timed status; `DESIGN.md` loses its Next drift; and `docs/bugbound-season-1.jpg` shows the redesigned register.
-- **Season 2** (`season-2-closing`): Ctrl/⌘+Enter runs the checks; the progress store no longer re-renders every consumer when the window regains focus; the brand link is 44px tall; the mobile sheet no longer repeats "Incident register"; `PRODUCT.md` drops a one-time instruction; and its design system drops the retired `completion-*` tokens.
+- **Season 1** ([Brantley-Wyche/Bugbound-Season-1#1](https://github.com/Brantley-Wyche/Bugbound-Season-1/pull/1)): the concept, workbench and hints are reachable by heading and landmark; section jumps read as controls; "Start here" stops pointing at the concept once it is opened; Reset progress appears only once something is resolved; the preview crash says saving retries on its own; Restart preview answers with a timed status; `DESIGN.md` loses its Next drift; and `docs/bugbound-season-1.jpg` shows the redesigned register.
+- **Season 2** ([Brantley-Wyche/Bugbound-Season-2#1](https://github.com/Brantley-Wyche/Bugbound-Season-2/pull/1)): Ctrl/⌘+Enter runs the checks; the progress store no longer re-renders every consumer when the window regains focus; the brand link is 44px tall; the mobile sheet no longer repeats "Incident register"; `PRODUCT.md` drops a one-time instruction; and its design system drops the retired `completion-*` tokens.
 - **Season 1's design system** is on claude.ai, so every season now has one.
 
 Left as decided: Season 1's notebook margin (it needs a rule change), its 10.5px lesson style (protected curriculum), and Season 2's px-only shell type. Season 2's production build stops on incident 10's planted route by design, so its gates are lint, typecheck, tests and curriculum validation.
