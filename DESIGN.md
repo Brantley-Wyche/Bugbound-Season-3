@@ -275,7 +275,7 @@ Under an incident's title, a ruled row of fields: Case (`BUG-###`), Concept, Sev
 
 ### Instrument bar
 
-Pinned to the foot of the experiment column while the column scrolls, so Run is in view on arrival at desktop heights. It holds the latest reading (Not run this visit, Running check N of M, or a dotted-underlined "Run 03 · 2 of 4 passed · 2:14 PM" that jumps to that run's record), the **bar trace** (the last six runs as rows of 8px cells, one per check, filled teal when passed, the latest underlined; shown from the second run), the Ctrl Enter key caps (hidden at compact widths), Run checks, and once the incident is repaired, Next (the next suggested incident, or Brief an incident). Amber goes to Run checks while the incident is open or a later run fails, otherwise to Next. Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page, including inside the experiment, but not while typing in a page field.
+Pinned to the foot of the experiment column while the column scrolls, so Run is in view on arrival at desktop heights. It holds the latest reading (Not run this visit, Running check N of M, or a dotted-underlined "Run 03 · 2 of 4 passed · 2:14 PM" that jumps to that run's record), the **bar trace** (the last six runs as rows of 8px cells, one per check, filled teal when passed, the latest underlined; shown from the second run), the Ctrl Enter key caps (hidden at compact widths), Cancel while checks run, Run checks, and once the incident is repaired, Next (the next suggested incident, or Brief an incident). Amber goes to Run checks while the incident is open or a later run fails, otherwise to Next. Ctrl+Enter (⌘ Enter on macOS) runs the checks from anywhere on the page, including inside the experiment, but not while typing in a page field. Cancel stops the run, records nothing (the record reads "Run cancelled" and the announcement says nothing was recorded), and returns focus to Run checks.
 
 ### Verification record
 
@@ -301,9 +301,11 @@ The brief builder pairs settings with the exact prepared handoff. Difficulty off
 
 Main navigation uses plain links with warm text and an amber underline for the current page. The brand link returns to Practice. Investigation section links move to named, focusable headings. A keyboard skip link reveals itself on focus; route changes focus the task heading.
 
+**Reset repairs** sits in the footer and asks in place rather than through a browser dialog: the question, an outlined error-colored Reset repairs, and Keep repairs, which takes focus. Escape or Keep repairs closes it and returns focus to the trigger; a completed reset says "Repairs reset." Readings and conclusions are kept.
+
 ### Library motion
 
-Season 3 uses actual beUI registry components installed with shadcn: Stateful Button for Run checks and Action Swap Roll for brief and path copy feedback. The installed Tabs component is no longer rendered, because the register shows both collections. Component source provenance, local adaptations and the MIT license are in `THIRD_PARTY_NOTICES.md`.
+Season 3 uses actual beUI registry components installed with shadcn: Stateful Button for Run checks and Action Swap Roll for brief and path copy feedback. Stateful Button is adapted locally: its label swaps without the letter cascade, blur or width animation, and a failed run shows no ✕, so the Repaired rule stays the season's one authored motion. The unused Tabs component was removed. Component source provenance, local adaptations and the MIT license are in `THIRD_PARTY_NOTICES.md`.
 
 Copy labels and icons roll only after clipboard success; Run checks shows loading and the current result with a restrained 0.98 press scale. Reduced-motion paths retain the labels and outcomes while removing spatial movement.
 

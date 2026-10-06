@@ -520,7 +520,8 @@
       ],
       "adaptations": [
         "Stateful Button uses aria-disabled while loading and no inner live region",
-        "Tabs installed but no longer rendered"
+        "Stateful Button swaps its label without letter cascade, blur or width animation, and shows no error mark",
+        "Tabs removed"
       ],
       "styling": "Engineering Lab tokens; Tailwind utilities without Preflight",
       "motion": "Run and copy state feedback; reduced-motion alternatives; verification press scale 0.98"
