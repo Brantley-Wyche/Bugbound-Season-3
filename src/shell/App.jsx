@@ -6,12 +6,12 @@ import { parseRoute } from './workspace/navigation.js';
 import LevelMap from './workspace/LevelMap.jsx';
 import LevelPage from './investigation/LevelPage.jsx';
 import AgentStation from './authoring/AgentStation.jsx';
+import { pad2 } from './format.js';
 import Icon from './Icon.jsx';
 
 const levelIds = levels.map((level) => level.id);
 const foundationIds = levels.filter((level) => level.number <= 15).map((level) => level.id);
 const generatedIds = levels.filter((level) => level.number > 15).map((level) => level.id);
-const pad = (value) => String(value).padStart(2, '0');
 
 function useHash() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -108,8 +108,8 @@ export default function App() {
           <a href="#/brief" aria-current={route.page === 'brief' ? 'page' : undefined}>Brief an incident</a>
         </nav>
         <p className="header-readout">
-          <span>Foundations <span className="readout">{pad(repairedFoundations)}/{pad(foundationIds.length)}</span></span>
-          <span>Generated <span className="readout">{pad(repairedGenerated)}/{pad(generatedIds.length)}</span></span>
+          <span>Foundations <span className="readout">{pad2(repairedFoundations)}/{pad2(foundationIds.length)}</span></span>
+          <span>Generated <span className="readout">{pad2(repairedGenerated)}/{pad2(generatedIds.length)}</span></span>
           <span>repaired</span>
         </p>
       </header>

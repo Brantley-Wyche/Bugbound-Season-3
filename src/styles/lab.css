@@ -335,8 +335,7 @@
   .focus-button { display: none !important; }
   .investigation-context[hidden] { display: block; }
   .is-focused .investigation-workspace { grid-template-columns: 1fr; }
-  .investigation-jumps { display: flex; gap: 24px; margin-top: 23px; }
-  .investigation-jumps button { padding: 6px 0; min-height: 36px; background: transparent; border: 0; color: var(--lab-teal); font-size: .8125rem; text-decoration: underline; text-underline-offset: 4px; }
+  .investigation-jumps { margin-top: 23px; }
   .concept-reference p { max-width: 75ch; }
   .footer-context { display: none; }
 }
@@ -348,7 +347,7 @@
   .register-table .col-status { width: auto; }
   .register-filters { width: 100%; }
   .search-field { flex: 1; min-width: 0; }
-  .search-field input { width: 100%; min-width: 0; }
+  .search-field input { width: 100%; min-width: 0; padding-right: 3px; }
   .lab-shell h1:not(:where(.exercise-surface *)) { font-size: 1.75rem; }
   .lab-header { grid-template-columns: 1fr auto; padding: 17px 20px 0; gap: 13px 15px; }
   .primary-nav { grid-column: 1 / -1; grid-row: 2; margin: 0; min-height: 44px; gap: 28px; }
@@ -358,9 +357,6 @@
   .practice-heading p, .page-heading > p { font-size: .875rem; }
   .incident-index { font-size: 2.125rem; }
   .register-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .register-filters { gap: 8px; }
-  .search-field { flex: 1; min-width: 0; }
-  .search-field input { width: 100%; min-width: 0; padding-right: 3px; }
   .status-filter select { width: 130px; }
   .register-footnote { line-height: 1.8; }
   .practice-endnote { margin-top: 28px; }
@@ -390,7 +386,6 @@
   .concept-reference p { font-size: .875rem; }
   .check-row { gap: 10px; }
   .check-chip { flex-basis: 52px; }
-  .bar-shortcut { display: none; }
   .readings-log li { grid-template-columns: 72px minmax(0, 1fr); gap: 4px 12px; }
   .readings-detail { grid-column: 2; }
   .lab-footer { padding: 18px 20px; flex-wrap: wrap; gap: 5px; }
