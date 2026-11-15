@@ -10,22 +10,27 @@ import ExercisePreview from '../runtime/ExercisePreview.jsx';
 import ChecksRunner from '../verification/ChecksRunner.jsx';
 import HintBox from './HintBox.jsx';
 import Icon from '../Icon.jsx';
+import { useAnnouncement } from '../useAnnouncement.js';
 import { ActionSwapRollIcon } from '../../components/motion/action-swap-roll';
 
 function SourceFile({ path }) {
   const [copyState, setCopyState] = useState('idle');
+  const [feedback, announce] = useAnnouncement();
   async function copy() {
     try {
       await navigator.clipboard.writeText(path);
       setCopyState('copied');
+      announce('Path copied.');
     } catch {
       setCopyState('failed');
+      announce('Select the path and copy it manually.');
     }
   }
   return (
     <li>
       <div className="source-file"><code>{path}</code><button className="icon-button" aria-label={`Copy source path ${path}`} onClick={copy}><ActionSwapRollIcon value={copyState}><Icon name={copyState === 'copied' ? 'check' : 'copy'} size={16} /></ActionSwapRollIcon></button></div>
-      {copyState !== 'idle' && <span className="copy-feedback" role="status">{copyState === 'copied' ? 'Path copied.' : 'Select the path and copy it manually.'}</span>}
+      {/* The status region is present before the first copy, so that copy is announced too. */}
+      <span className="copy-feedback" role="status">{feedback}</span>
     </li>
   );
 }

@@ -24,7 +24,9 @@
 .lab-shell ::selection { background: #665736; color: #fff6e2; }
 .lab-shell :where(h1, h2, h3, p):not(:where(.exercise-surface *)) { margin: 0; }
 .lab-shell h1:not(:where(.exercise-surface *)) { font-size: 2.125rem; line-height: 1.22; letter-spacing: -0.035em; font-weight: 620; text-wrap: balance; }
-.lab-shell h2:not(:where(.exercise-surface *)) { font-size: 1.125rem; font-weight: 620; line-height: 1.4; letter-spacing: -0.015em; }
+.lab-shell h2:not(:where(.exercise-surface *)) { font-size: 1.125rem; font-weight: 620; line-height: 1.4; letter-spacing: -0.015em; text-wrap: balance; }
+/* The shell's own prose avoids one-word last lines; the experiment frame never carries .lab-shell, so previews keep default wrapping. */
+.lab-shell :where(p, li, dd, .hint-body):not(:where(.exercise-surface *)) { text-wrap: pretty; }
 .lab-shell h3:not(:where(.exercise-surface *)) { font-size: 0.9375rem; font-weight: 620; line-height: 1.5; }
 .lab-shell a:not(:where(.exercise-surface *)) { color: inherit; text-underline-offset: 4px; }
 .lab-shell :where(button, input, textarea, select):not(:where(.exercise-surface *)) { font: inherit; }
@@ -399,6 +401,15 @@
 }
 @media (max-width: 1100px) { .desktop-notice { padding-inline: 24px; } }
 @media (max-width: 700px) { .desktop-notice { padding-inline: 20px; } }
+/* Forced colors (Windows High Contrast) drops author backgrounds. These three states are carried only by a fill,
+   so they opt out and draw with system colors; everything else keeps the browser's forced palette. */
+@media (forced-colors: active) {
+  .trace-bar > span { forced-color-adjust: none; background: Canvas; border-color: CanvasText; }
+  .trace-bar > span.is-pass { background: CanvasText; border-color: CanvasText; }
+  .primary-nav a[aria-current]::after { forced-color-adjust: none; background: Highlight; }
+  .topic-ideas button[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
+  .lab-shell .topic-ideas button[aria-pressed="true"]:focus-visible { outline-color: CanvasText; }
+}
 @media (prefers-reduced-motion: reduce) {
   .lab-shell *, .lab-shell *::before, .lab-shell *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
