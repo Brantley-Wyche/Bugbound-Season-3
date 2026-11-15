@@ -13,6 +13,7 @@ src/
     App.jsx                   App composition, route state, brief draft and filters
     Icon.jsx                  Shared shell icons
     format.js                 Day, time, BUG ID and folio formatting
+    announcement.js           Repeat-safe live-region text (useAnnouncement.js adapts it)
     workspace/                Practice register, route parsing, recommendations
     investigation/            Investigation page, source guidance, hints, prose
     authoring/                External-agent brief builder and profile export UI

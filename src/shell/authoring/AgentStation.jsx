@@ -3,6 +3,7 @@ import { createLearningProfile, readingsByConcept } from '../progress/learning.j
 import { useLearning } from '../progress/useLearning.js';
 import { createAgentBrief } from './brief.js';
 import Icon from '../Icon.jsx';
+import { useAnnouncement } from '../useAnnouncement.js';
 import { ActionSwapRollButton } from '../../components/motion/action-swap-roll';
 
 const TOPICS = ['effect cleanup', 'custom hooks', 'state architecture', 'accessibility in React', 'async UI state', 'component composition'];
@@ -13,8 +14,9 @@ const COPY_ITEMS = [
 
 export default function AgentStation({ levels, completed, records, draft, onDraftChange, progressFailure = null }) {
   const [copiedPrompt, setCopiedPrompt] = useState(null);
-  const [error, setError] = useState('');
-  const [profileMessage, setProfileMessage] = useState('');
+  const [copyFailed, setCopyFailed] = useState(false);
+  const [copyNote, announceCopy] = useAnnouncement();
+  const [profileMessage, announceProfile] = useAnnouncement();
   const [contextOpen, setContextOpen] = useState(Boolean(draft.context));
   const { store, error: readingsError } = useLearning();
   const conceptReadings = readingsByConcept(levels, completed, store);
@@ -25,17 +27,19 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
 
   function update(key, value) {
     onDraftChange((current) => ({ ...current, [key]: value }));
-    setError('');
+    setCopyFailed(false);
   }
 
   async function copyBrief() {
     try {
       await navigator.clipboard.writeText(prompt);
       setCopiedPrompt(prompt);
-      setError('');
+      setCopyFailed(false);
+      announceCopy('Ready to paste into your coding agent.');
     } catch {
       setCopiedPrompt(null);
-      setError('Clipboard access was blocked. Select the brief below and copy it manually.');
+      setCopyFailed(true);
+      announceCopy('Clipboard access was blocked. Select the brief below and copy it manually.');
     }
   }
 
@@ -49,9 +53,9 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       onDraftChange((current) => ({ ...current, profile: true }));
-      setProfileMessage('Learning profile downloaded. Attach it to your coding agent when you send the brief; the brief now mentions it.');
+      announceProfile('Learning profile downloaded. Attach it to your coding agent when you send the brief; the brief now mentions it.');
     } catch {
-      setProfileMessage(progressFailure
+      announceProfile(progressFailure
         ? 'Resolve the saved repairs error above, then download your profile again. No profile was exported.'
         : 'Your practice history could not be read or downloaded. No incomplete profile was exported. Try downloading it again.');
     }
@@ -141,7 +145,8 @@ export default function AgentStation({ levels, completed, records, draft, onDraf
           <label className="sr-only" htmlFor="agent-brief-text">Prepared agent brief</label>
           <textarea id="agent-brief-text" className="brief-output" readOnly value={prompt} rows={15} spellCheck={false} />
           <div className="brief-copy-row">
-            <span className="action-message" role="status">{error || (copied ? 'Ready to paste into your coding agent.' : '')}</span>
+            {/* Feedback follows the exact copied revision; an edit clears it until the next copy. */}
+            <span className="action-message" role="status">{copyFailed || copied ? copyNote : ''}</span>
           </div>
           <div className="handoff-guide">
             <h3>Take it to your coding agent.</h3>

@@ -199,6 +199,10 @@ The palette is dark and warm, with pale accents used for practical distinctions.
 
 These values document the implemented states, not additional general-purpose accents. Text selection uses `selection-ground` and `selection-ink`. Storage recovery notices use `storage-notice-ground` and `storage-notice-ink`. Selected topic controls use `topic-selected-ground`, `topic-selected-line`, and `topic-selected-ink`. Prepared instructions use `brief-ink`; the experiment host uses `experiment-ground`; inline reference code uses `reference-code-ink`. Unfilled run-trace cells and the bar reading's dotted underline use `reading-empty-line`. The desktop notice uses `desktop-notice-ground`, `desktop-notice-line`, `desktop-notice-ink`, and `desktop-notice-strong`. Keep each of these colors within its named component or state.
 
+### Forced colors
+
+Windows High Contrast replaces these colors with the user's system palette and drops backgrounds. Status words, rules, outlines and focus rings carry through on their own. Three states are drawn only by a fill, so under `forced-colors: active` they opt out with `forced-color-adjust: none` and use system colors: run-trace cells are filled with `CanvasText` when passed and outlined otherwise, the current page's underline is `Highlight`, and a pressed topic suggestion is `Highlight` with `HighlightText` and a `CanvasText` focus ring. Nothing else opts out.
+
 ## Typography
 
 The shell uses the familiar sans stack in the frontmatter for reading, controls, and task headings. Technical text uses the existing Cascadia-led monospace stack. There is no separate display typeface or decorative display treatment.
@@ -209,7 +213,7 @@ The shell uses the familiar sans stack in the frontmatter for reading, controls,
 
 - **Title** names the current task: Practice, Brief an incident, or the incident's title (1.875rem beside its folio; 1.5rem at the narrow breakpoint).
 - **Headline** introduces working sections. The bench title is 1.5rem, the register heading 1.25rem, group headings 1rem.
-- **Body** supports continuous reading. The incident report and Concept prose read at 0.875rem with generous leading; explanatory passages keep 65–75ch measures.
+- **Body** supports continuous reading. The incident report and Concept prose read at 0.875rem with generous leading; explanatory passages keep 65–75ch measures. Titles and headlines balance their lines; the shell's paragraphs, list items, readings fields and hints use `text-wrap: pretty`, so a passage does not end on a single word; the experiment frame keeps default wrapping.
 - **Label** identifies fields. Navigation and standard buttons use a closely related size, with buttons slightly heavier (600). Field labels in the readings row and table column heads are 0.75rem.
 - **Readout** is the lab's voice for measurement: `BUG-###` IDs, run numbers, pass counts, times, dates, counts and paths, in tabular monospace. Folios are large readouts (2.625rem; 2.125rem at the narrow breakpoint).
 
@@ -251,7 +255,7 @@ The installed Stateful Button and Action Swap Roll keep their library transition
 
 ## Shapes
 
-Large work surfaces are square. Controls use gently eased corners: the control radius for buttons, fields and the experiment frame, the compact radius for small controls and key caps, and the option radius for topic suggestions. State dots are small outlined circles (6px); a filled dot marks the live experiment. Run-trace cells are 16×6px, filled for a passed check and outlined otherwise.
+Large work surfaces are square. Controls use gently eased corners: the control radius for buttons, fields and the experiment frame, the compact radius for small controls and key caps, and the option radius for topic suggestions. State dots are small outlined circles (6px); a filled dot marks the live experiment. Run-trace cells are 8px squares, filled for a passed check and outlined otherwise.
 
 The existing Bugbound SVG remains the brand mark. Utility icons are outlined SVG paths on a 24-unit view box, with a rounded stroke (1.6) and typical rendered sizes of 16–18px. Icons accompany words; icon-only actions receive accessible names.
 
@@ -263,11 +267,11 @@ Precise, quiet controls with a clear primary action. Primary and secondary butto
 
 ### Inputs / Fields
 
-Editable fields sit on graphite ground with a fine rule and control corners. Labels remain visible; placeholders supplement them. Textareas resize vertically, and native selects remain recognizable. Search uses a shared outline around the icon and input, with a focus-within ring. The prepared brief is a square, read-only monospace textarea that remains selectable; feedback follows the exact copied revision.
+Editable fields sit on graphite ground with a fine rule and control corners. Labels remain visible; placeholders supplement them. Textareas resize vertically, and native selects remain recognizable. Search uses a shared outline around the icon and input, with a focus-within ring. The prepared brief is a square, read-only monospace textarea that remains selectable; feedback follows the exact copied revision, and copying again announces again.
 
 ### Chips
 
-Topic suggestions are compact outlined buttons with a pressed state. Their selected state uses a muted green fill, stronger green border, and pale green text. These local colors belong to the topic control rather than a new global accent family.
+Topic suggestions are compact outlined buttons with a pressed state. Their selected state uses a muted green fill, stronger green border, and pale green text. These local colors belong to the topic control rather than a new global accent family. In forced colors the pressed state is `Highlight` (see Forced colors).
 
 ### Readings row
 
@@ -299,7 +303,7 @@ The brief builder pairs settings with the exact prepared handoff. Difficulty off
 
 ### Navigation
 
-Main navigation uses plain links with warm text and an amber underline for the current page. The brand link returns to Practice. Investigation section links move to named, focusable headings. A keyboard skip link reveals itself on focus; route changes focus the task heading.
+Main navigation uses plain links with warm text and an amber underline for the current page (`Highlight` in forced colors). The brand link returns to Practice. Investigation section links move to named, focusable headings. A keyboard skip link reveals itself on focus; route changes focus the task heading.
 
 **Reset repairs** sits in the footer and asks in place rather than through a browser dialog: the question, an outlined error-colored Reset repairs, and Keep repairs, which takes focus. Escape or Keep repairs closes it and returns focus to the trigger; a completed reset says "Repairs reset." Readings and conclusions are kept.
 
@@ -313,7 +317,7 @@ Tailwind supplies the installed components' utilities. Its Preflight reset is om
 
 ### Context and guidance
 
-The incident report shows source paths with adjacent copy controls and feedback. Concept reference starts open and uses a native disclosure. Guidance begins concealed behind individually labeled reveal controls; the shell describes the amount of help without evaluating the learner. Error and storage notices use explicit text and an applicable recovery action.
+The incident report shows source paths with adjacent copy controls and feedback. Each path's status region is present before the first copy, and copy feedback that repeats is announced again, as are the brief's copy and profile download messages. Concept reference starts open and uses a native disclosure. Guidance begins concealed behind individually labeled reveal controls; the shell describes the amount of help without evaluating the learner. Error and storage notices use explicit text and an applicable recovery action.
 
 ## Do's and Don'ts
 
